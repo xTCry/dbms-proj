@@ -6,7 +6,7 @@ import { getOne } from './getOne';
 import { create } from './create';
 import { update } from './update';
 import { destroy } from './destroy';
-import { AuthRole, authRoles } from '../tools/auth';
+import { UserRole, authRoles } from '../tools/auth';
 import { Controller } from '../controllers/controler';
 
 export enum Action {
@@ -17,11 +17,11 @@ export enum Action {
     DELETE = 'DELETE',
 }
 
-type ActionWithRoles = { [key in Action]?: AuthRole[] };
+type ActionWithRoles = { [key in Action]?: UserRole[] };
 interface IOptions {
     actions: Action[] | ActionWithRoles;
     disabledActions: Action[];
-    defaultRoles: AuthRole[];
+    defaultRoles: UserRole[];
 }
 
 export const crud = (ctrl: typeof Controller, options?: Partial<IOptions>) => {

@@ -1,13 +1,16 @@
 import { Router, json, urlencoded } from 'express';
 import logger from 'morgan';
 import Boom from '@hapi/boom';
-import { authType, AuthRole } from '../../tools/auth';
+import { authType, UserRole } from '../../tools/auth';
 import { crud, Action } from '../../crud';
 import authRoute from './auth';
-// import imagesRoute from './images';
+import imagesRoute from './images';
 
 import { UserController } from '../../controllers/user.controller';
 import { StudentController } from '../../controllers/student.controller';
+import { RoleController } from '../../controllers/role.controller';
+import { GroupController } from '../../controllers/group.controller';
+import { MarkController } from '../../controllers/mark.controller';
 
 const router = Router();
 
@@ -23,55 +26,69 @@ router.use('/auth', authRoute);
 
 router.use(
     '/user',
-    authType.optional,
+    authType.required,
     crud(UserController, {
         // Запрет дейсвтия для не указаных ролей
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
         // Установка ролей для доступа к действию
         actions: {
-            [Action.CREATE]: [AuthRole.ADMIN],
-            [Action.DELETE]: [AuthRole.ADMIN],
-            [Action.UPDATE]: [AuthRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.DEKAN],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.DEKAN],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.DEKAN],
         },
         // Дефолтные роли, которые устанавливаются по умолчанию на каждое действие, которое не было определено в `actions`
-        defaultRoles: [AuthRole.TEACHER, AuthRole.ADMIN],
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+    })
+);
+
+router.use(
+    '/role',
+    authType.optional,
+    crud(RoleController, {
+        actions: {
+            [Action.CREATE]: [UserRole.ADMIN],
+            [Action.DELETE]: [UserRole.ADMIN],
+            [Action.UPDATE]: [UserRole.ADMIN],
+        },
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER, UserRole.USER, UserRole.STUDENT],
     })
 );
 
 router.use(
     '/student',
-    authType.optional,
+    authType.required,
     crud(StudentController, {
-        // Запрет дейсвтия для не указаных ролей
-        // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
-        // Установка ролей для доступа к действию
         actions: {
-            [Action.CREATE]: [AuthRole.ADMIN],
-            [Action.DELETE]: [AuthRole.ADMIN],
-            [Action.UPDATE]: [AuthRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.DEKAN],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.DEKAN],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.DEKAN],
         },
-        // Дефолтные роли, которые устанавливаются по умолчанию на каждое действие, которое не было определено в `actions`
-        defaultRoles: [AuthRole.TEACHER, AuthRole.ADMIN],
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
     })
 );
 
-// ...
-/*
 router.use(
-    '/orders',
-    auth.required,
-    crud(OrderModule, {
+    '/group',
+    authType.required,
+    crud(GroupController, {
         actions: {
-            [Action.CREATE]: [AuthRole.MODER, AuthRole.ADMIN],
-            [Action.DELETE]: [AuthRole.MODER, AuthRole.ADMIN],
-            [Action.UPDATE]: [AuthRole.MODER, AuthRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.DEKAN],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.DEKAN],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.DEKAN],
         },
-        defaultRoles: [AuthRole.USER, AuthRole.MODER, AuthRole.ADMIN],
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
     })
-); */
+);
 
-// router.use('/orders', auth.required, crud(OrderModule));
-// router.use('/images', imagesRoute);
+router.use(
+    '/mark',
+    authType.required,
+    crud(MarkController, {
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+    })
+);
+
+router.use('/images', imagesRoute);
 
 router.use((req, res, next) => {
     next(Boom.notFound('API Method not found'));

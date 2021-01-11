@@ -4,11 +4,10 @@ import jwt from 'jsonwebtoken';
 import Boom from '@hapi/boom';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { AuthRole } from '@dbms-proj/utils';
-export { AuthRole };
+import { UserRole } from '@dbms-proj/utils';
+export { UserRole };
 import { config } from '../config';
 import { UserController, IUserJSON } from '../controllers/user.controller';
-import log from './logger';
 
 export type RequestWith<T = {}> = Request & T;
 
@@ -64,14 +63,13 @@ export const authType = {
     }),
 };
 
-export const authRoles = (...allowed: AuthRole[]) => (
+export const authRoles = (...allowed: UserRole[]) => (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
     const isTest = req.query?.test === '1';
     const { user } = req as RequestWith<{ user?: IUserJSON }>;
-    log.debug('req.user', user);
 
     if (isTest || (user?.role.role && some(allowed, (a) => user.role.role & a))) {
         next();

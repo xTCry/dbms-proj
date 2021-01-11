@@ -1,8 +1,9 @@
-import { ModelCtor, FindOptions } from 'sequelize';
+import { ModelCtor, FindOptions, Op } from 'sequelize';
 import { group } from '../models/group';
 import { student, studentAttributes, studentCreationAttributes } from '../models/student';
 import { user } from '../models/user';
 import { Controller } from './controler';
+import { GroupController } from './group.controller';
 import { IUserJSON, UserController } from './user.controller';
 
 export type IStudentJSON = studentAttributes & { user: IUserJSON };
@@ -19,7 +20,10 @@ export class StudentController extends Controller {
     }
 
     public static async doGetOne(options?: FindOptions<studentAttributes>) {
-        return super.doGetOne(options);
+        return super.doGetOne({
+            ...options,
+            ...this.fullAttr(),
+        });
     }
 
     public static async doGetList(options: FindOptions<studentAttributes>) {
@@ -33,22 +37,27 @@ export class StudentController extends Controller {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true): FindOptions<studentAttributes> {
+    public static fullAttr(safe = true, deep = 0): FindOptions<studentAttributes> {
         return {
             attributes: ['id', 'user_id', 'group_id', 'student_id'],
             include: [
                 {
                     // @ts-ignore
                     model: user,
-                    ...UserController.fullAttr(safe),
+                    ...UserController.fullAttr(safe, ++deep),
                 },
                 {
                     // @ts-ignore
                     model: group,
-                    // ...UserController.fullAttr(safe),
+                    ...GroupController.fullAttr(safe, ++deep),
                 },
             ],
         };
+    }
+
+    public static async doGetSearchList(q: string, limit: number) {
+        // return await this.model.findAndCountAll<student>({ limit, where: { [Op.or]: [] } });
+        return await this.sequelizeSearchFields(['student_id'])(q, limit);
     }
 
     // Service methods

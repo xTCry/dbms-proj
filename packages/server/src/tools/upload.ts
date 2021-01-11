@@ -10,7 +10,7 @@ const namer = unf({
     dir,
 });
 
-const storage = multer.diskStorage({
+export const storage = multer.diskStorage({
     destination: (_req, _file, cb) => cb(null, `${dir}${new Date().toISOString().split('T').shift()}/`),
     filename: async (_req, file, cb) => {
         const name = await namer(file.originalname);
@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({
+export const upload = multer({
     storage,
     fileFilter: (_req, file, callback) => {
         const ext = path.extname(file.originalname);
@@ -29,5 +29,3 @@ const upload = multer({
         callback(null, true);
     },
 });
-
-export default upload;

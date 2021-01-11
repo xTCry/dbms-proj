@@ -25,7 +25,10 @@ export class UserController extends Controller {
     }
 
     public static async doGetOne(options?: FindOptions<userAttributes>) {
-        return super.doGetOne(options);
+        return super.doGetOne({
+            ...options,
+            ...this.fullAttr(),
+        });
     }
 
     public static async doGetList(options: FindOptions<userAttributes>) {
@@ -39,7 +42,7 @@ export class UserController extends Controller {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true): FindOptions<userAttributes> {
+    public static fullAttr(safe = true, deep = 0): FindOptions<userAttributes> {
        return {
            attributes: [
                'id',
@@ -105,10 +108,21 @@ export class UserController extends Controller {
     public static toAuthJSON(uData: IUserJSON) {
         return {
             id: uData.id,
+            photo_path: uData.photo_path,
             login: uData.login,
             name: uData.name,
+            last_name: uData.last_name,
+            second_name: uData.second_name,
+
+            personal_address: uData.personal_address,
+            personal_telephone: uData.personal_telephone,
+            personal_birthday: uData.personal_birthday,
+            registeration_date: uData.registeration_date,
+            role_id: uData.role_id,
+
+            role: uData.role,
+
             token: this.generateJWT(uData),
-            // roles: rec.roles,
             expiresIn,
         };
     }

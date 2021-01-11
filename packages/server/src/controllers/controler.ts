@@ -1,11 +1,6 @@
-import { Model, ModelCtor, FindAndCountOptions, FindOptions } from 'sequelize';
-
-/* export type FindOptions = {
-    order?: Order;
-    limit?: number;
-    offset?: number;
-    where?: WhereOptions;
-}; */
+import { Model, ModelCtor, FindAndCountOptions, FindOptions, Op, WhereOptions } from 'sequelize';
+import { uniqBy, flatten } from 'lodash';
+import Boom from '@hapi/boom';
 
 export abstract class Controller {
     public static model: ModelCtor<any>;
@@ -17,7 +12,7 @@ export abstract class Controller {
     public static async doUpdate<M extends Model, A>(options: FindOptions<A>, data: A): Promise<NonNullable<M & any>> {
         const rec = await this.model.findOne<M>(options);
         if (!rec) {
-            throw new Error('Record not found');
+            throw Boom.notFound('Record not found');
         }
         // @ts-ignore
         return rec?.update(data);
@@ -37,19 +32,101 @@ export abstract class Controller {
         rows: (M & any)[];
         count: number;
     }> {
-        return await this.model.findAndCountAll<M>({ ...options, raw: true });
+        return await this.model.findAndCountAll<M>({ ...options/* , raw: true */ });
     }
 
     public static async doDestroy<M extends Model>(id: string | number) {
         const rec = await this.model.findByPk<M>(id);
         if (!rec) {
-            throw new Error('Record not found.');
+            throw Boom.notFound('Record not found.');
         }
         await rec.destroy();
         return { id };
     }
 
+    public static async doGetSearchList<M extends Model, _A = {}>(
+        _q: string,
+        _limit: number
+    ): Promise<{
+        rows: (M & any)[];
+        count: number;
+    }> {
+        throw Boom.badRequest('Search method not implemented');
+        // return await this.model.findAndCountAll<M>({ limit, where: { [Op.or]: [] } });
+        // return await this.sequelizeSearchFields(['name'])(q, limit);
+    }
+
     /* public static doFind(opts: FindOptions): Promise<any[]> {
-        throw new Error('Not implemented');
+        throw Boom.badRequest('Not implemented');
     } */
+
+    public static sequelizeSearchFields<A extends string[]>(
+        searchableFields: A,
+        comparator: symbol = Op.like,
+        model = this.model
+    ) {
+        return async (q: string, limit: number, scope: WhereOptions = {}) => {
+            const resultChunks = await Promise.all(
+                this.prepareQueries(searchableFields)(q, comparator).map((query) =>
+                    model.findAll({
+                        limit,
+                        where: { ...query, ...scope },
+                        // raw: true,
+                    })
+                )
+            );
+
+            const rows = uniqBy(flatten(resultChunks).slice(0, limit), 'id');
+            return { rows, count: rows.length };
+        };
+    }
+
+    public static prepareQueries<A extends string[]>(searchableFields: A) {
+        return (q: string, comparator: symbol = Op.like): WhereOptions[] => {
+            if (!searchableFields) {
+                throw new Error('Fields not set');
+            }
+
+            const defaultQuery = {
+                [Op.or]: searchableFields.map((field) => ({
+                    [field]: {
+                        [comparator]: `%${q}%`,
+                    },
+                })),
+            };
+
+            const tokens = q.split(/\s+/).filter((token) => token !== '');
+            if (tokens.length < 2) {
+                return [defaultQuery];
+            }
+
+            // query consists of multiple tokens => do multiple searches
+            return [
+                // priority to unsplit match
+                defaultQuery,
+
+                // then search records with all tokens
+                {
+                    [Op.and]: tokens.map((token) => ({
+                        [Op.or]: searchableFields.map((field) => ({
+                            [field]: {
+                                [comparator]: `%${token}%`,
+                            },
+                        })),
+                    })),
+                },
+
+                // then search records with at least one token
+                {
+                    [Op.or]: tokens.map((token) => ({
+                        [Op.or]: searchableFields.map((field) => ({
+                            [field]: {
+                                [comparator]: `%${token}%`,
+                            },
+                        })),
+                    })),
+                },
+            ];
+        };
+    }
 }
