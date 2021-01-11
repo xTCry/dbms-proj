@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "rootDir": "./",
+    "composite": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "baseUrl": "./packages",
+    "paths": {
+      "@dbms-proj/*": [
+        "./*/src"
+      ]
+    },
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  }
+}

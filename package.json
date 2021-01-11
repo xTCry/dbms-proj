@@ -1,0 +1,26 @@
+{
+    "name": "dbms-proj",
+    "private": true,
+    "author": "xTCry [Vladislav Kh] (https://github.com/xTCry/)",
+    "license": "UNLICENSED",
+    "scripts": {
+        "utils:build": "yarn workspace @dbms-proj/utils build",
+        "client:start": "yarn workspace @dbms-proj/client start",
+        "server:start": "yarn workspace @dbms-proj/server start",
+        "server:dev": "yarn workspace @dbms-proj/server dev",
+        "update:version": "lerna version --no-push"
+    },
+    "engines": {
+        "node": ">=12.0.0"
+    },
+    "workspaces": [
+        "packages/*"
+    ],
+    "devDependencies": {
+        "lerna": "^3.22.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/xtcry/ystuty.git"
+    }
+}

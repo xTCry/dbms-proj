@@ -1,0 +1,10 @@
+{
+  "name": "@dbms-proj/utils",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "author": "xTCry [Vladislav Kh] (https://github.com/xTCry/)",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "tsc -b"
+  }
+}
