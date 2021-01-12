@@ -22,6 +22,18 @@ const errHandler: ErrorRequestHandler = (err, req, res, next) => {
         return;
     }
 
+    // console.log('err', JSON.parse(JSON.stringify(err)));
+
+    if (err?.name === 'SequelizeValidationError' && err.errors?.length > 0) {
+        const [{ message, type }] = err.errors;
+        res.status(400).json({
+            statusCode: 400,
+            error: type,
+            message,
+        });
+        return;
+    }
+    
     const defaultError = Boom.badImplementation(err.message || 'An internal server error occurred');
     const { statusCode, payload } = defaultError.output;
     res.status(statusCode).json(payload);
