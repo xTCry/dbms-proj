@@ -1,4 +1,4 @@
-export enum AuthRole {
+export enum UserRole {
     NONE = 1 << 0,
     USER = 1 << 1,
     STUDENT = 1 << 2,

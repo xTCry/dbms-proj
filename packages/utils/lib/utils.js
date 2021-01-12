@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthRole = void 0;
-var AuthRole;
-(function (AuthRole) {
-    AuthRole[AuthRole["NONE"] = 1] = "NONE";
-    AuthRole[AuthRole["USER"] = 2] = "USER";
-    AuthRole[AuthRole["STUDENT"] = 4] = "STUDENT";
-    AuthRole[AuthRole["TEACHER"] = 8] = "TEACHER";
-    AuthRole[AuthRole["DEKAN"] = 16] = "DEKAN";
-    AuthRole[AuthRole["ADMIN"] = 32] = "ADMIN";
-})(AuthRole = exports.AuthRole || (exports.AuthRole = {}));
+exports.UserRole = void 0;
+var UserRole;
+(function (UserRole) {
+    UserRole[UserRole["NONE"] = 1] = "NONE";
+    UserRole[UserRole["USER"] = 2] = "USER";
+    UserRole[UserRole["STUDENT"] = 4] = "STUDENT";
+    UserRole[UserRole["TEACHER"] = 8] = "TEACHER";
+    UserRole[UserRole["DEKAN"] = 16] = "DEKAN";
+    UserRole[UserRole["ADMIN"] = 32] = "ADMIN";
+})(UserRole = exports.UserRole || (exports.UserRole = {}));
 /*
     ('Никто', 1)
     ('Пользователь', 2)
