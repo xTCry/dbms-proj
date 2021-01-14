@@ -21,8 +21,15 @@ export class UserController extends Controller {
         return super.doCreate(data);
     }
 
-    public static async doUpdate(options: FindOptions<userAttributes>, data:  any) {
-        return super.doUpdate<user, userAttributes>(options, data);
+    public static async doUpdate(
+        options: FindOptions<userAttributes>,
+        { password, ...data }: userAttributes & any,
+        urole?: UserRole
+    ) {
+        if (password) {
+            password = this.encryptPassword(undefined, password);
+        }
+        return super.doUpdate<user, userAttributes>(options, { password, ...data });
     }
 
     public static async doGetOne(options?: FindOptions<userAttributes>, role?: UserRole) {
