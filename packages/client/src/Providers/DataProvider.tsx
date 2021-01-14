@@ -1,6 +1,9 @@
 import Backend from '../Providers/Backend';
 
 export const objFilter = (obj: object, validParams: string[]) => {
+    if (!validParams) {
+        return obj;
+    }
     let result = {};
     for (let key in obj) {
         if (obj.hasOwnProperty(key) && validParams.includes(key)) {

@@ -3,7 +3,6 @@ import {
     Edit,
     SimpleForm,
     TextInput,
-    DateInput,
     required,
     SelectInput,
     ReferenceInput,
@@ -17,8 +16,8 @@ export const GroupEdit = (props) => (
     <Edit title={<Title />} {...props}>
         <SimpleForm>
             <TextInput source="id" disabled />
-            <TextInput source="name"  validate={required()}/>
-            
+            <TextInput source="name" validate={required()} />
+
             <ReferenceInput source="user_id" reference="user">
                 <SelectInput optionText="name" />
             </ReferenceInput>

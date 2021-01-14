@@ -1,24 +1,18 @@
 import React from 'react';
 import { Edit, SimpleForm, TextInput, required, SelectInput, ReferenceInput } from 'react-admin';
-import { UserRole } from '../../types';
-import { FullName } from '../User/UserEdit';
 
 const Title = (props) => {
     const { record } = props ?? { record: { student_id: 'None' } };
     return <span>Студент {record ? `"${record.student_id}"` : ''}</span>;
 };
 
-export const StudentEdit = (props) => (
+export const SpecialtyEdit = (props) => (
     <Edit title={<Title />} {...props}>
         <SimpleForm>
             <TextInput source="id" disabled />
-            <TextInput source="student_id" validate={required()} />
 
-            <ReferenceInput source="user_id" reference="user" filter={{ role_id: UserRole.STUDENT }}>
-                <SelectInput optionText={FullName} />
-            </ReferenceInput>
-
-            <ReferenceInput source="group_id" reference="group">
+            <TextInput source="name" validate={required()} />
+            <ReferenceInput source="kafedra_id" reference="kafedra">
                 <SelectInput optionText="name" />
             </ReferenceInput>
         </SimpleForm>

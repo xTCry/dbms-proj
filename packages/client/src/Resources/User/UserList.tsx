@@ -1,10 +1,11 @@
 import React from 'react';
 import { List, Datagrid, TextField, ReferenceManyField, SelectField, useTranslate, EditButton, SingleFieldList, ChipField, ReferenceField } from 'react-admin';
+import { UserRole } from '../../types';
 // import { orderStatus } from '../Order';
 
 // import MyUrlField from '../../components/MyUrlField';
 
-export const UserList = (props) => {
+export const UserList = ({ permissions, ...props }) => {
     // const translate = useTranslate();
     return (
         <List exporter={false} {...props}>
@@ -18,11 +19,10 @@ export const UserList = (props) => {
                 </SingleFieldList> */}
 
                 <ReferenceField source="role_id" reference="role" link={false}>
-                    <TextField source="name" /> 
+                    <TextField source="name" />
                 </ReferenceField>
 
                 {/* <MyUrlField source="telegram" /> */}
-
 
                 {/* <ReferenceManyField
                     label={translate('resources.users.fields.orders')}
@@ -36,7 +36,7 @@ export const UserList = (props) => {
                         <EditButton label="" />
                     </Datagrid>
                 </ReferenceManyField> */}
-                <EditButton />
+                {[UserRole.ADMIN, UserRole.DEKAN].includes(permissions) && <EditButton />}
             </Datagrid>
         </List>
     );

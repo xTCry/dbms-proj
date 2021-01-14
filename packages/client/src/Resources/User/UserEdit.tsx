@@ -32,7 +32,7 @@ export const UserEdit = ({ permissions, ...props }) => (
                 <PasswordInput source="password" resource="users" />
             )}
 
-            <ReferenceInput label="Role" source="role_id" reference="role">
+            <ReferenceInput source="role_id" reference="role">
                 <SelectInput optionText="name" />
             </ReferenceInput>
         </SimpleForm>

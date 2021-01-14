@@ -8,19 +8,12 @@ const Title = (props) => {
     return <span>Студент {record ? `"${record.student_id}"` : ''}</span>;
 };
 
-export const StudentEdit = (props) => (
+export const LessonEdit = (props) => (
     <Edit title={<Title />} {...props}>
         <SimpleForm>
             <TextInput source="id" disabled />
-            <TextInput source="student_id" validate={required()} />
 
-            <ReferenceInput source="user_id" reference="user" filter={{ role_id: UserRole.STUDENT }}>
-                <SelectInput optionText={FullName} />
-            </ReferenceInput>
-
-            <ReferenceInput source="group_id" reference="group">
-                <SelectInput optionText="name" />
-            </ReferenceInput>
+            <TextInput source="name" validate={required()} />
         </SimpleForm>
     </Edit>
 );

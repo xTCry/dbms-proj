@@ -1,6 +1,6 @@
 import decodeJwt from 'jwt-decode';
 import store from '../store';
-import { roleAttributes, userAttributes, UserRole } from '../types';
+import { roleAttributes, userAttributes } from '../types';
 
 // User class
 export class User implements userAttributes {
@@ -22,16 +22,16 @@ export class User implements userAttributes {
     public expiresIn: number;
 
     constructor(data: userAttributes) {
-        let token = data.token;
-        if (!token) {
-            token = getToken();
-            try {
-                data = decodeJwt(token || '');
-                // TODO: calculate from (iat & exp)
-                data.expiresIn = 6e9;
-                // console.log('decoded Token data', data);
-            } catch (e) {}
-        }
+        let token = data.token || getToken();
+
+        this.token = token;
+        this.expiresIn = Date.now() + (data.expiresIn||6e9) * 1e3;
+        try {
+            data = decodeJwt(token || '');
+            // TODO: calculate from (iat & exp)
+            // data.expiresIn = 6e9;
+            console.log('decoded Token data', data);
+        } catch (e) {}
 
         this.id = data.id;
         this.photo_path = data.photo_path;
@@ -47,8 +47,6 @@ export class User implements userAttributes {
         this.role_id = data.role_id;
 
         this.role = data?.role;
-        this.token = token;
-        this.expiresIn = Date.now() + data.expiresIn * 1e3;
     }
 
     public get fullName() {
@@ -65,24 +63,6 @@ export class User implements userAttributes {
 
     public get checkExpiries() {
         return this.expiresIn > Date.now();
-    }
-
-    public toRaw() {
-        return {
-            id: this.id,
-            name: this.name,
-            token: this.token,
-            expiresIn: this.expiresIn,
-        };
-    }
-
-    public clone() {
-        const user = User.empty();
-        user.id = this.id;
-        user.name = this.name;
-        user.token = this.token;
-        user.expiresIn = this.expiresIn;
-        return user;
     }
 
     public static empty() {
@@ -107,18 +87,13 @@ const initialState = User.empty();
 const RESET_USER = 'UserModule.RESET_USER';
 const INIT_USER = 'UserModule.INIT_USER';
 
-const UserModule = (state: User = initialState, action) => {
+const UserModule = (state: User = initialState, action): User => {
     switch (action.type) {
-        // case SET_USER:
-        //     let user = state.clone();
-        //     action.callback(user);
-        //     return user;
+        case INIT_USER:
+            return action.user;
 
         case RESET_USER:
             return initialState;
-
-        case INIT_USER:
-            return action.user;
 
         default:
             return state;
@@ -128,10 +103,6 @@ const UserModule = (state: User = initialState, action) => {
 export function initUser(user) {
     return { type: INIT_USER, user };
 }
-
-/* export function setUser(callback) {
-    return { type: SET_USER, callback };
-} */
 
 export function resetUser() {
     return { type: RESET_USER };
@@ -156,7 +127,7 @@ export function getUser(): User {
 /* export const userRoles = Object.values(UserRole)
     .filter((e) => typeof UserRole[e] === 'number')
     .map((name) => ({
-        role: UserRole[name],
+        id: UserRole[name],
         code: name,
         name: `resources.roles.data.${name}`,
     })); */
