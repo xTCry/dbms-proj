@@ -5,6 +5,7 @@ import { user, userCreationAttributes, userAttributes } from '../models/user';
 import { Controller } from './controller';
 import { config } from '../config';
 import { role, roleAttributes } from '../models/role';
+import { UserRole } from '../tools/auth';
 
 const jwtSecret = config.get('jwtSecret');
 const expiresIn = 60 * 60 * 24 * 2;
@@ -16,7 +17,7 @@ export type IUserJSON = userAttributes & { role: roleAttributes };
 export class UserController extends Controller {
     public static model = user as ModelCtor<user>;
 
-    public static async doCreate(data: userCreationAttributes) {
+    public static async doCreate(data: userCreationAttributes, role?: UserRole) {
         return super.doCreate(data);
     }
 
@@ -24,47 +25,47 @@ export class UserController extends Controller {
         return super.doUpdate<user, userAttributes>(options, data);
     }
 
-    public static async doGetOne(options?: FindOptions<userAttributes>) {
+    public static async doGetOne(options?: FindOptions<userAttributes>, role?: UserRole) {
         return super.doGetOne({
             ...options,
             ...this.fullAttr(),
         });
     }
 
-    public static async doGetList(options: FindOptions<userAttributes>) {
+    public static async doGetList(options: FindOptions<userAttributes>, role?: UserRole) {
         return super.doGetList<user, userAttributes>({
             ...options,
             ...this.fullAttr(),
         });
     }
 
-    public static async doDestroy(id: string | number) {
+    public static async doDestroy(id: string | number, role?: UserRole) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, deep = 0): FindOptions<userAttributes> {
-       return {
-           attributes: [
-               'id',
-               'login',
-               ...(safe ? [] : ['password']),
-               'photo_path',
-               'name',
-               'last_name',
-               'second_name',
-               'personal_address',
-               'personal_telephone',
-               'personal_birthday',
-               'registeration_date',
-               'role_id',
-           ],
-           include: [
-               {
-                   // @ts-ignore
-                   model: role,
-               },
-           ],
-       };
+    public static fullAttr(safe = true, role?: UserRole, deep = 0): FindOptions<userAttributes> {
+        return {
+            attributes: [
+                'id',
+                'login',
+                ...(safe ? [] : ['password']),
+                'photo_path',
+                'name',
+                'last_name',
+                'second_name',
+                'personal_address',
+                'personal_telephone',
+                'personal_birthday',
+                'registeration_date',
+                'role_id',
+            ],
+            include: [
+                {
+                    // @ts-ignore
+                    model: role,
+                },
+            ],
+        };
     }
 
     // Service methods
@@ -86,11 +87,6 @@ export class UserController extends Controller {
     public static encryptPassword(rec: user | undefined, password: string) {
         return crypto.pbkdf2Sync(password, getSalt(), 224, 90, 'sha512').toString('hex');
     }
-
-    // public static setPassword(rec: user, password: string) {
-    //     this.salt = getSalt();
-    //     this.hash = this.encryptPassword(password);
-    // }
 
     public static generateJWT(uData: IUserJSON) {
         return jwt.sign(

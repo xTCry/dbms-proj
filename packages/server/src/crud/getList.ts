@@ -3,6 +3,8 @@ import { Controller } from '../controllers/controller';
 import { setGetListHeaders } from './headers';
 import { mapValues } from 'lodash';
 import Boom from '@hapi/boom';
+import { RequestWith } from '../tools/auth';
+import { IUserJSON } from '../controllers/user.controller';
 
 export const getMany = (ctrl: typeof Controller): RequestHandler => async (req, res, next) => {
     try {
@@ -10,18 +12,22 @@ export const getMany = (ctrl: typeof Controller): RequestHandler => async (req, 
         let rows: any[] = [];
         let count: number = 0;
 
+        const { user } = req as RequestWith<{ user?: IUserJSON }>;
         if (!q) {
-            ({ rows, count } = await ctrl.doGetList({
-                offset,
-                limit,
-                order /* : [order ?? ['id', 'ASC']] */,
-                where,
-            }));
+            ({ rows, count } = await ctrl.doGetList(
+                {
+                    offset,
+                    limit,
+                    order /* : [order ?? ['id', 'ASC']] */,
+                    where,
+                },
+                user?.role_id
+            ));
         } else {
             if (!ctrl.doGetSearchList) {
                 return next(Boom.badRequest('Search method not implemented'));
             }
-            ({ rows, count } = await ctrl.doGetSearchList(q, limit));
+            ({ rows, count } = await ctrl.doGetSearchList(q, limit, user?.role_id));
         }
 
         setGetListHeaders(res, offset, count, rows.length);

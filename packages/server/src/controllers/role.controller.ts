@@ -1,5 +1,6 @@
 import { ModelCtor, FindOptions } from 'sequelize';
 import { role, roleAttributes, roleCreationAttributes } from '../models/role';
+import { UserRole } from '../tools/auth';
 import { Controller } from './controller';
 
 export type IRoleJSON = roleAttributes;
@@ -7,30 +8,30 @@ export type IRoleJSON = roleAttributes;
 export class RoleController extends Controller {
     public static model = role as ModelCtor<role>;
 
-    public static async doCreate(data: roleCreationAttributes) {
+    public static async doCreate(data: roleCreationAttributes, role?: UserRole) {
         return super.doCreate(data);
     }
 
-    public static async doUpdate(options: FindOptions<roleAttributes>, data: any) {
+    public static async doUpdate(options: FindOptions<roleAttributes>, data: any, role?: UserRole) {
         return super.doUpdate<role, roleAttributes>(options, data);
     }
 
-    public static async doGetOne(options?: FindOptions<roleAttributes>) {
+    public static async doGetOne(options?: FindOptions<roleAttributes>, role?: UserRole) {
         return super.doGetOne(options);
     }
 
-    public static async doGetList(options: FindOptions<roleAttributes>) {
+    public static async doGetList(options: FindOptions<roleAttributes>, role?: UserRole) {
         return super.doGetList<role, roleAttributes>({
             ...options,
             ...this.fullAttr(),
         });
     }
 
-    public static async doDestroy(id: string | number) {
+    public static async doDestroy(id: string | number, role?: UserRole) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true): FindOptions<roleAttributes> {
+    public static fullAttr(safe = true, role?: UserRole, deep = 0): FindOptions<roleAttributes> {
         return {
             attributes: ['id', 'name', 'role'],
         };

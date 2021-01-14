@@ -1,6 +1,8 @@
 import { RequestHandler } from 'express';
 import Boom from '@hapi/boom';
 import { Controller } from '../controllers/controller';
+import { RequestWith } from '../tools/auth';
+import { IUserJSON } from '../controllers/user.controller';
 
 export const update = (ctrl: typeof Controller): RequestHandler => async (req, res, next) => {
     try {
@@ -16,14 +18,15 @@ export const update = (ctrl: typeof Controller): RequestHandler => async (req, r
             delete data.filter;
         }
 
-        const record = await ctrl.doGetOne({ where });
+        const { user } = req as RequestWith<{ user?: IUserJSON }>;
+        const record = await ctrl.doGetOne({ where }, user?.role_id);
 
         if (!record) {
             return next(Boom.notFound('Record not found'));
         }
 
         const result = await ctrl.doUpdate({ where }, data);
-        
+
         res.jsongo(result);
     } catch (error) {
         next(error);

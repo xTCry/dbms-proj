@@ -2,6 +2,7 @@ import { ModelCtor, FindOptions, Op } from 'sequelize';
 import { group } from '../models/group';
 import { student, studentAttributes, studentCreationAttributes } from '../models/student';
 import { user } from '../models/user';
+import { UserRole } from '../tools/auth';
 import { Controller } from './controller';
 import { GroupController } from './group.controller';
 import { IUserJSON, UserController } from './user.controller';
@@ -11,33 +12,33 @@ export type IStudentJSON = studentAttributes & { user: IUserJSON };
 export class StudentController extends Controller {
     public static model = student as ModelCtor<student>;
 
-    public static async doCreate(data: studentCreationAttributes) {
+    public static async doCreate(data: studentCreationAttributes, role?: UserRole) {
         return super.doCreate(data);
     }
 
-    public static async doUpdate(options: FindOptions<studentAttributes>, data: any) {
+    public static async doUpdate(options: FindOptions<studentAttributes>, data: any, role?: UserRole) {
         return super.doUpdate<student, studentAttributes>(options, data);
     }
 
-    public static async doGetOne(options?: FindOptions<studentAttributes>) {
+    public static async doGetOne(options?: FindOptions<studentAttributes>, role?: UserRole) {
         return super.doGetOne({
             ...options,
             ...this.fullAttr(),
         });
     }
 
-    public static async doGetList(options: FindOptions<studentAttributes>) {
+    public static async doGetList(options: FindOptions<studentAttributes>, role?: UserRole) {
         return super.doGetList<student, studentAttributes>({
             ...options,
             ...this.fullAttr(),
         });
     }
 
-    public static async doDestroy(id: string | number) {
+    public static async doDestroy(id: string | number, role?: UserRole) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, deep = 0): FindOptions<studentAttributes> {
+    public static fullAttr(safe = true, role?: UserRole, deep = 0): FindOptions<studentAttributes> {
         return {
             attributes: ['id', 'user_id', 'group_id', 'student_id'],
             include: [

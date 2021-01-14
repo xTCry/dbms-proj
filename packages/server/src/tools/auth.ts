@@ -71,7 +71,7 @@ export const authRoles = (...allowed: UserRole[]) => (
     const isTest = req.query?.test === '1';
     const { user } = req as RequestWith<{ user?: IUserJSON }>;
 
-    if (isTest || (user?.role.role && some(allowed, (a) => user.role.role & a))) {
+    if (isTest || (user?.role_id && some(allowed, (a) => user.role_id === a))) {
         next();
     } else {
         next(Boom.forbidden('bo.role_forbidden'));
