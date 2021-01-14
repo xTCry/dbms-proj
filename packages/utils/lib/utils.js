@@ -5,10 +5,10 @@ var UserRole;
 (function (UserRole) {
     UserRole[UserRole["NONE"] = 1] = "NONE";
     UserRole[UserRole["USER"] = 2] = "USER";
-    UserRole[UserRole["STUDENT"] = 4] = "STUDENT";
-    UserRole[UserRole["TEACHER"] = 8] = "TEACHER";
-    UserRole[UserRole["DEKAN"] = 16] = "DEKAN";
-    UserRole[UserRole["ADMIN"] = 32] = "ADMIN";
+    UserRole[UserRole["STUDENT"] = 3] = "STUDENT";
+    UserRole[UserRole["TEACHER"] = 4] = "TEACHER";
+    UserRole[UserRole["DEKAN"] = 5] = "DEKAN";
+    UserRole[UserRole["ADMIN"] = 6] = "ADMIN";
 })(UserRole = exports.UserRole || (exports.UserRole = {}));
 /*
     ('Никто', 1)

@@ -1,10 +1,10 @@
 export enum UserRole {
-    NONE = 0, // 1 << 0,
-    USER = 1, // 1 << 1,
-    STUDENT = 2, // 1 << 2,
-    TEACHER = 3, // 1 << 3,
-    DEKAN = 4, // 1 << 4,
-    ADMIN = 5, // 1 << 5,
+    NONE = 1, // 1 << 0,
+    USER = 2, // 1 << 1,
+    STUDENT = 3, // 1 << 2,
+    TEACHER = 4, // 1 << 3,
+    DEKAN = 5, // 1 << 4,
+    ADMIN = 6, // 1 << 5,
 }
 
 /*
