@@ -5,8 +5,6 @@ import { mapValues } from 'lodash';
 import Boom from '@hapi/boom';
 
 export const getMany = (ctrl: typeof Controller): RequestHandler => async (req, res, next) => {
-    console.log(req.query);
-    
     try {
         const { q, limit, offset, order, where } = parseQuery(req.query);
         let rows: any[] = [];
@@ -21,8 +19,7 @@ export const getMany = (ctrl: typeof Controller): RequestHandler => async (req, 
             }));
         } else {
             if (!ctrl.doGetSearchList) {
-                next(Boom.badRequest('Search method not implemented'));
-                return;
+                return next(Boom.badRequest('Search method not implemented'));
             }
             ({ rows, count } = await ctrl.doGetSearchList(q, limit));
         }
