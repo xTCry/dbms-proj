@@ -9,33 +9,33 @@ export type IGroupJSON = groupAttributes;
 export class GroupController extends Controller {
     public static model = group as ModelCtor<group>;
 
-    public static async doCreate(data: groupCreationAttributes, role?: UserRole) {
+    public static async doCreate(data: groupCreationAttributes, urole?: UserRole) {
         return super.doCreate(data);
     }
 
-    public static async doUpdate(options: FindOptions<groupAttributes>, data: any, role?: UserRole) {
+    public static async doUpdate(options: FindOptions<groupAttributes>, data: any, urole?: UserRole) {
         return super.doUpdate<group, groupAttributes>(options, data);
     }
 
-    public static async doGetOne(options?: FindOptions<groupAttributes>, role?: UserRole) {
+    public static async doGetOne(options?: FindOptions<groupAttributes>, urole?: UserRole) {
         return super.doGetOne({
             ...options,
-            ...this.fullAttr(),
+            ...this.fullAttr(true, urole),
         });
     }
 
-    public static async doGetList(options: FindOptions<groupAttributes>, role?: UserRole) {
+    public static async doGetList(options: FindOptions<groupAttributes>, urole?: UserRole) {
         return super.doGetList<group, groupAttributes>({
             ...options,
-            ...this.fullAttr(),
+            ...this.fullAttr(true, urole),
         });
     }
 
-    public static async doDestroy(id: string | number, role?: UserRole) {
+    public static async doDestroy(id: string | number, urole?: UserRole) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, role?: UserRole, deep = 0): FindOptions<groupAttributes> {
+    public static fullAttr(safe = true, urole?: UserRole, deep = 0): FindOptions<groupAttributes> {
         return {
             attributes: ['id', 'name', 'date_formation', 'specialty_id'],
             include: [
@@ -54,11 +54,4 @@ export class GroupController extends Controller {
     }
 
     // Service methods
-
-    public static async create(attr: groupCreationAttributes) {
-        let newRec = await this.model.create({
-            ...attr,
-        });
-        return newRec;
-    }
 }

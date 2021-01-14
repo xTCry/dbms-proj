@@ -12,45 +12,45 @@ export type IStudentJSON = studentAttributes & { user: IUserJSON };
 export class StudentController extends Controller {
     public static model = student as ModelCtor<student>;
 
-    public static async doCreate(data: studentCreationAttributes, role?: UserRole) {
+    public static async doCreate(data: studentCreationAttributes, urole?: UserRole) {
         return super.doCreate(data);
     }
 
-    public static async doUpdate(options: FindOptions<studentAttributes>, data: any, role?: UserRole) {
+    public static async doUpdate(options: FindOptions<studentAttributes>, data: any, urole?: UserRole) {
         return super.doUpdate<student, studentAttributes>(options, data);
     }
 
-    public static async doGetOne(options?: FindOptions<studentAttributes>, role?: UserRole) {
+    public static async doGetOne(options?: FindOptions<studentAttributes>, urole?: UserRole) {
         return super.doGetOne({
             ...options,
-            ...this.fullAttr(),
+            ...this.fullAttr(true, urole),
         });
     }
 
-    public static async doGetList(options: FindOptions<studentAttributes>, role?: UserRole) {
+    public static async doGetList(options: FindOptions<studentAttributes>, urole?: UserRole) {
         return super.doGetList<student, studentAttributes>({
             ...options,
-            ...this.fullAttr(),
+            ...this.fullAttr(true, urole),
         });
     }
 
-    public static async doDestroy(id: string | number, role?: UserRole) {
+    public static async doDestroy(id: string | number, urole?: UserRole) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, role?: UserRole, deep = 0): FindOptions<studentAttributes> {
+    public static fullAttr(safe = true, urole?: UserRole, deep = 0): FindOptions<studentAttributes> {
         return {
             attributes: ['id', 'user_id', 'group_id', 'student_id'],
             include: [
                 {
                     // @ts-ignore
                     model: user,
-                    ...UserController.fullAttr(safe, ++deep),
+                    ...UserController.fullAttr(safe, urole, ++deep),
                 },
                 {
                     // @ts-ignore
                     model: group,
-                    ...GroupController.fullAttr(safe, ++deep),
+                    ...GroupController.fullAttr(safe, urole, ++deep),
                 },
             ],
         };

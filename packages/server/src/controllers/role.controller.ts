@@ -8,41 +8,34 @@ export type IRoleJSON = roleAttributes;
 export class RoleController extends Controller {
     public static model = role as ModelCtor<role>;
 
-    public static async doCreate(data: roleCreationAttributes, role?: UserRole) {
+    public static async doCreate(data: roleCreationAttributes, urole?: UserRole) {
         return super.doCreate(data);
     }
 
-    public static async doUpdate(options: FindOptions<roleAttributes>, data: any, role?: UserRole) {
+    public static async doUpdate(options: FindOptions<roleAttributes>, data: any, urole?: UserRole) {
         return super.doUpdate<role, roleAttributes>(options, data);
     }
 
-    public static async doGetOne(options?: FindOptions<roleAttributes>, role?: UserRole) {
+    public static async doGetOne(options?: FindOptions<roleAttributes>, urole?: UserRole) {
         return super.doGetOne(options);
     }
 
-    public static async doGetList(options: FindOptions<roleAttributes>, role?: UserRole) {
+    public static async doGetList(options: FindOptions<roleAttributes>, urole?: UserRole) {
         return super.doGetList<role, roleAttributes>({
             ...options,
-            ...this.fullAttr(),
+            ...this.fullAttr(true, urole),
         });
     }
 
-    public static async doDestroy(id: string | number, role?: UserRole) {
+    public static async doDestroy(id: string | number, urole?: UserRole) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, role?: UserRole, deep = 0): FindOptions<roleAttributes> {
+    public static fullAttr(safe = true, urole?: UserRole, deep = 0): FindOptions<roleAttributes> {
         return {
             attributes: ['id', 'name', 'role'],
         };
     }
 
     // Service methods
-
-    public static async create(attr: roleCreationAttributes) {
-        let newRec = await this.model.create({
-            ...attr,
-        });
-        return newRec;
-    }
 }

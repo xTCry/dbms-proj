@@ -70,7 +70,7 @@ export abstract class Controller {
 
     public static fullAttr<M extends Model, A = {}>(
         safe = true,
-        role: UserRole = UserRole.NONE,
+        urole: UserRole = UserRole.NONE,
         deep = 0
     ): FindOptions<A> {
         return {};

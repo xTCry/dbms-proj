@@ -1,23 +1,24 @@
-import { Model, ModelCtor, FindOptions } from 'sequelize';
+import { ModelCtor, FindOptions } from 'sequelize';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { user, userCreationAttributes, userAttributes } from '../models/user';
 import { Controller } from './controller';
 import { config } from '../config';
-import { role, roleAttributes } from '../models/role';
+import { role } from '../models/role';
 import { UserRole } from '../tools/auth';
+import { IRoleJSON } from './role.controller';
 
 const jwtSecret = config.get('jwtSecret');
 const expiresIn = 60 * 60 * 24 * 2;
 
 const getSalt = () => 'NO_SALT' ?? crypto.randomBytes(16).toString('hex');
 
-export type IUserJSON = userAttributes & { role: roleAttributes };
+export type IUserJSON = userAttributes & { role: IRoleJSON };
 
 export class UserController extends Controller {
     public static model = user as ModelCtor<user>;
 
-    public static async doCreate(data: userCreationAttributes, role?: UserRole) {
+    public static async doCreate(data: userCreationAttributes, urole?: UserRole) {
         return super.doCreate(data);
     }
 
@@ -32,25 +33,25 @@ export class UserController extends Controller {
         return super.doUpdate<user, userAttributes>(options, { password, ...data });
     }
 
-    public static async doGetOne(options?: FindOptions<userAttributes>, role?: UserRole) {
+    public static async doGetOne(options?: FindOptions<userAttributes>, urole?: UserRole) {
         return super.doGetOne({
             ...options,
-            ...this.fullAttr(),
+            ...this.fullAttr(true, urole),
         });
     }
 
-    public static async doGetList(options: FindOptions<userAttributes>, role?: UserRole) {
+    public static async doGetList(options: FindOptions<userAttributes>, urole?: UserRole) {
         return super.doGetList<user, userAttributes>({
             ...options,
-            ...this.fullAttr(),
+            ...this.fullAttr(true, urole),
         });
     }
 
-    public static async doDestroy(id: string | number, role?: UserRole) {
+    public static async doDestroy(id: string | number, urole?: UserRole) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, role?: UserRole, deep = 0): FindOptions<userAttributes> {
+    public static fullAttr(safe = true, urole?: UserRole, deep = 0): FindOptions<userAttributes> {
         return {
             attributes: [
                 'id',
@@ -99,8 +100,18 @@ export class UserController extends Controller {
         return jwt.sign(
             {
                 id: uData.id,
+                photo_path: uData.photo_path,
                 login: uData.login,
                 name: uData.name,
+                last_name: uData.last_name,
+                second_name: uData.second_name,
+
+                personal_address: uData.personal_address,
+                personal_telephone: uData.personal_telephone,
+                personal_birthday: uData.personal_birthday,
+                registeration_date: uData.registeration_date,
+                role_id: uData.role_id,
+
                 role: uData.role,
             },
             jwtSecret,
@@ -110,21 +121,6 @@ export class UserController extends Controller {
 
     public static toAuthJSON(uData: IUserJSON) {
         return {
-            id: uData.id,
-            photo_path: uData.photo_path,
-            login: uData.login,
-            name: uData.name,
-            last_name: uData.last_name,
-            second_name: uData.second_name,
-
-            personal_address: uData.personal_address,
-            personal_telephone: uData.personal_telephone,
-            personal_birthday: uData.personal_birthday,
-            registeration_date: uData.registeration_date,
-            role_id: uData.role_id,
-
-            role: uData.role,
-
             token: this.generateJWT(uData),
             expiresIn,
         };
