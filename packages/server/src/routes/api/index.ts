@@ -11,6 +11,12 @@ import { StudentController } from '../../controllers/student.controller';
 import { RoleController } from '../../controllers/role.controller';
 import { GroupController } from '../../controllers/group.controller';
 import { MarkController } from '../../controllers/mark.controller';
+import { ScheduleController } from '../../controllers/schedule.controller';
+import { TeacherController } from '../../controllers/teacher.controller';
+import { AuditoryController } from '../../controllers/auditory.controller';
+import { LessonController } from '../../controllers/lesson.controller';
+import { KafedraController } from '../../controllers/kafedra.controller';
+import { SpecialtyController } from '../../controllers/specialty.controller';
 
 const router = Router();
 
@@ -84,6 +90,54 @@ router.use(
     '/mark',
     authType.required,
     crud(MarkController, {
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+    })
+);
+
+router.use(
+    '/schedule',
+    authType.required,
+    crud(ScheduleController, {
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+    })
+);
+
+router.use(
+    '/teacher',
+    authType.required,
+    crud(TeacherController, {
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+    })
+);
+
+router.use(
+    '/auditory',
+    authType.required,
+    crud(AuditoryController, {
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+    })
+);
+
+router.use(
+    '/lesson',
+    authType.required,
+    crud(LessonController, {
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+    })
+);
+
+router.use(
+    '/specialty',
+    authType.required,
+    crud(SpecialtyController, {
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+    })
+);
+
+router.use(
+    '/kafedra',
+    authType.required,
+    crud(KafedraController, {
         defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
     })
 );
