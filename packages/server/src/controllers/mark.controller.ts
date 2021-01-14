@@ -2,7 +2,7 @@ import { ModelCtor, FindOptions } from 'sequelize';
 import { mark, markAttributes, markCreationAttributes } from '../models/mark';
 import { schedule } from '../models/schedule';
 import { student } from '../models/student';
-import { Controller } from './controler';
+import { Controller } from './controller';
 import { StudentController } from './student.controller';
 
 export type IMarkJSON = markAttributes;

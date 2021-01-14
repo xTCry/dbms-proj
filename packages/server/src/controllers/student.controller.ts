@@ -2,7 +2,7 @@ import { ModelCtor, FindOptions, Op } from 'sequelize';
 import { group } from '../models/group';
 import { student, studentAttributes, studentCreationAttributes } from '../models/student';
 import { user } from '../models/user';
-import { Controller } from './controler';
+import { Controller } from './controller';
 import { GroupController } from './group.controller';
 import { IUserJSON, UserController } from './user.controller';
 

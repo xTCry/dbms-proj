@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { Controller } from '../controllers/controler';
+import { Controller } from '../controllers/controller';
 import { setGetListHeaders } from './headers';
 import { mapValues } from 'lodash';
 import Boom from '@hapi/boom';

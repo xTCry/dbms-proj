@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { Controller } from '../controllers/controler';
+import { Controller } from '../controllers/controller';
 
 export const getOne = (ctrl: typeof Controller): RequestHandler => async (req, res, next) => {
     try {

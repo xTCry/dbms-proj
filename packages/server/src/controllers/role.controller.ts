@@ -1,6 +1,6 @@
 import { ModelCtor, FindOptions } from 'sequelize';
 import { role, roleAttributes, roleCreationAttributes } from '../models/role';
-import { Controller } from './controler';
+import { Controller } from './controller';
 
 export type IRoleJSON = roleAttributes;
 

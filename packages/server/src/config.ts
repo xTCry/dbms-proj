@@ -1,8 +1,6 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import convict from 'convict';
 import Fs from 'fs-extra';
-
-dotenv.config();
 
 const pathFile = './config.json';
 

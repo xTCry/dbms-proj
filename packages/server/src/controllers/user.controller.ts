@@ -2,7 +2,7 @@ import { Model, ModelCtor, FindOptions } from 'sequelize';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { user, userCreationAttributes, userAttributes } from '../models/user';
-import { Controller } from './controler';
+import { Controller } from './controller';
 import { config } from '../config';
 import { role, roleAttributes } from '../models/role';
 

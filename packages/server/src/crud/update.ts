@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import Boom from '@hapi/boom';
-import { Controller } from '../controllers/controler';
+import { Controller } from '../controllers/controller';
 
 export const update = (ctrl: typeof Controller): RequestHandler => async (req, res, next) => {
     try {

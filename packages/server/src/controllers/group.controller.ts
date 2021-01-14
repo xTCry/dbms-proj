@@ -1,7 +1,7 @@
 import { ModelCtor, FindOptions, Op } from 'sequelize';
 import { group, groupAttributes, groupCreationAttributes } from '../models/group';
 import { specialty } from '../models/specialty';
-import { Controller } from './controler';
+import { Controller } from './controller';
 
 export type IGroupJSON = groupAttributes;
 

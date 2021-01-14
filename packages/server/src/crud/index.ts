@@ -7,7 +7,7 @@ import { create } from './create';
 import { update } from './update';
 import { destroy } from './destroy';
 import { UserRole, authRoles } from '../tools/auth';
-import { Controller } from '../controllers/controler';
+import { Controller } from '../controllers/controller';
 
 export enum Action {
     GET_LIST = 'GET_LIST',
