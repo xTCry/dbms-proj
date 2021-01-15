@@ -43,6 +43,7 @@ import { styles } from './StudentCreate';
 import StudentFilter from './StudentFilter';
 import { FullName } from '../User/UserEdit';
 import { UserRole } from '../../types';
+import FullNameField from '../User/FullNameField';
 
 const dataRowClick = (id, basePath, record) => 'edit'; // record.editable ? 'edit' : 'show';
 
@@ -162,7 +163,8 @@ export const StudentList = ({ permissions, ...props }) => {
                 <TextField source="student_id" />
 
                 <ReferenceField source="user_id" reference="user">
-                    <TextField source="last_name" />
+                    {/* <TextField source="last_name" /> */}
+                    <FullNameField />
                 </ReferenceField>
 
                 <ReferenceField source="group_id" reference="group">

@@ -2,12 +2,8 @@ import React from 'react';
 import {
     List,
     Datagrid,
-    DateField,
     TextField,
     EditButton,
-    // ShowButton,
-    // SelectField,
-    // ImageField,
     ReferenceField,
     BulkDeleteButton,
     CreateButton,
@@ -17,29 +13,17 @@ import {
     TextInput,
     SelectInput,
     ReferenceInput,
-    NumberField,
     required,
+    ReferenceManyField,
 } from 'react-admin';
-import {
-    makeStyles,
-    Typography,
-    Box,
-} from '@material-ui/core';
+import { Typography, Box } from '@material-ui/core';
 
-import { styles } from './TeacherCreate';
-import StudentFilter from './TeacherFilter';
+import TeacherFilter from './TeacherFilter';
 import { UserRole } from '../../types';
+import FullNameField from '../User/FullNameField';
+import CheckRole from '../../components/CheckRole';
 
-const dataRowClick = (id, basePath, record) => 'edit'; // record.editable ? 'edit' : 'show';
-
-const useStyles = makeStyles({
-    ...styles,
-    image: {
-        width: '60px',
-        margin: '0.5rem',
-        maxHeight: '10rem',
-    },
-}) as any;
+const allowedRoles = [UserRole.ADMIN, UserRole.DEKAN];
 
 const BulkActionButtons = (props) => (
     <>
@@ -62,48 +46,62 @@ const Empty = ({ basePath = '', resource = {} }) => {
     );
 };
 
-const ExpandEdit = ({ permissions, ...props }: any) => {
-    const classes = useStyles();
+const ExpandEdit = (props: any) => {
     return (
-        [UserRole.ADMIN, UserRole.DEKAN].includes(permissions) && (
-            <Edit {...props} title=" ">
-                <SimpleForm
-                    // form={`order_edit_${props.id}`}
-                    undoable={false}
+        <Edit {...props} title=" ">
+            <SimpleForm
+                // form={`order_edit_${props.id}`}
+                undoable={false}
+            >
+                <TextInput source="experience" validate={required()} />
+                <ReferenceInput
+                    source="user_id"
+                    reference="user"
+                    validate={required()}
+                    filter={{ role_id: UserRole.TEACHER }}
                 >
-                    <TextInput source="experience" validate={required()} />
-                    <ReferenceInput
-                        source="user_id"
-                        reference="user"
-                        validate={required()}
-                        filter={{ role_id: UserRole.TEACHER }}
-                    >
-                        <SelectInput optionText="name" />
-                    </ReferenceInput>
-                </SimpleForm>
-            </Edit>
-        )
+                    <SelectInput optionText="name" />
+                </ReferenceInput>
+            </SimpleForm>
+        </Edit>
     );
 };
 
-export const StudentList = ({ permissions, ...props }) => {
+export const TeacherList = (props) => {
+    const translate = useTranslate();
     return (
         <List
             exporter={false}
             empty={<Empty />}
             {...props}
             sort={{ field: 'id', order: 'DESC' }}
-            filters={<StudentFilter />}
+            filters={<TeacherFilter />}
             bulkActionButtons={<BulkActionButtons />}
         >
-            <Datagrid rowClick={dataRowClick} expand={<ExpandEdit />}>
-                <TextField source="experience" />
-
+            <Datagrid
+                rowClick={(id, basePath, record) => (allowedRoles.includes(props.permissions) ? 'edit' : 'show')}
+                expand={allowedRoles.includes(props.permissions) ? <ExpandEdit /> : null}
+            >
                 <ReferenceField source="user_id" reference="user">
-                    <TextField source="last_name" />
+                    <FullNameField />
                 </ReferenceField>
 
-                {[UserRole.ADMIN, UserRole.DEKAN].includes(permissions) && <EditButton />}
+                <ReferenceManyField
+                    label={translate('resources.teacher.fields.lessons')}
+                    reference="teacher2lesson"
+                    target="teacher_id"
+                    sortable={false}
+                >
+                    <Datagrid>
+                        <TextField source="lesson.name" label={translate('resources.teacher.fields.lesson_name')} />
+                    </Datagrid>
+                </ReferenceManyField>
+
+                <TextField source="experience" />
+
+                <CheckRole permissions={props.permissions} allowed={allowedRoles} deny={<EditButton disabled />}>
+                    <EditButton />
+                </CheckRole>
                 {/* <ShowButton label="" /> */}
             </Datagrid>
         </List>

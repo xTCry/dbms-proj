@@ -9,9 +9,7 @@ import {
     useTranslate,
     Edit,
     SimpleForm,
-    TextInput,
     required,
-    DateInput,
     DateField,
     ReferenceInput,
     SelectInput,
@@ -56,15 +54,31 @@ const Empty = ({ basePath = '', resource = {} }) => {
     );
 };
 
-const ExpandMarkEdit = (props) => {
+const ExpandEdit = (props) => {
     const classes = useStyles();
     return (
         <Edit {...props} title=" ">
             <SimpleForm undoable={false}>
-                <TextInput source="name" formClassName={classes.part_first} validate={required()} />
-                <DateInput source="date_formation" validate={required()} />
-                <ReferenceInput source="specialty_id" reference="specialty">
-                    <SelectInput optionText="name" />
+                <SelectInput
+                    source="value"
+                    validate={required()}
+                    choices={[
+                        { id: 'X', name: 'Неявка' },
+                        { id: '1', name: '1' },
+                        { id: '2', name: '2' },
+                        { id: '3', name: '3' },
+                        { id: '4', name: '4' },
+                        { id: '5', name: '5' },
+                    ]}
+                    formClassName={classes.part_first}
+                />
+
+                <ReferenceInput source="student_id" reference="student">
+                    <SelectInput optionText="student_id" />
+                </ReferenceInput>
+
+                <ReferenceInput source="schedule_id" reference="schedule">
+                    <SelectInput optionText="date" />
                 </ReferenceInput>
             </SimpleForm>
         </Edit>
@@ -81,7 +95,7 @@ export const MarkList = (props) => {
             sort={{ field: 'id', order: 'DESC' }}
             bulkActionButtons={<BulkActionButtons />}
         >
-            <Datagrid rowClick={dataRowClick} expand={<ExpandMarkEdit />}>
+            <Datagrid rowClick={dataRowClick} expand={<ExpandEdit />}>
                 <TextField source="value" />
                 <DateField source="date" />
                 

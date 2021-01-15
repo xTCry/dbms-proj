@@ -1,22 +1,21 @@
 import React from 'react';
-import { List, Datagrid, TextField, ReferenceManyField, SelectField, useTranslate, EditButton, SingleFieldList, ChipField, ReferenceField } from 'react-admin';
+import { List, Datagrid, TextField, EditButton, ReferenceField } from 'react-admin';
 import { UserRole } from '../../types';
-// import { orderStatus } from '../Order';
-
-// import MyUrlField from '../../components/MyUrlField';
+import AvatarField from './AvatarField';
+// import UserLinkField from './UserLinkField';
 
 export const UserList = ({ permissions, ...props }) => {
     // const translate = useTranslate();
     return (
-        <List exporter={false} {...props}>
+        <List exporter={false} perPage={25} {...props}>
             <Datagrid optimized rowClick="edit">
+                {/* <UserLinkField /> */}
+                <AvatarField size={'30'} />
                 <TextField source="id" />
                 <TextField source="login" />
                 <TextField source="name" />
                 <TextField source="last_name" />
-                {/* <SingleFieldList>
-                    <ChipField source="role.name" />
-                </SingleFieldList> */}
+                <TextField source="second_name" />
 
                 <ReferenceField source="role_id" reference="role" link={false}>
                     <TextField source="name" />

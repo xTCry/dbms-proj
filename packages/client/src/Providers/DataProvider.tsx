@@ -31,7 +31,9 @@ const validParams = {
     // orders: ['title', 'description', 'images', 'status', 'executor', 'cost'],
 };
 
-const uploadImages = async (files) => {
+const uploadImages = async (
+    files: { rawFile: string }[]
+): Promise<[{ filename: string; path: string; originalname: string }]> => {
     let data = new FormData();
     for (const file of files) {
         data.append('images', file.rawFile);
@@ -64,7 +66,19 @@ export const dataProvider = {
 
     create: async (resource, params) => {
         const { data } = params;
-        if (resource === 'orders' && data.images) {
+        if (resource === 'user' && data.new_photo?.rawFile) {
+            const { new_photo } = data;
+            data.new_photo = undefined;
+            try {
+                const isNewPhoto = new_photo.rawFile instanceof File;
+                if (isNewPhoto) {
+                    const [img] = await uploadImages([new_photo]);
+                    data.photo_path = `${Backend.serverURL}/${img.path}`;
+                }
+            } catch (e) {
+                // TODO: Show notify with error
+            }
+        } else if (resource === 'orders' && data.images) {
             try {
                 const images = await uploadImages(data.images);
                 data.images = [];
@@ -109,8 +123,21 @@ export const dataProvider = {
 
     update: async (resource, params) => {
         const { data } = params;
-
-        if (resource === 'orders' && data.images) {
+        console.log(resource, data);
+        
+        if (resource === 'user' && data.new_photo?.rawFile) {
+            const { new_photo } = data;
+            data.new_photo = undefined;
+            try {
+                const isNewPhoto = new_photo.rawFile instanceof File;
+                if (isNewPhoto) {
+                    const [img] = await uploadImages([new_photo]);
+                    data.photo_path = `${Backend.serverURL}/${img.path}`;
+                }
+            } catch (e) {
+                // TODO: Show notify with error
+            }
+        } else if (resource === 'orders' && data.images) {
             try {
                 const updatedImages = data.images.filter((e) => !e.created_at);
                 data.images = data.images.filter((e) => !!e.created_at);
