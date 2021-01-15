@@ -3,9 +3,7 @@ import { group } from '../models/group';
 import { student, studentAttributes, studentCreationAttributes } from '../models/student';
 import { user } from '../models/user';
 import { UserRole } from '../tools/auth';
-import { Controller } from './controller';
-import { GroupController } from './group.controller';
-import { IUserJSON, UserController } from './user.controller';
+import { Controller, IUserJSON, UserController, GroupController } from './';
 
 export type IStudentJSON = studentAttributes & { user: IUserJSON };
 

@@ -2,11 +2,10 @@ import { ModelCtor, FindOptions } from 'sequelize';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { user, userCreationAttributes, userAttributes } from '../models/user';
-import { Controller } from './controller';
-import { config } from '../config';
 import { role } from '../models/role';
+import { Controller, IRoleJSON } from './';
 import { UserRole } from '../tools/auth';
-import { IRoleJSON } from './role.controller';
+import { config } from '../config';
 
 const jwtSecret = config.get('jwtSecret');
 const expiresIn = 60 * 60 * 24 * 2;

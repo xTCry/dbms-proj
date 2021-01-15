@@ -1,0 +1,14 @@
+export { Controller } from './controller';
+export { UserController, IUserJSON } from './user.controller';
+export { StudentController, IStudentJSON } from './student.controller';
+export { RoleController, IRoleJSON } from './role.controller';
+export { GroupController, IGroupJSON } from './group.controller';
+export { MarkController, IMarkJSON } from './mark.controller';
+export { ScheduleController, IScheduleJSON } from './schedule.controller';
+export { TeacherController, ITeacherJSON } from './teacher.controller';
+export { AuditoryController, IAuditoryJSON } from './auditory.controller';
+export { LessonController, ILessonJSON } from './lesson.controller';
+export { KafedraController, IKafedraJSON } from './kafedra.controller';
+export { SpecialtyController, ISpecialtyJSON } from './specialty.controller';
+export { Teacher2lessonController, ITeacher2lessonJSON } from './teacher2lesson.controller';
+export { Headman2groupController, IHeadman2groupJSON } from './headman2group.controller';

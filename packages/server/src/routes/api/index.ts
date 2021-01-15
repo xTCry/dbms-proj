@@ -6,17 +6,21 @@ import { crud, Action } from '../../crud';
 import authRoute from './auth';
 import imagesRoute from './images';
 
-import { UserController } from '../../controllers/user.controller';
-import { StudentController } from '../../controllers/student.controller';
-import { RoleController } from '../../controllers/role.controller';
-import { GroupController } from '../../controllers/group.controller';
-import { MarkController } from '../../controllers/mark.controller';
-import { ScheduleController } from '../../controllers/schedule.controller';
-import { TeacherController } from '../../controllers/teacher.controller';
-import { AuditoryController } from '../../controllers/auditory.controller';
-import { LessonController } from '../../controllers/lesson.controller';
-import { KafedraController } from '../../controllers/kafedra.controller';
-import { SpecialtyController } from '../../controllers/specialty.controller';
+import {
+    UserController,
+    StudentController,
+    RoleController,
+    GroupController,
+    MarkController,
+    ScheduleController,
+    TeacherController,
+    AuditoryController,
+    LessonController,
+    KafedraController,
+    SpecialtyController,
+    Teacher2lessonController,
+    Headman2groupController,
+} from '../../controllers';
 
 const router = Router();
 
@@ -106,7 +110,11 @@ router.use(
     '/teacher',
     authType.required,
     crud(TeacherController, {
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        actions: {
+            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        },
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
     })
 );
 
@@ -114,7 +122,11 @@ router.use(
     '/auditory',
     authType.required,
     crud(AuditoryController, {
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        actions: {
+            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        },
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
     })
 );
 
@@ -122,7 +134,11 @@ router.use(
     '/lesson',
     authType.required,
     crud(LessonController, {
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        actions: {
+            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        },
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
     })
 );
 
@@ -130,7 +146,11 @@ router.use(
     '/specialty',
     authType.required,
     crud(SpecialtyController, {
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        actions: {
+            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        },
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
     })
 );
 
@@ -138,7 +158,31 @@ router.use(
     '/kafedra',
     authType.required,
     crud(KafedraController, {
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        actions: {
+            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        },
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
+    })
+);
+
+router.use(
+    '/teacher2lesson',
+    authType.required,
+    crud(Teacher2lessonController, {
+        actions: {
+            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        },
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
+    })
+);
+
+router.use(
+    '/headman2group',
+    authType.required,
+    crud(Headman2groupController, {
+        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
     })
 );
 
