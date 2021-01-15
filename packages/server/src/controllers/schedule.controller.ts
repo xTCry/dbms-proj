@@ -5,10 +5,7 @@ import { teacher } from '../models/teacher';
 import { lesson } from '../models/lesson';
 import { group } from '../models/group';
 import { UserRole } from '../tools/auth';
-import { Controller } from './controller';
-import { GroupController, IGroupJSON } from './group.controller';
-import { ITeacherJSON, TeacherController } from './teacher.controller';
-import { IAuditoryJSON } from './auditory.controller';
+import { Controller, IAuditoryJSON, ITeacherJSON, TeacherController, GroupController, IGroupJSON } from './';
 
 export type IScheduleJSON = scheduleAttributes & {
     lesson: any;

@@ -3,9 +3,7 @@ import { mark, markAttributes, markCreationAttributes } from '../models/mark';
 import { schedule } from '../models/schedule';
 import { student } from '../models/student';
 import { UserRole } from '../tools/auth';
-import { Controller } from './controller';
-import { ScheduleController } from './schedule.controller';
-import { StudentController } from './student.controller';
+import { Controller, ScheduleController, StudentController } from './';
 
 export type IMarkJSON = markAttributes;
 

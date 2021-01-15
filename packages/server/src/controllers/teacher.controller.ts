@@ -1,11 +1,8 @@
 import { ModelCtor, FindOptions } from 'sequelize';
-import { group } from '../models/group';
 import { teacher, teacherAttributes, teacherCreationAttributes } from '../models/teacher';
 import { user } from '../models/user';
 import { UserRole } from '../tools/auth';
-import { Controller } from './controller';
-import { GroupController } from './group.controller';
-import { IUserJSON, UserController } from './user.controller';
+import { Controller, IUserJSON, UserController } from './';
 
 export type ITeacherJSON = teacherAttributes & { user: IUserJSON };
 

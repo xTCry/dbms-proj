@@ -2,8 +2,7 @@ import { ModelCtor, FindOptions } from 'sequelize';
 import { kafedra } from '../models/kafedra';
 import { specialty, specialtyAttributes, specialtyCreationAttributes } from '../models/specialty';
 import { UserRole } from '../tools/auth';
-import { Controller } from './controller';
-import { IKafedraJSON, KafedraController } from './kafedra.controller';
+import { Controller, IKafedraJSON, KafedraController } from './';
 
 export type ISpecialtyJSON = specialtyAttributes & { kafedra: IKafedraJSON };
 
