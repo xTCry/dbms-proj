@@ -38,6 +38,14 @@ const customMessages = {
                 personal_birthday: 'Дата рождения',
                 personal_telephone: 'Телефон',
                 role_id: 'Роль',
+                photo_path: 'Фото профиля',
+            },
+        },
+        teacher: {
+            name: 'Преподаватель |||| Преподаватели',
+            fields: {
+                lessons: 'Ведет предметы',
+                'lesson_name': 'Предмет',
             },
         },
         role: {

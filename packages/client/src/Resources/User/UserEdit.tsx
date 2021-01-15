@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import {
     Edit,
     SimpleForm,
@@ -8,17 +8,23 @@ import {
     PasswordInput,
     ReferenceInput,
     SelectInput,
+    ImageField,
+    ImageInput,
+    FieldProps,
+    EditProps,
 } from 'react-admin';
-import { UserRole } from '../../types';
+import CheckRole from '../../components/CheckRole';
+import { userAttributes, UserRole } from '../../types';
+import FullNameField from './FullNameField';
+
+const allowedRoles = [UserRole.ADMIN, UserRole.DEKAN];
 
 export const FullName = (record) => ['last_name', 'name', 'second_name'].map((e) => record[e]).join(' ');
 
-const UserTitle = (props) => {
-    const { record } = props ?? { record: { name: 'None' } };
-    return <span>Пользователь {record ? `"${FullName(record)}"` : ''}</span>;
-};
+const UserTitle: FC<FieldProps<userAttributes>> = ({ record }) =>
+    record ? <FullNameField record={record} size="32" /> : null;
 
-export const UserEdit = ({ permissions, ...props }) => (
+export const UserEdit: FC<EditProps> = (props) => (
     <Edit title={<UserTitle />} {...props}>
         <SimpleForm>
             <TextInput source="id" disabled />
@@ -28,13 +34,18 @@ export const UserEdit = ({ permissions, ...props }) => (
             <TextInput source="second_name" />
             <DateInput source="personal_birthday" />
             <DateInput source="registeration_date" disabled />
-            {[UserRole.ADMIN, UserRole.DEKAN].includes(permissions) && (
-                <PasswordInput source="password" resource="users" />
-            )}
 
-            <ReferenceInput label="Role" source="role_id" reference="role">
-                <SelectInput optionText="name" />
-            </ReferenceInput>
+            <PasswordInput source="password" disabled={!allowedRoles.includes(props.permissions)} />
+
+            <CheckRole permissions={props.permissions} allowed={allowedRoles} deny={<TextInput source="role.name" />}>
+                <ReferenceInput source="role_id" reference="role">
+                    <SelectInput optionText="name" />
+                </ReferenceInput>
+            </CheckRole>
+
+            <ImageInput source="new_photo" accept="image/*">
+                <ImageField source="photo_path" label="Avatar" />
+            </ImageInput>
         </SimpleForm>
     </Edit>
 );
