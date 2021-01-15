@@ -1,8 +1,8 @@
 export declare enum UserRole {
-    NONE = 1,
-    USER = 2,
-    STUDENT = 3,
-    TEACHER = 4,
-    DEKAN = 5,
-    ADMIN = 6
+    NONE = 0,
+    OPERATOR = 1,
+    ENGEENER = 2,
+    ENGEENER_LEAD = 3,
+    ADMIN_WAREHOUSE = 4,
+    ADMIN = 5
 }

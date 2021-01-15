@@ -3,18 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRole = void 0;
 var UserRole;
 (function (UserRole) {
-    UserRole[UserRole["NONE"] = 1] = "NONE";
-    UserRole[UserRole["USER"] = 2] = "USER";
-    UserRole[UserRole["STUDENT"] = 3] = "STUDENT";
-    UserRole[UserRole["TEACHER"] = 4] = "TEACHER";
-    UserRole[UserRole["DEKAN"] = 5] = "DEKAN";
-    UserRole[UserRole["ADMIN"] = 6] = "ADMIN";
+    UserRole[UserRole["NONE"] = 0] = "NONE";
+    UserRole[UserRole["OPERATOR"] = 1] = "OPERATOR";
+    UserRole[UserRole["ENGEENER"] = 2] = "ENGEENER";
+    UserRole[UserRole["ENGEENER_LEAD"] = 3] = "ENGEENER_LEAD";
+    UserRole[UserRole["ADMIN_WAREHOUSE"] = 4] = "ADMIN_WAREHOUSE";
+    UserRole[UserRole["ADMIN"] = 5] = "ADMIN";
 })(UserRole = exports.UserRole || (exports.UserRole = {}));
 /*
-    ('Никто', 1)
-    ('Пользователь', 2)
-    ('Студент', 4)
-    ('Преподаватель', 8)
-    ('Деканат', 16)
-    ('Администратор', 32)
-*/ 
+    1	Оператор
+    2	Инженер
+    3	Ведущий инженер
+    4	Администратор склада
+    5	Администратор
+*/
