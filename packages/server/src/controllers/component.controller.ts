@@ -43,7 +43,8 @@ export class ComponentController extends Controller {
                     // @ts-ignore
                     model: maker,
                     ...MakerController.fullAttr(safe, urole, ++deep),
-                },{
+                },
+                {
                     // @ts-ignore
                     model: telefone,
                     ...TelefoneController.fullAttr(safe, urole, ++deep),

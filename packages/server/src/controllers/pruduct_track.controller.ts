@@ -43,7 +43,9 @@ export class Pruduct_trackController extends Controller {
                     // @ts-ignore
                     model: order,
                     ...OrderController.fullAttr(safe, urole, ++deep),
-                },{
+                },
+
+                {
                     // @ts-ignore
                     model: component,
                     ...ComponentController.fullAttr(safe, urole, ++deep),

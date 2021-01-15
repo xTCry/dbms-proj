@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 router.post(
     '/',
     authType.required,
-    authRoles(UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER),
+    authRoles(UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE, UserRole.ENGEENER, UserRole.ENGEENER_LEAD, UserRole.OPERATOR),
     upload.array('images', 10),
     async (req, res, next) => {
         try {

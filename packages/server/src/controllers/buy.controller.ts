@@ -1,9 +1,10 @@
 import { ModelCtor, FindOptions } from 'sequelize';
 import { UserRole } from '../tools/auth';
-import { Controller, ProviderController, IProviderJSON } from './';
+import { Controller, ProviderController, IProviderJSON, ComponentController, IComponentJSON } from './';
 import { buy, buyAttributes, buyCreationAttributes } from '../models/buy';
 import { provider } from '../models/provider';
-export type IBuyJSON = buyAttributes & { provider: IProviderJSON; };
+import { component } from '../models/component';
+export type IBuyJSON = buyAttributes & { provider: IProviderJSON; component: IComponentJSON; };
 
 export class BuyController extends Controller {
     public static model = buy as ModelCtor<buy>;
@@ -42,6 +43,11 @@ export class BuyController extends Controller {
                     // @ts-ignore
                     model: provider,
                     ...ProviderController.fullAttr(safe, urole, ++deep),
+                },
+                {
+                    // @ts-ignore
+                    model: component,
+                    ...ComponentController.fullAttr(safe, urole, ++deep),
                 },
             ],
         };

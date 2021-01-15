@@ -46,13 +46,24 @@ export class UsersController extends Controller {
 
     public static fullAttr(safe = true, urole?: UserRole, deep = 0): FindOptions<usersAttributes> {
         return {
-            attributes: ['id', 'surname', 'name', 'mid_name', 'photo_employee', 'graphic_id', 'position_id', 'login', 'password'],
+            attributes: [
+                'id',
+                'surname',
+                'name',
+                'mid_name',
+                'photo_employee',
+                'graphic_id',
+                'position_id',
+                'login',
+                'password',
+            ],
             include: [
                 {
                     // @ts-ignore
                     model: graphic,
                     ...GraphicController.fullAttr(safe, urole, ++deep),
-                },{
+                },
+                {
                     // @ts-ignore
                     model: dolzhnost,
                     ...DolzhnostController.fullAttr(safe, urole, ++deep),
@@ -67,7 +78,7 @@ export class UsersController extends Controller {
     }
 
     // Service methods
-    
+
     public static async register(attr: usersCreationAttributes) {
         let password = attr.password && this.encryptPassword(undefined, attr.password);
         let newRec = await this.model.create({
