@@ -1,53 +1,45 @@
 import React from 'react';
-import {
-    Create,
-    SimpleForm,
-    TextInput,
-    ReferenceInput,
-    SelectInput,
-    required,
-    ImageField,
-    ImageInput,
-    NumberInput,
-} from 'react-admin';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import { Styles } from '@material-ui/styles/withStyles';
+import { Create, SimpleForm, TextInput } from 'react-admin';
 
-import { orderStatus } from '.';
+export const OrderCreate = (props) => (
+    <Create {...props}>
+        <SimpleForm>
+            <TextInput source="id" autoFocus /* validate={required()} */ />
+            <TextInput source="telefone_id" /* validate={required()} */ />
+            <TextInput source="status_id" /* validate={required()} */ />
+            <TextInput source="operator_id" /* validate={required()} */ />
+            <TextInput source="engineer_id" /* validate={required()} */ />
+            <TextInput source="first_inspect_id" /* validate={required()} */ />
+            <TextInput source="second_inspect_id" /* validate={required()} */ />
+            <TextInput source="client_id" /* validate={required()} */ />
+            <TextInput source="date_accept" /* validate={required()} */ />
+            <TextInput source="date_issues" /* validate={required()} */ />
+            <TextInput source="price_repair" /* validate={required()} */ />
 
-export const styles: Styles<Theme, any> = {
-    part_first: { display: 'inline-block' },
-    part_secont: { display: 'inline-block', marginLeft: 32 },
-};
-
-const useStyles = makeStyles(styles);
-
-export const OrderCreate = (props) => {
-    const classes = useStyles();
-
-    return (
-        <Create title="Создать Заказ" {...props}>
-            <SimpleForm>
-                <TextInput source="title" validate={required()} />
-                <TextInput source="description" multiline fullWidth validate={required()} />
-                <NumberInput source="cost" validate={required()} />
-
-                <ImageInput source="images" accept="image/*" multiple>
-                    <ImageField source="images" />
-                </ImageInput>
-
-                <SelectInput
-                    source="status"
-                    formClassName={classes.part_first}
-                    choices={orderStatus}
-                    defaultValue={0}
-                    validate={required()}
-                />
-
-                <ReferenceInput source="executor" formClassName={classes.part_secont} reference="users" allowEmpty>
+            {/* <ReferenceInput source="telefone_id" reference="telefone">
                     <SelectInput optionText="name" />
-                </ReferenceInput>
-            </SimpleForm>
-        </Create>
-    );
-};
+                </ReferenceInput> */}
+
+            {/* <ReferenceInput source="status_id" reference="status">
+                    <SelectInput optionText="name" />
+                </ReferenceInput> */}
+
+            {/* <ReferenceInput source="users_id" reference="users">
+                    <SelectInput optionText="name" />
+                </ReferenceInput> */}
+
+            {/* <ReferenceInput source="first_inspect_id" reference="first_inspect">
+                    <SelectInput optionText="name" />
+                </ReferenceInput> */}
+
+            {/* <ReferenceInput source="second_inspect_id" reference="second_inspect">
+                    <SelectInput optionText="name" />
+                </ReferenceInput> */}
+
+            {/* <ReferenceInput source="client_id" reference="client">
+                    <SelectInput optionText="name" />
+                </ReferenceInput> */}
+
+        </SimpleForm>
+    </Create>
+);

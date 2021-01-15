@@ -13,86 +13,34 @@ export interface AppState {
 }
 
 // Ordres
-export enum EOrderStatus {
+/* export enum EOrderStatus {
     None = 0,
     Wait,
     Done,
     Broke,
-}
+} */
 
 /* Records */
-
-export interface roleAttributes extends Record {
-    name: string;
-    role: number;
-}
-
 export interface userAttributes extends Record {
     id: number;
-    login: string;
-    // password?: string;
-    photo_path?: string;
-    last_name: string;
-    second_name?: string;
-    personal_address: string;
-    personal_telephone: string;
-    personal_birthday: string;
-    registeration_date: string;
-    role_id: number;
-
-    role?: roleAttributes;
-}
-
-export interface studentAttributes extends Record {
-    user_id: number;
-    group_id: number;
-    student_id: string;
-
-    user?: userAttributes;
-    group?: groupAttributes;
-}
-
-export interface groupAttributes extends Record {
+    surname: string;
     name: string;
-    date_formation: string;
-    specialty_id: number;
-    
-    specialty?: any;
+    mid_name?: string;
+    photo_employee: string;
+    graphic_id: number;
+    position_id: number;
+    login?: string;
+
+    graphic?: graphicAttributes;
+    dolzhnost?: dolzhnostAttributes;
 }
 
-export interface markAttributes extends Record {
-    date: Date;
-    value: string;
-    student_id: number;
-    schedule_id: number;
-
-    student?: studentAttributes;
-    schedule?: any;
+export interface graphicAttributes {
+    id: number;
+    graphic_work: string;
+    graphic_hours: number;
 }
 
-export interface IOrder extends Record {
-    id: string;
-    title: string;
-    description: string;
-    created_at: Date;
-    images: Array<IImages>;
-    status: EOrderStatus;
-    executor: string;
-}
-
-export interface IImages {
-    name: string;
-    url: string;
-    cerated_at: Date;
-}
-
-/**
- * Types to eventually add in react-admin
- */
-export interface IFieldProps<T extends Record = Record> {
-    sortable?: boolean;
-    addLabel?: boolean;
-    label?: string;
-    record?: T;
-    source?: string;
+export interface dolzhnostAttributes extends Record {
+    position: string;
 }

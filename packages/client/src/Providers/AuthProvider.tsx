@@ -18,7 +18,6 @@ export const authProvider = {
         }
     },
     checkError: (e) => {
-        // console.log('[AuthProvider] checkError', e);
         if ([401 /* , 403 */].includes(e.statusCode) || (e.message && e.message === 'bo.token_expired')) {
             authProvider.logout();
             return Promise.reject();
@@ -26,7 +25,6 @@ export const authProvider = {
         return Promise.resolve();
     },
     checkAuth: () => {
-        console.log('[AuthProvider] checkAuth');
         return getUser().soGood ? Promise.resolve() : Promise.reject();
     },
     logout: () => {
@@ -41,8 +39,8 @@ export const authProvider = {
             return Promise.reject(error);
         }
     },
-    getPermissions: (args/* { route } */) => {
-        const { role } = getUser()?.role;
-        return role ? Promise.resolve(role) : Promise.reject();
+    getPermissions: ({ route }) => {
+        const { position_id } = getUser();
+        return position_id ? Promise.resolve(position_id) : Promise.reject();
     },
 };
