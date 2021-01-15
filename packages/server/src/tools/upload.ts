@@ -6,12 +6,12 @@ import Boom from '@hapi/boom';
 
 const dir = './uploads/';
 const namer = unf({
-    format: '%4Y-%M-%D/%16b_%6r%.i%8e',
+    format: '%16b_%6r%.i%8e',
     dir,
 });
 
 export const storage = multer.diskStorage({
-    destination: (_req, _file, cb) => cb(null, `${dir}${new Date().toISOString().split('T').shift()}/`),
+    destination: (_req, _file, cb) => cb(null, dir),
     filename: async (_req, file, cb) => {
         const name = await namer(file.originalname);
         cb(null, `${name.split('\\').pop()}`);
