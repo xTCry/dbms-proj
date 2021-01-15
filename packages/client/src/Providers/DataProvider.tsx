@@ -18,6 +18,7 @@ const validParams = {
         'password',
         'login',
         'photo_path',
+        'name',
         'last_name',
         'second_name',
         'personal_address',
