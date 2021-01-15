@@ -1,159 +1,160 @@
-import type { Sequelize } from 'sequelize';
-import { auditory } from './auditory';
-import type { auditoryAttributes, auditoryCreationAttributes } from './auditory';
-import { group } from './group';
-import type { groupAttributes, groupCreationAttributes } from './group';
-import { headman2group } from './headman2group';
-import type { headman2groupAttributes, headman2groupCreationAttributes } from './headman2group';
-import { kafedra } from './kafedra';
-import type { kafedraAttributes, kafedraCreationAttributes } from './kafedra';
-import { lesson } from './lesson';
-import type { lessonAttributes, lessonCreationAttributes } from './lesson';
-import { mark } from './mark';
-import type { markAttributes, markCreationAttributes } from './mark';
-import { mark_log } from './mark_log';
-import type { mark_logAttributes, mark_logCreationAttributes } from './mark_log';
-import { notify_schedule } from './notify_schedule';
-import type { notify_scheduleAttributes, notify_scheduleCreationAttributes } from './notify_schedule';
-import { role } from './role';
-import type { roleAttributes, roleCreationAttributes } from './role';
-import { schedule } from './schedule';
-import type { scheduleAttributes, scheduleCreationAttributes } from './schedule';
-import { specialty } from './specialty';
-import type { specialtyAttributes, specialtyCreationAttributes } from './specialty';
-import { student } from './student';
-import type { studentAttributes, studentCreationAttributes } from './student';
-import { teacher } from './teacher';
-import type { teacherAttributes, teacherCreationAttributes } from './teacher';
-import { teacher2lesson } from './teacher2lesson';
-import type { teacher2lessonAttributes, teacher2lessonCreationAttributes } from './teacher2lesson';
-import { user } from './user';
-import type { userAttributes, userCreationAttributes } from './user';
+import type { Sequelize, Model } from "sequelize";
+import { brand } from "./brand";
+import type { brandAttributes, brandCreationAttributes } from "./brand";
+import { buy } from "./buy";
+import type { buyAttributes, buyCreationAttributes } from "./buy";
+import { client } from "./client";
+import type { clientAttributes, clientCreationAttributes } from "./client";
+import { component } from "./component";
+import type { componentAttributes, componentCreationAttributes } from "./component";
+import { dolzhnost } from "./dolzhnost";
+import type { dolzhnostAttributes, dolzhnostCreationAttributes } from "./dolzhnost";
+import { first_inspect } from "./first_inspect";
+import type { first_inspectAttributes, first_inspectCreationAttributes } from "./first_inspect";
+import { graphic } from "./graphic";
+import type { graphicAttributes, graphicCreationAttributes } from "./graphic";
+import { maker } from "./maker";
+import type { makerAttributes, makerCreationAttributes } from "./maker";
+import { model } from "./model";
+import type { modelAttributes, modelCreationAttributes } from "./model";
+import { order } from "./order";
+import type { orderAttributes, orderCreationAttributes } from "./order";
+import { provider } from "./provider";
+import type { providerAttributes, providerCreationAttributes } from "./provider";
+import { pruduct_track } from "./pruduct_track";
+import type { pruduct_trackAttributes, pruduct_trackCreationAttributes } from "./pruduct_track";
+import { second_inspect } from "./second_inspect";
+import type { second_inspectAttributes, second_inspectCreationAttributes } from "./second_inspect";
+import { status } from "./status";
+import type { statusAttributes, statusCreationAttributes } from "./status";
+import { telefone } from "./telefone";
+import type { telefoneAttributes, telefoneCreationAttributes } from "./telefone";
+import { users } from "./users";
+import type { usersAttributes, usersCreationAttributes } from "./users";
 
 export {
-    auditory,
-    group,
-    headman2group,
-    kafedra,
-    lesson,
-    mark,
-    mark_log,
-    notify_schedule,
-    role,
-    schedule,
-    specialty,
-    student,
-    teacher,
-    teacher2lesson,
-    user,
+  brand,
+  buy,
+  client,
+  component,
+  dolzhnost,
+  first_inspect,
+  graphic,
+  maker,
+  model,
+  order,
+  provider,
+  pruduct_track,
+  second_inspect,
+  status,
+  telefone,
+  users,
 };
 
 export type {
-    auditoryAttributes,
-    auditoryCreationAttributes,
-    groupAttributes,
-    groupCreationAttributes,
-    headman2groupAttributes,
-    headman2groupCreationAttributes,
-    kafedraAttributes,
-    kafedraCreationAttributes,
-    lessonAttributes,
-    lessonCreationAttributes,
-    markAttributes,
-    markCreationAttributes,
-    mark_logAttributes,
-    mark_logCreationAttributes,
-    notify_scheduleAttributes,
-    notify_scheduleCreationAttributes,
-    roleAttributes,
-    roleCreationAttributes,
-    scheduleAttributes,
-    scheduleCreationAttributes,
-    specialtyAttributes,
-    specialtyCreationAttributes,
-    studentAttributes,
-    studentCreationAttributes,
-    teacherAttributes,
-    teacherCreationAttributes,
-    teacher2lessonAttributes,
-    teacher2lessonCreationAttributes,
-    userAttributes,
-    userCreationAttributes,
+  brandAttributes,
+  brandCreationAttributes,
+  buyAttributes,
+  buyCreationAttributes,
+  clientAttributes,
+  clientCreationAttributes,
+  componentAttributes,
+  componentCreationAttributes,
+  dolzhnostAttributes,
+  dolzhnostCreationAttributes,
+  first_inspectAttributes,
+  first_inspectCreationAttributes,
+  graphicAttributes,
+  graphicCreationAttributes,
+  makerAttributes,
+  makerCreationAttributes,
+  modelAttributes,
+  modelCreationAttributes,
+  orderAttributes,
+  orderCreationAttributes,
+  providerAttributes,
+  providerCreationAttributes,
+  pruduct_trackAttributes,
+  pruduct_trackCreationAttributes,
+  second_inspectAttributes,
+  second_inspectCreationAttributes,
+  statusAttributes,
+  statusCreationAttributes,
+  telefoneAttributes,
+  telefoneCreationAttributes,
+  usersAttributes,
+  usersCreationAttributes,
 };
 
 export function initModels(sequelize: Sequelize) {
-    auditory.initModel(sequelize);
-    group.initModel(sequelize);
-    headman2group.initModel(sequelize);
-    kafedra.initModel(sequelize);
-    lesson.initModel(sequelize);
-    mark.initModel(sequelize);
-    mark_log.initModel(sequelize);
-    notify_schedule.initModel(sequelize);
-    role.initModel(sequelize);
-    schedule.initModel(sequelize);
-    specialty.initModel(sequelize);
-    student.initModel(sequelize);
-    teacher.initModel(sequelize);
-    teacher2lesson.initModel(sequelize);
-    user.initModel(sequelize);
+  brand.initModel(sequelize);
+  buy.initModel(sequelize);
+  client.initModel(sequelize);
+  component.initModel(sequelize);
+  dolzhnost.initModel(sequelize);
+  first_inspect.initModel(sequelize);
+  graphic.initModel(sequelize);
+  maker.initModel(sequelize);
+  model.initModel(sequelize);
+  order.initModel(sequelize);
+  provider.initModel(sequelize);
+  pruduct_track.initModel(sequelize);
+  second_inspect.initModel(sequelize);
+  status.initModel(sequelize);
+  telefone.initModel(sequelize);
+  users.initModel(sequelize);
 
-    group.belongsTo(specialty, { foreignKey: 'specialty_id' });
-    specialty.hasMany(group, { foreignKey: 'specialty_id' });
-    headman2group.belongsTo(group, { foreignKey: 'group_id' });
-    group.hasMany(headman2group, { foreignKey: 'group_id' });
-    headman2group.belongsTo(student, { foreignKey: 'student_id' });
-    student.hasMany(headman2group, { foreignKey: 'student_id' });
-    mark.belongsTo(schedule, { foreignKey: 'schedule_id' });
-    schedule.hasMany(mark, { foreignKey: 'schedule_id' });
-    mark.belongsTo(student, { foreignKey: 'student_id' });
-    student.hasMany(mark, { foreignKey: 'student_id' });
-    mark_log.belongsTo(mark, { foreignKey: 'mark_id' });
-    mark.hasMany(mark_log, { foreignKey: 'mark_id' });
-    notify_schedule.belongsTo(user, { foreignKey: 'peer_id' });
-    user.hasMany(notify_schedule, { foreignKey: 'peer_id' });
-    notify_schedule.belongsTo(schedule, { foreignKey: 'schedule_id' });
-    schedule.hasMany(notify_schedule, { foreignKey: 'schedule_id' });
-    notify_schedule.belongsTo(user, { foreignKey: 'sender_id' });
-    user.hasMany(notify_schedule, { foreignKey: 'sender_id' });
-    schedule.belongsTo(auditory, { foreignKey: 'auditory_id' });
-    auditory.hasMany(schedule, { foreignKey: 'auditory_id' });
-    schedule.belongsTo(group, { foreignKey: 'group_id' });
-    group.hasMany(schedule, { foreignKey: 'group_id' });
-    schedule.belongsTo(lesson, { foreignKey: 'lesson_id' });
-    lesson.hasMany(schedule, { foreignKey: 'lesson_id' });
-    schedule.belongsTo(teacher, { foreignKey: 'teacher_id' });
-    teacher.hasMany(schedule, { foreignKey: 'teacher_id' });
-    specialty.belongsTo(kafedra, { foreignKey: 'kafedra_id' });
-    kafedra.hasMany(specialty, { foreignKey: 'kafedra_id' });
-    student.belongsTo(group, { foreignKey: 'group_id' });
-    group.hasMany(student, { foreignKey: 'group_id' });
-    student.belongsTo(user, { foreignKey: 'user_id' });
-    user.hasOne(student, { foreignKey: 'user_id' });
-    teacher.belongsTo(user, { foreignKey: 'user_id' });
-    user.hasOne(teacher, { foreignKey: 'user_id' });
-    teacher2lesson.belongsTo(lesson, { foreignKey: 'lesson_id' });
-    lesson.hasMany(teacher2lesson, { foreignKey: 'lesson_id' });
-    teacher2lesson.belongsTo(teacher, { foreignKey: 'teacher_id' });
-    teacher.hasMany(teacher2lesson, { foreignKey: 'teacher_id' });
-    user.belongsTo(role, { foreignKey: 'role_id' });
-    role.hasMany(user, { foreignKey: 'role_id' });
+  buy.belongsTo(component, { foreignKey: "component_id"});
+  component.hasMany(buy, { foreignKey: "component_id"});
+  buy.belongsTo(provider, { foreignKey: "maker_id"});
+  provider.hasMany(buy, { foreignKey: "maker_id"});
+  component.belongsTo(maker, { foreignKey: "maker_id"});
+  maker.hasMany(component, { foreignKey: "maker_id"});
+  component.belongsTo(telefone, { foreignKey: "telefone_id"});
+  telefone.hasMany(component, { foreignKey: "telefone_id"});
+  model.belongsTo(brand, { foreignKey: "brand_id"});
+  brand.hasMany(model, { foreignKey: "brand_id"});
+  order.belongsTo(client, { foreignKey: "client_id"});
+  client.hasMany(order, { foreignKey: "client_id"});
+  order.belongsTo(users, { foreignKey: "engineer_id"});
+  users.hasMany(order, { foreignKey: "engineer_id"});
+  order.belongsTo(first_inspect, { foreignKey: "first_inspect_id"});
+  first_inspect.hasMany(order, { foreignKey: "first_inspect_id"});
+  order.belongsTo(users, { foreignKey: "operator_id"});
+  users.hasMany(order, { foreignKey: "operator_id"});
+  order.belongsTo(second_inspect, { foreignKey: "second_inspect_id"});
+  second_inspect.hasMany(order, { foreignKey: "second_inspect_id"});
+  order.belongsTo(status, { foreignKey: "status_id"});
+  status.hasMany(order, { foreignKey: "status_id"});
+  order.belongsTo(telefone, { foreignKey: "telefone_id"});
+  telefone.hasMany(order, { foreignKey: "telefone_id"});
+  pruduct_track.belongsTo(component, { foreignKey: "component_id"});
+  component.hasMany(pruduct_track, { foreignKey: "component_id"});
+  pruduct_track.belongsTo(order, { foreignKey: "order_id"});
+  order.hasMany(pruduct_track, { foreignKey: "order_id"});
+  telefone.belongsTo(model, { foreignKey: "model_id"});
+  model.hasMany(telefone, { foreignKey: "model_id"});
+  users.belongsTo(graphic, { foreignKey: "graphic_id"});
+  graphic.hasMany(users, { foreignKey: "graphic_id"});
+  users.belongsTo(dolzhnost, { foreignKey: "position_id"});
+  dolzhnost.hasMany(users, { foreignKey: "position_id"});
 
-    return {
-        auditory: auditory,
-        group: group,
-        headman2group: headman2group,
-        kafedra: kafedra,
-        lesson: lesson,
-        mark: mark,
-        mark_log: mark_log,
-        notify_schedule: notify_schedule,
-        role: role,
-        schedule: schedule,
-        specialty: specialty,
-        student: student,
-        teacher: teacher,
-        teacher2lesson: teacher2lesson,
-        user: user,
-    };
+  return {
+    brand: brand,
+    buy: buy,
+    client: client,
+    component: component,
+    dolzhnost: dolzhnost,
+    first_inspect: first_inspect,
+    graphic: graphic,
+    maker: maker,
+    model: model,
+    order: order,
+    provider: provider,
+    pruduct_track: pruduct_track,
+    second_inspect: second_inspect,
+    status: status,
+    telefone: telefone,
+    users: users,
+  };
 }

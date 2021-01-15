@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import Boom from '@hapi/boom';
 import { Controller } from '../controllers/controller';
 import { RequestWith } from '../tools/auth';
-import { IUserJSON } from '../controllers/user.controller';
+import { IUsersJSON } from '../controllers/users.controller';
 
 export const update = (ctrl: typeof Controller): RequestHandler => async (req, res, next) => {
     try {
@@ -18,8 +18,8 @@ export const update = (ctrl: typeof Controller): RequestHandler => async (req, r
             delete data.filter;
         }
 
-        const { user } = req as RequestWith<{ user?: IUserJSON }>;
-        const record = await ctrl.doGetOne({ where }, user?.role_id);
+        const { user } = req as RequestWith<{ user?: IUsersJSON }>;
+        const record = await ctrl.doGetOne({ where }, user?.position_id);
 
         if (!record) {
             return next(Boom.notFound('Record not found'));

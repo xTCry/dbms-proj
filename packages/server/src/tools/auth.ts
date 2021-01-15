@@ -7,7 +7,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { UserRole } from '@dbms-proj/utils';
 export { UserRole };
 import { config } from '../config';
-import { UserController, IUserJSON } from '../controllers/user.controller';
+import { UsersController, IUsersJSON } from '../controllers/';
 
 export type RequestWith<T = {}> = Request & T;
 
@@ -69,9 +69,9 @@ export const authRoles = (...allowed: UserRole[]) => (
     next: NextFunction
 ) => {
     const isTest = req.query?.test === '1';
-    const { user } = req as RequestWith<{ user?: IUserJSON }>;
+    const { user } = req as RequestWith<{ user?: IUsersJSON }>;
 
-    if (isTest || (user?.role_id && some(allowed, (a) => user.role_id === a))) {
+    if (isTest || (user?.position_id && some(allowed, (a) => user.position_id === a))) {
         next();
     } else {
         next(Boom.forbidden('bo.role_forbidden'));
@@ -82,9 +82,9 @@ passport.use(
     new LocalStrategy({}, async (login, password, done) => {
         try {
             // @ts-ignore
-            const userRec = await UserController.model.findOne({ where: { login }, ...UserController.fullAttr(false) });
+            const userRec = await UsersController.model.findOne({ where: { login }, ...UsersController.fullAttr(false) });
 
-            if (!userRec || !UserController.validatePassword(userRec, password)) {
+            if (!userRec || !UsersController.validatePassword(userRec, password)) {
                 return done(null, false, {
                     message: 'login or password is invalid',
                 });

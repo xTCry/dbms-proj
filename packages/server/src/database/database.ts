@@ -61,6 +61,7 @@ export class Database {
             initModels(this.db);
             logger.info('Models was initialised');
         } catch (err) {
+            logger.error(err);
             logger.error('Unable to initialize models');
         }
     }
