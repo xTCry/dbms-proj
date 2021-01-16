@@ -1,27 +1,25 @@
 import React from 'react';
-import { Create, SimpleForm, TextInput } from 'react-admin';
+import { Create, PasswordInput, ReferenceInput, required, SelectInput, SimpleForm, TextInput } from 'react-admin';
 
 export const UsersCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="id" autoFocus /* validate={required()} */ />
-            <TextInput source="surname" /* validate={required()} */ />
-            <TextInput source="name" /* validate={required()} */ />
-            <TextInput source="mid_name" /* validate={required()} */ />
-            <TextInput source="photo_employee" /* validate={required()} */ />
-            <TextInput source="graphic_id" /* validate={required()} */ />
-            <TextInput source="position_id" /* validate={required()} */ />
-            <TextInput source="login" /* validate={required()} */ />
-            <TextInput source="password" /* validate={required()} */ />
+            <TextInput source="login" autoFocus validate={required()} />
+            <PasswordInput source="password" />
 
-            {/* <ReferenceInput source="graphic_id" reference="graphic">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <TextInput source="surname" validate={required()} />
+            <TextInput source="name" validate={required()} />
+            <TextInput source="mid_name" validate={required()} />
 
-            {/* <ReferenceInput source="dolzhnost_id" reference="dolzhnost">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <TextInput source="photo_employee" validate={required()} />
 
+            <ReferenceInput source="graphic_id" reference="graphic" validate={required()}>
+                <SelectInput optionText="graphic_work" />
+            </ReferenceInput>
+
+            <ReferenceInput source="position_id" reference="dolzhnost" validate={required()}>
+                <SelectInput optionText="position" />
+            </ReferenceInput>
         </SimpleForm>
     </Create>
 );

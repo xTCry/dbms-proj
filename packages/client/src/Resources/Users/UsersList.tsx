@@ -6,22 +6,21 @@ export const UsersList = (props) => {
         <List exporter={false} perPage={25} {...props}>
             <Datagrid optimized rowClick="edit">
                 <TextField source="id" />
+                <TextField source="login" />
+
                 <TextField source="surname" />
                 <TextField source="name" />
                 <TextField source="mid_name" />
+
                 <TextField source="photo_employee" />
-                <TextField source="graphic_id" />
-                <TextField source="position_id" />
-                <TextField source="login" />
-                <TextField source="password" />
 
-                {/* <ReferenceField source="graphic_id" reference="graphic">
-                    <TextField source="name" /> 
-                </ReferenceField> */}
+                <ReferenceField source="graphic_id" reference="graphic">
+                    <TextField source="graphic_work" /> 
+                </ReferenceField>
 
-                {/* <ReferenceField source="dolzhnost_id" reference="dolzhnost">
-                    <TextField source="name" /> 
-                </ReferenceField> */}
+                <ReferenceField source="position_id" reference="dolzhnost">
+                    <TextField source="position" /> 
+                </ReferenceField>
 
                 <EditButton />
             </Datagrid>

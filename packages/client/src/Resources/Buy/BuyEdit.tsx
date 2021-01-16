@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Edit, SimpleForm, TextInput, ReferenceInput, SelectInput, EditProps } from 'react-admin';
+import { Edit, SimpleForm, TextInput, ReferenceInput, SelectInput, EditProps, DateInput, required } from 'react-admin';
 
 const Title = (props) => {
     const { record } = props ?? { record: { name: 'None' } };
@@ -9,21 +9,18 @@ const Title = (props) => {
 export const BuyEdit: FC<EditProps> = (props) => (
     <Edit title={<Title />} {...props}>
         <SimpleForm>
-            <TextInput source="id" /* disabled validate={required()} */ />
-            <TextInput source="component_id" /* disabled validate={required()} */ />
-            <TextInput source="maker_id" /* disabled validate={required()} */ />
-            <TextInput source="buy_price" /* disabled validate={required()} */ />
-            <TextInput source="quantity" /* disabled validate={required()} */ />
-            <TextInput source="date_buy" /* disabled validate={required()} */ />
+            <TextInput source="id" disabled />
+            <TextInput source="buy_price" validate={required()} />
+            <TextInput source="quantity" validate={required()} />
+            <DateInput source="date_buy" validate={required()} />
 
-            {/* <ReferenceInput source="provider_id" reference="provider">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput source="maker_id" reference="provider">
+                <SelectInput optionText="vendor" />
+            </ReferenceInput>
 
-            {/* <ReferenceInput source="component_id" reference="component">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
-
+            <ReferenceInput source="component_id" reference="component">
+                <SelectInput optionText="name_component" />
+            </ReferenceInput>
         </SimpleForm>
     </Edit>
 );

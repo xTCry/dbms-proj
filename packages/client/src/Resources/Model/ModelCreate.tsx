@@ -1,17 +1,15 @@
 import React from 'react';
-import { Create, SimpleForm, TextInput } from 'react-admin';
+import { Create, ReferenceInput, required, SelectInput, SimpleForm, TextInput } from 'react-admin';
 
 export const ModelCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="id" autoFocus /* validate={required()} */ />
-            <TextInput source="model" /* validate={required()} */ />
-            <TextInput source="brand_id" /* validate={required()} */ />
+            <TextInput source="id" autoFocus />
+            <TextInput source="model" validate={required()} />
 
-            {/* <ReferenceInput source="brand_id" reference="brand">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
-
+            <ReferenceInput source="brand_id" reference="brand" validate={required()}>
+                <SelectInput optionText="brand" />
+            </ReferenceInput>
         </SimpleForm>
     </Create>
 );

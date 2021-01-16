@@ -7,11 +7,10 @@ export const ModelList = (props) => {
             <Datagrid optimized rowClick="edit">
                 <TextField source="id" />
                 <TextField source="model" />
-                <TextField source="brand_id" />
 
-                {/* <ReferenceField source="brand_id" reference="brand">
-                    <TextField source="name" /> 
-                </ReferenceField> */}
+                <ReferenceField source="brand_id" reference="brand">
+                    <TextField source="brand" />
+                </ReferenceField>
 
                 <EditButton />
             </Datagrid>

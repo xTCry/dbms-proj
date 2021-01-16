@@ -1,45 +1,51 @@
 import React from 'react';
-import { Create, SimpleForm, TextInput } from 'react-admin';
+import { Create, DateInput, ReferenceInput, required, SelectInput, SimpleForm, TextInput } from 'react-admin';
+import { UserRole } from '../../types';
 
 export const OrderCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="id" autoFocus /* validate={required()} */ />
-            <TextInput source="telefone_id" /* validate={required()} */ />
-            <TextInput source="status_id" /* validate={required()} */ />
-            <TextInput source="operator_id" /* validate={required()} */ />
-            <TextInput source="engineer_id" /* validate={required()} */ />
-            <TextInput source="first_inspect_id" /* validate={required()} */ />
-            <TextInput source="second_inspect_id" /* validate={required()} */ />
-            <TextInput source="client_id" /* validate={required()} */ />
-            <TextInput source="date_accept" /* validate={required()} */ />
-            <TextInput source="date_issues" /* validate={required()} */ />
-            <TextInput source="price_repair" /* validate={required()} */ />
+            <DateInput source="date_accept" autoFocus validate={required()} />
+            <DateInput source="date_issues" validate={required()} />
+            <TextInput source="price_repair" validate={required()} />
 
-            {/* <ReferenceInput source="telefone_id" reference="telefone">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput source="telefone_id" reference="telefone" validate={required()}>
+                <SelectInput optionText="model.model" />
+            </ReferenceInput>
 
-            {/* <ReferenceInput source="status_id" reference="status">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput source="status_id" reference="status" validate={required()}>
+                <SelectInput optionText="status_done" />
+            </ReferenceInput>
 
-            {/* <ReferenceInput source="users_id" reference="users">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput
+                source="operator_id"
+                reference="users"
+                validate={required()}
+                filter={{ role_id: UserRole.OPERATOR }}
+            >
+                <SelectInput optionText="name" />
+            </ReferenceInput>
 
-            {/* <ReferenceInput source="first_inspect_id" reference="first_inspect">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput
+                source="engineer_id"
+                reference="users"
+                validate={required()}
+                filter={{ role_id: [UserRole.ENGEENER, UserRole.ENGEENER_LEAD] }}
+            >
+                <SelectInput optionText="name" />
+            </ReferenceInput>
 
-            {/* <ReferenceInput source="second_inspect_id" reference="second_inspect">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput source="first_inspect_id" reference="first_inspect" validate={required()}>
+                <SelectInput optionText="comment_client" />
+            </ReferenceInput>
 
-            {/* <ReferenceInput source="client_id" reference="client">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput source="second_inspect_id" reference="second_inspect" validate={required()}>
+                <SelectInput optionText="fault" />
+            </ReferenceInput>
 
+            <ReferenceInput source="client_id" reference="client" validate={required()}>
+                <SelectInput optionText="name" />
+            </ReferenceInput>
         </SimpleForm>
     </Create>
 );

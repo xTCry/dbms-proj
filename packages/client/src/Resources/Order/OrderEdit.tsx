@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { Edit, SimpleForm, TextInput, ReferenceInput, SelectInput, EditProps } from 'react-admin';
+import { Edit, SimpleForm, TextInput, ReferenceInput, SelectInput, EditProps, required, DateInput } from 'react-admin';
+import { UserRole } from '../../types';
 
 const Title = (props) => {
     const { record } = props ?? { record: { name: 'None' } };
@@ -9,42 +10,48 @@ const Title = (props) => {
 export const OrderEdit: FC<EditProps> = (props) => (
     <Edit title={<Title />} {...props}>
         <SimpleForm>
-            <TextInput source="id" /* disabled validate={required()} */ />
-            <TextInput source="telefone_id" /* disabled validate={required()} */ />
-            <TextInput source="status_id" /* disabled validate={required()} */ />
-            <TextInput source="operator_id" /* disabled validate={required()} */ />
-            <TextInput source="engineer_id" /* disabled validate={required()} */ />
-            <TextInput source="first_inspect_id" /* disabled validate={required()} */ />
-            <TextInput source="second_inspect_id" /* disabled validate={required()} */ />
-            <TextInput source="client_id" /* disabled validate={required()} */ />
-            <TextInput source="date_accept" /* disabled validate={required()} */ />
-            <TextInput source="date_issues" /* disabled validate={required()} */ />
-            <TextInput source="price_repair" /* disabled validate={required()} */ />
+            <TextInput source="id" disabled />
+            <DateInput source="date_accept" validate={required()} />
+            <DateInput source="date_issues" validate={required()} />
+            <TextInput source="price_repair" validate={required()} />
 
-            {/* <ReferenceInput source="telefone_id" reference="telefone">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput source="telefone_id" reference="telefone" validate={required()}>
+                <SelectInput optionText="model.model" />
+            </ReferenceInput>
 
-            {/* <ReferenceInput source="status_id" reference="status">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput source="status_id" reference="status" validate={required()}>
+                <SelectInput optionText="status_done" />
+            </ReferenceInput>
 
-            {/* <ReferenceInput source="users_id" reference="users">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput
+                source="operator_id"
+                reference="users"
+                validate={required()}
+                filter={{ position_id: UserRole.OPERATOR }}
+            >
+                <SelectInput optionText="name" />
+            </ReferenceInput>
 
-            {/* <ReferenceInput source="first_inspect_id" reference="first_inspect">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput
+                source="engineer_id"
+                reference="users"
+                validate={required()}
+                filter={{ position_id: [UserRole.ENGEENER, UserRole.ENGEENER_LEAD] }}
+            >
+                <SelectInput optionText="name" />
+            </ReferenceInput>
 
-            {/* <ReferenceInput source="second_inspect_id" reference="second_inspect">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput source="first_inspect_id" reference="first_inspect" validate={required()}>
+                <SelectInput optionText="comment_client" />
+            </ReferenceInput>
 
-            {/* <ReferenceInput source="client_id" reference="client">
-                    <SelectInput optionText="name" />
-                </ReferenceInput> */}
+            <ReferenceInput source="second_inspect_id" reference="second_inspect" validate={required()}>
+                <SelectInput optionText="fault" />
+            </ReferenceInput>
 
+            <ReferenceInput source="client_id" reference="client" validate={required()}>
+                <SelectInput optionText="name" />
+            </ReferenceInput>
         </SimpleForm>
     </Edit>
 );

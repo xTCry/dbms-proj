@@ -31,6 +31,19 @@ export type IOrderJSON = orderAttributes & {
     client: IClientJSON;
 };
 
+export const objFilter = (obj: any, validParams: string[]) => {
+    if (!validParams) {
+        return obj;
+    }
+    let result: any = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key) && validParams.includes(key)) {
+            result[key] = obj[key];
+        }
+    }
+    return result;
+};
+
 export class OrderController extends Controller {
     public static model = order as ModelCtor<order>;
 
@@ -39,7 +52,9 @@ export class OrderController extends Controller {
     }
 
     public static async doUpdate(options: FindOptions<orderAttributes>, data: any, urole?: UserRole) {
-        return super.doUpdate<order, orderAttributes>(options, data);
+        console.log('data', data);
+        let attributes: any = this.fullAttr(false).attributes;
+        return super.doUpdate<order, orderAttributes>(options, objFilter(data, attributes));
     }
 
     public static async doGetOne(options?: FindOptions<orderAttributes>, urole?: UserRole) {
