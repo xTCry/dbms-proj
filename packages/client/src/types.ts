@@ -1,5 +1,5 @@
 import { Record } from 'ra-core';
-import { UserRole } from '@dbms-proj/utils';
+import { UserRole } from '@dbms-proj/utils/lib/UserRole';
 import { User } from './modules/UserModule';
 export { UserRole };
 
