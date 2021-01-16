@@ -1,7 +1,7 @@
+import { olog } from '@dbms-proj/utils';
 import { Sequelize } from 'sequelize';
 import { config } from '../config';
 import { initModels } from '../models/init-models';
-import logger from '../tools/logger';
 
 interface DBConfig {
     database: string;
@@ -52,16 +52,16 @@ export class Database {
         try {
             await this.db.authenticate();
             // await this.db.sync();
-            logger.info('DB Connected');
+            olog.info('DB Connected');
         } catch (err) {
-            logger.error('Unable to connected DB');
+            olog.error('Unable to connected DB');
         }
 
         try {
             initModels(this.db);
-            logger.info('Models was initialised');
+            olog.info('Models was initialised');
         } catch (err) {
-            logger.error('Unable to initialize models');
+            olog.error('Unable to initialize models');
         }
     }
 }

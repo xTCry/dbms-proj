@@ -1,15 +1,16 @@
 import express, { ErrorRequestHandler } from 'express';
 import cors from 'cors';
 import Boom from '@hapi/boom';
-import log from 'signale';
+import { slog } from '@dbms-proj/utils';
 
-import { appLogger } from './tools/appLogger';
+import { appLogging } from './tools/appLogging';
 import './database';
 import apiRoutes from './routes/api';
 
 // Error handler
 const errHandler: ErrorRequestHandler = (err, req, res, next) => {
-    log.watch(err.toString());
+    appLogging('error')(req, res, () => {});
+    slog.error(err.toString());
 
     if (err.statusCode) {
         res.status(err.statusCode).json(err);
@@ -42,14 +43,13 @@ const errHandler: ErrorRequestHandler = (err, req, res, next) => {
 export async function createApp() {
     const app = express();
 
-    appLogger(app);
-
     app
         // Backend middleware
         .use((req, res, next) => {
             res.jsongo = (e: any) => res.json({ response: e });
             next();
         })
+        .use(appLogging())
         .use(cors())
 
         .use('/api', apiRoutes)

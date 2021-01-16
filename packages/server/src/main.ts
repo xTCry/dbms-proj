@@ -1,7 +1,7 @@
+import { olog } from '@dbms-proj/utils';
 import { createApp } from './app';
 import { config } from './config';
 import { Database } from './database';
-import log from './tools/logger';
 
 async function main() {
     const port = config.get('port');
@@ -14,4 +14,4 @@ async function main() {
     });
 }
 
-main().catch((e) => log.error(e));
+main().catch((e) => olog.error(e));
