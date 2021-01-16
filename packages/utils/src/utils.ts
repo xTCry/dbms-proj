@@ -1,17 +1,1 @@
-export enum UserRole {
-    NONE = 1, // 1 << 0,
-    USER = 2, // 1 << 1,
-    STUDENT = 3, // 1 << 2,
-    TEACHER = 4, // 1 << 3,
-    DEKAN = 5, // 1 << 4,
-    ADMIN = 6, // 1 << 5,
-}
-
-/*
-	('Никто', 1)
-	('Пользователь', 2)
-	('Студент', 4)
-	('Преподаватель', 8)
-	('Деканат', 16)
-	('Администратор', 32)
-*/
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
