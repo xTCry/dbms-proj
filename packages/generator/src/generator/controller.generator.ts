@@ -16,8 +16,10 @@ import { Controller${
             `, ${includes.map((e) => `${toUp(e.name)}Controller, I${toUp(e.name)}JSON`).join(', ')}`) ||
         ''
     } } from './';
-import { ${name}, ${name}Attributes, ${name}CreationAttributes } from '../models/${name}';
-${includes?.map((e) => `import { ${e.name} } from '../models/${e.name}';`).join('\n') || ''}
+import { ${name}, ${name}Attributes, ${name}CreationAttributes${
+        (includes?.length && `, ${includes.map((e) => e.name).join(', ')}`) || ''
+    } } from '@dbms-proj/models';
+
 export type I${toUp(name)}JSON = ${name}Attributes${
         (includes?.length &&
             ` & { ${includes
