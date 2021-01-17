@@ -1,0 +1,16 @@
+{
+  "name": "@dbms-proj/models",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "prepublishOnly": "yarn build"
+  },
+  "author": "xTCry [Vladislav Kh] (https://github.com/xTCry/)",
+  "license": "MIT",
+  "dependencies": {
+    "@types/validator": "^13.1.3",
+    "sequelize": "6.3.5"
+  }
+}

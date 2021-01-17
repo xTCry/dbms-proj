@@ -5,6 +5,7 @@
     "license": "UNLICENSED",
     "scripts": {
         "utils:build": "yarn workspace @dbms-proj/utils build",
+        "models:build": "yarn workspace @dbms-proj/models build",
         "client:start": "yarn workspace @dbms-proj/client start",
         "server:start": "yarn workspace @dbms-proj/server start",
         "server:dev": "yarn workspace @dbms-proj/server dev",
@@ -17,7 +18,8 @@
         "packages/*"
     ],
     "devDependencies": {
-        "lerna": "^3.22.1"
+        "lerna": "^3.22.1",
+        "typescript": "^4.1.3"
     },
     "repository": {
         "type": "git",
