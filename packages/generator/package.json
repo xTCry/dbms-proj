@@ -4,8 +4,10 @@
   "main": "lib/index.js",
   "author": "xTCry [Vladislav Kh] (https://github.com/xTCry/)",
   "license": "UNLICENSED",
+  "bin": "./bin/index.js",
   "scripts": {
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "generator": "node ./bin/index.js"
   },
   "dependencies": {
     "@dbms-proj/utils": "^1.0.0",

@@ -1,1 +1,3 @@
 import_model*.js*
+bin/
+out/

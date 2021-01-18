@@ -15,8 +15,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
-    "outDir": "./lib",
-    "rootDir": "./src",
+    "outDir": "bin",
+    "rootDir": "src",
     "baseUrl": "./"
   },
   "include": [
