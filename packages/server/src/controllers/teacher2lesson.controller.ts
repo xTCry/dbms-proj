@@ -1,7 +1,11 @@
 import { ModelCtor, FindOptions } from 'sequelize';
-import { teacher2lesson, teacher2lessonAttributes, teacher2lessonCreationAttributes } from '../models/teacher2lesson';
-import { teacher } from '../models/teacher';
-import { lesson } from '../models/lesson';
+import {
+    teacher,
+    lesson,
+    teacher2lesson,
+    teacher2lessonAttributes,
+    teacher2lessonCreationAttributes,
+} from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller, ILessonJSON, LessonController, ITeacherJSON, TeacherController } from './';
 

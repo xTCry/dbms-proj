@@ -1,7 +1,5 @@
 import { ModelCtor, FindOptions, Op } from 'sequelize';
-import { group } from '../models/group';
-import { student, studentAttributes, studentCreationAttributes } from '../models/student';
-import { user } from '../models/user';
+import { group, user, student, studentAttributes, studentCreationAttributes } from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller, IUserJSON, UserController, GroupController } from './';
 

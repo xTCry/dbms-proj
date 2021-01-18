@@ -1,6 +1,5 @@
-import { ModelCtor, FindOptions, Op } from 'sequelize';
-import { group, groupAttributes, groupCreationAttributes } from '../models/group';
-import { specialty } from '../models/specialty';
+import { ModelCtor, FindOptions } from 'sequelize';
+import { specialty, group, groupAttributes, groupCreationAttributes } from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller } from './controller';
 

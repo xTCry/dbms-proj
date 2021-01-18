@@ -23,7 +23,7 @@ export const styles: Styles<Theme, any> = {
 const useStyles = makeStyles(styles);
 
 export const OrderCreate = (props) => {
-    const classes = useStyles();
+    const classes = useStyles(props);
 
     return (
         <Create title="Создать Заказ" {...props}>

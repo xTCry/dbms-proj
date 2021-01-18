@@ -1,5 +1,5 @@
 import { ModelCtor, FindOptions } from 'sequelize';
-import { lesson, lessonAttributes, lessonCreationAttributes } from '../models/lesson';
+import { lesson, lessonAttributes, lessonCreationAttributes } from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller } from './controller';
 

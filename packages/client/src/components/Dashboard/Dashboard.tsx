@@ -6,7 +6,7 @@ import Welcome from './Welcome';
 import MonthlyRevenue from './MonthlyRevenue';
 import NewOrders from './NewOrders';
 import PendingOrders from './PendingOrders';
-import { EOrderStatus, IOrder, userAttributes } from '../../types';
+// import { EOrderStatus, IOrder, IUserModel } from '../../types';
 import { Card, CardContent, CardHeader } from '@material-ui/core';
 
 const styles = {
@@ -17,8 +17,8 @@ const styles = {
     singleCol: { marginTop: '2em', marginBottom: '2em' },
 };
 
-interface UserData {
-    [key: string]: userAttributes;
+/* interface UserData {
+    [key: string]: IUserModel;
 }
 
 interface State {
@@ -29,7 +29,7 @@ interface State {
     // nbPendingReviews?: number;
     // pendingReviews?: Review[];
     // pendingReviewsCustomers?: CustomerData;
-}
+} */
 
 const Dashboard: FC = () => {
     /* const [state, setState] = useState<State>({});

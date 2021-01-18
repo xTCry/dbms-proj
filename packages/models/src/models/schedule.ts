@@ -79,86 +79,93 @@ export class schedule extends Model<scheduleAttributes, scheduleCreationAttribut
   createteacher!: Sequelize.BelongsToCreateAssociationMixin<teacher>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof schedule {
-    schedule.init(
-        {
-            id: {
-                autoIncrement: true,
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                primaryKey: true,
-            },
-            time_start: {
-                type: DataTypes.TIME,
-                allowNull: false,
-            },
-            date: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
-            duration: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-            lesson_type: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-            lesson_id: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'lesson',
-                    key: 'id',
-                },
-            },
-            teacher_id: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'teacher',
-                    key: 'id',
-                },
-            },
-            auditory_id: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'auditory',
-                    key: 'id',
-                },
-            },
-            group_id: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'group',
-                    key: 'id',
-                },
-            },
-        },
-        {
-            sequelize,
-            tableName: 'schedule',
-            schema: 'dbo',
-            hasTrigger: true,
-            timestamps: false,
-            indexes: [
-                {
-                    name: 'PK__schedule__3213E83FA808F5EC',
-                    unique: true,
-                    fields: [{ name: 'id' }],
-                },
-                {
-                    name: 'sceduler_index',
-                    fields: [{ name: 'id' }, { name: 'date' }, { name: 'group_id' }],
-                },
-                {
-                    name: 'scheduler_index',
-                    fields: [{ name: 'id' }, { name: 'date' }, { name: 'group_id' }],
-                },
-            ],
-        }
-    );
+    schedule.init({
+    id: {
+      autoIncrement: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    time_start: {
+      type: DataTypes.TIME,
+      allowNull: false
+    },
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    duration: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    lesson_type: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    lesson_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'lesson',
+        key: 'id'
+      }
+    },
+    teacher_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'teacher',
+        key: 'id'
+      }
+    },
+    auditory_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'auditory',
+        key: 'id'
+      }
+    },
+    group_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'group',
+        key: 'id'
+      }
+    }
+  }, {
+    sequelize,
+    tableName: 'schedule',
+    schema: 'dbo',
+    hasTrigger: true,
+    timestamps: false,
+    indexes: [
+      {
+        name: "PK__schedule__3213E83FA808F5EC",
+        unique: true,
+        fields: [
+          { name: "id" },
+        ]
+      },
+      {
+        name: "sceduler_index",
+        fields: [
+          { name: "id" },
+          { name: "date" },
+          { name: "group_id" },
+        ]
+      },
+      {
+        name: "scheduler_index",
+        fields: [
+          { name: "id" },
+          { name: "date" },
+          { name: "group_id" },
+        ]
+      },
+    ]
+  });
   return schedule;
   }
 }

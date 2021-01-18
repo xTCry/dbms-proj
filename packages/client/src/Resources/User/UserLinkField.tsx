@@ -1,11 +1,11 @@
 import React from 'react';
 import { FC } from 'react';
 import { Link, FieldProps } from 'react-admin';
-import { userAttributes } from '../../types';
+import { IUserModel } from '../../types';
 
 import FullNameField from './FullNameField';
 
-const UserLinkField: FC<FieldProps<userAttributes>> = (props) =>
+const UserLinkField: FC<FieldProps<IUserModel>> = (props) =>
     props.record ? (
         // @ts-ignore
         <Link to={`/user/${props.record.id}`}>

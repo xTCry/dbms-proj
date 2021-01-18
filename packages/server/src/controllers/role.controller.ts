@@ -1,5 +1,5 @@
 import { ModelCtor, FindOptions } from 'sequelize';
-import { role, roleAttributes, roleCreationAttributes } from '../models/role';
+import { role, roleAttributes, roleCreationAttributes } from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller } from './controller';
 

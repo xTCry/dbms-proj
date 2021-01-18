@@ -1,7 +1,7 @@
-import { olog } from '@dbms-proj/utils';
 import { Sequelize } from 'sequelize';
+import { initModels } from '@dbms-proj/models';
+import { olog } from '@dbms-proj/utils';
 import { config } from '../config';
-import { initModels } from '../models/init-models';
 
 interface DBConfig {
     database: string;
@@ -20,7 +20,6 @@ export class Database {
             dialect: 'mssql',
             host: c.host,
             port: c.port,
-            // dialectModulePath: './src/models'
             dialectOptions: {
                 options: {
                     validateBulkLoadParameters: true,

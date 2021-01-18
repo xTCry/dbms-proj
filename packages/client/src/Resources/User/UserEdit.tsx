@@ -14,14 +14,14 @@ import {
     EditProps,
 } from 'react-admin';
 import CheckRole from '../../components/CheckRole';
-import { userAttributes, UserRole } from '../../types';
+import { IUserModel, UserRole } from '../../types';
 import FullNameField from './FullNameField';
 
 const allowedRoles = [UserRole.ADMIN, UserRole.DEKAN];
 
 export const FullName = (record) => ['last_name', 'name', 'second_name'].map((e) => record[e]).join(' ');
 
-const UserTitle: FC<FieldProps<userAttributes>> = ({ record }) =>
+const UserTitle: FC<FieldProps<IUserModel>> = ({ record }) =>
     record ? <FullNameField record={record} size="32" /> : null;
 
 export const UserEdit: FC<EditProps> = (props) => (

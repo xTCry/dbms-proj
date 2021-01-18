@@ -1,5 +1,5 @@
 import { ModelCtor, FindOptions } from 'sequelize';
-import { kafedra, kafedraAttributes, kafedraCreationAttributes } from '../models/kafedra';
+import { kafedra, kafedraAttributes, kafedraCreationAttributes } from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller } from './controller';
 

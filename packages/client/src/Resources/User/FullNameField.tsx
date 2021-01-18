@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { FieldProps } from 'react-admin';
 import AvatarField from './AvatarField';
-import { userAttributes } from '../../types';
+import { IUserModel } from '../../types';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface Props extends FieldProps<userAttributes> {
+interface Props extends FieldProps<IUserModel> {
     size?: string;
 }
 

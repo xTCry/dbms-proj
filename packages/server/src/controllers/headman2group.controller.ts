@@ -1,7 +1,11 @@
 import { ModelCtor, FindOptions } from 'sequelize';
-import { headman2group, headman2groupAttributes, headman2groupCreationAttributes } from '../models/headman2group';
-import { student } from '../models/student';
-import { group } from '../models/group';
+import {
+    student,
+    group,
+    headman2group,
+    headman2groupAttributes,
+    headman2groupCreationAttributes,
+} from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller, IStudentJSON, StudentController, GroupController, IGroupJSON } from './';
 

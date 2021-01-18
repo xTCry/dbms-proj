@@ -4,9 +4,9 @@ import Avatar from '@material-ui/core/Avatar';
 import { FieldProps } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { userAttributes } from '../../types';
+import { IUserModel } from '../../types';
 
-interface Props extends FieldProps<userAttributes> {
+interface Props extends FieldProps<IUserModel> {
     className?: string;
     size?: string;
 }

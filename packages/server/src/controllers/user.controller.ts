@@ -1,8 +1,7 @@
 import { ModelCtor, FindOptions } from 'sequelize';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import { user, userCreationAttributes, userAttributes } from '../models/user';
-import { role } from '../models/role';
+import { role, user, userCreationAttributes, userAttributes } from '@dbms-proj/models';
 import { Controller, IRoleJSON } from './';
 import { UserRole } from '../tools/auth';
 import { config } from '../config';

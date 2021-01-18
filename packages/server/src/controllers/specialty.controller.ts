@@ -1,6 +1,5 @@
 import { ModelCtor, FindOptions } from 'sequelize';
-import { kafedra } from '../models/kafedra';
-import { specialty, specialtyAttributes, specialtyCreationAttributes } from '../models/specialty';
+import { kafedra, specialty, specialtyAttributes, specialtyCreationAttributes } from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller, IKafedraJSON, KafedraController } from './';
 

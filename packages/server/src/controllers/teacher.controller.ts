@@ -1,6 +1,5 @@
 import { ModelCtor, FindOptions } from 'sequelize';
-import { teacher, teacherAttributes, teacherCreationAttributes } from '../models/teacher';
-import { user } from '../models/user';
+import { user, teacher, teacherAttributes, teacherCreationAttributes } from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller, IUserJSON, UserController } from './';
 

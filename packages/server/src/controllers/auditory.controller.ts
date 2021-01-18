@@ -1,5 +1,5 @@
 import { ModelCtor, FindOptions } from 'sequelize';
-import { auditory, auditoryAttributes, auditoryCreationAttributes } from '../models/auditory';
+import { auditory, auditoryAttributes, auditoryCreationAttributes } from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller } from './controller';
 

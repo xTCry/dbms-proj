@@ -1,9 +1,13 @@
 import { ModelCtor, FindOptions } from 'sequelize';
-import { schedule, scheduleAttributes, scheduleCreationAttributes } from '../models/schedule';
-import { auditory } from '../models/auditory';
-import { teacher } from '../models/teacher';
-import { lesson } from '../models/lesson';
-import { group } from '../models/group';
+import {
+    auditory,
+    teacher,
+    lesson,
+    group,
+    schedule,
+    scheduleAttributes,
+    scheduleCreationAttributes,
+} from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller, IAuditoryJSON, ITeacherJSON, TeacherController, GroupController, IGroupJSON } from './';
 

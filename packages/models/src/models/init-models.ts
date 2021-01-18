@@ -1,4 +1,4 @@
-import type { Sequelize } from 'sequelize';
+import type { Sequelize, Model } from 'sequelize';
 import { auditory } from './auditory';
 import type { auditoryAttributes, auditoryCreationAttributes } from './auditory';
 import { group } from './group';
@@ -110,12 +110,12 @@ export function initModels(sequelize: Sequelize) {
     student.hasMany(mark, { foreignKey: 'student_id' });
     mark_log.belongsTo(mark, { foreignKey: 'mark_id' });
     mark.hasMany(mark_log, { foreignKey: 'mark_id' });
-    notify_schedule.belongsTo(user, { foreignKey: 'peer_id' });
-    user.hasMany(notify_schedule, { foreignKey: 'peer_id' });
+    notify_schedule.belongsTo(user, { foreignKey: 'peer_id', as: 'peer' });
+    user.hasMany(notify_schedule, { foreignKey: 'peer_id', as: 'peer' });
     notify_schedule.belongsTo(schedule, { foreignKey: 'schedule_id' });
     schedule.hasMany(notify_schedule, { foreignKey: 'schedule_id' });
-    notify_schedule.belongsTo(user, { foreignKey: 'sender_id' });
-    user.hasMany(notify_schedule, { foreignKey: 'sender_id' });
+    notify_schedule.belongsTo(user, { foreignKey: 'sender_id', as: 'sender' });
+    user.hasMany(notify_schedule, { foreignKey: 'sender_id', as: 'sender' });
     schedule.belongsTo(auditory, { foreignKey: 'auditory_id' });
     auditory.hasMany(schedule, { foreignKey: 'auditory_id' });
     schedule.belongsTo(group, { foreignKey: 'group_id' });

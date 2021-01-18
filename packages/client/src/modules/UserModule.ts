@@ -1,9 +1,10 @@
 import decodeJwt from 'jwt-decode';
+import { roleAttributes } from '@dbms-proj/models';
 import store from '../store';
-import { roleAttributes, userAttributes } from '../types';
+import { IUserModel } from '../types';
 
 // User class
-export class User implements userAttributes {
+export class User implements IUserModel {
     public id: number;
     public photo_path?: string;
     public login: string;
@@ -17,11 +18,11 @@ export class User implements userAttributes {
     public registeration_date: string;
     public role_id: number;
 
-    public role?: roleAttributes;
+    // public role?: roleAttributes;
     public token: string;
     public expiresIn: number;
 
-    constructor(data: userAttributes) {
+    constructor(data: IUserModel) {
         let token = data.token || getToken();
 
         this.token = token;
@@ -46,7 +47,7 @@ export class User implements userAttributes {
         this.registeration_date = data.registeration_date;
         this.role_id = data.role_id;
 
-        this.role = data?.role;
+        // this.role = data?.role;
     }
 
     public get fullName() {

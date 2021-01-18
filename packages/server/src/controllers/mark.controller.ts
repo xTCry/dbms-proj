@@ -1,7 +1,5 @@
 import { ModelCtor, FindOptions } from 'sequelize';
-import { mark, markAttributes, markCreationAttributes } from '../models/mark';
-import { schedule } from '../models/schedule';
-import { student } from '../models/student';
+import { schedule, student, mark, markAttributes, markCreationAttributes } from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
 import { Controller, ScheduleController, StudentController } from './';
 
