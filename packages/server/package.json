@@ -27,6 +27,7 @@
     "typescript": "^4.0.2"
   },
   "dependencies": {
+    "@dbms-proj/models": "^1.0.0",
     "@dbms-proj/utils": "^1.0.0",
     "@hapi/boom": "^9.1.1",
     "body-parser": "^1.19.0",
@@ -52,7 +53,6 @@
     "signale": "^1.4.0",
     "tedious": "^9.2.3",
     "unique-file-name": "^1.0.1",
-    "uuid": "^8.3.2",
     "winston": "^3.3.3"
   }
 }

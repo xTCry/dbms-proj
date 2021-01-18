@@ -4,6 +4,7 @@
   "private": true,
   "author": "xTCry [Vladislav Kh] (https://github.com/xTCry/)",
   "dependencies": {
+    "@dbms-proj/models": "^1.0.0",
     "@dbms-proj/utils": "^1.0.0",
     "@material-ui/core": "^4.9.8",
     "@material-ui/icons": "^4.9.1",
