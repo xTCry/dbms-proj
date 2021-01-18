@@ -1,4 +1,13 @@
-import { GenModelAttribute, GenModelInclude, GenModelName, GenParam, toModelAttribute, toModelInclude, toUp, write } from "./generator";
+import {
+    GenModelAttribute,
+    GenModelInclude,
+    GenModelName,
+    GenParam,
+    toModelAttribute,
+    toModelInclude,
+    toUp,
+    write,
+} from './generator';
 
 const path = './out/controllers';
 
@@ -13,7 +22,9 @@ export const generateController = (
 import { UserRole } from '../tools/auth';
 import { Controller${
         (includes?.length &&
-            `, ${includes.map((e) => `${toUp(e.name)}Controller, I${toUp(e.name)}JSON`).join(', ')}`) ||
+            `, ${includes
+                .map((e) => `${toUp(e.reference ?? e.name)}Controller, I${toUp(e.reference ?? e.name)}JSON`)
+                .join(', ')}`) ||
         ''
     } } from './';
 import { ${name}, ${name}Attributes, ${name}CreationAttributes${
@@ -25,9 +36,9 @@ export type I${toUp(name)}JSON = ${name}Attributes${
             ` & { ${includes
                 .map(
                     (e) =>
-                        `${e.name}${attrs?.find((a) => a.name === e.reference)?.required ? '' : '?'}: I${toUp(
-                            e.name
-                        )}JSON;`
+                        `${e.reference ?? e.name}${
+                            attrs?.find((a) => a.name === e.reference)?.required ? '' : '?'
+                        }: I${toUp(e.reference ?? e.name)}JSON;`
                 )
                 .join(' ')} }`) ||
         ''

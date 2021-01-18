@@ -55,15 +55,16 @@ const GenModelTemplate: GenParam[] = [
 async function runGen(option: GenOptions) {
     const gLog = slog.scope('generator');
     const ext = Path.extname(option.model);
+    const modelPath = Path.resolve(process.cwd(), option.model);
 
-    if (!(await Fs.pathExists(option.model))) {
+    if (!(await Fs.pathExists(modelPath))) {
         gLog.warn('model file not found');
         try {
             gLog.log('generating empty model file...');
             if (ext === '.json') {
-                await Fs.writeJson(option.model, GenModelTemplate);
+                await Fs.writeJson(modelPath, GenModelTemplate);
             } else {
-                await Fs.writeFile(option.model, `exports.model = ${/* JSON.stringify(GenModelTemplate, null, 2) */''}[/*
+                await Fs.writeFile(modelPath, `exports.model = ${/* JSON.stringify(GenModelTemplate, null, 2) */''}[/*
                     ['model_A', ['id', 'name', 'last_name']],
                     ['model_B', ['id', { name: 'title', required: true }, { name: 'status', required: true }, 'count']],
                     [
@@ -76,7 +77,7 @@ async function runGen(option: GenOptions) {
             }
             gLog.log('model file created!');
             gLog.log('put your model data in the generated file and try again');
-            process.exit(1);
+            process.exit();
         } catch (err) {
             gLog.error(err);
         }
@@ -85,9 +86,9 @@ async function runGen(option: GenOptions) {
     let modelData: GenParam[] = [];
     try {
         if (ext === '.json') {
-            modelData = await Fs.readJson(option.model);
+            modelData = await Fs.readJson(modelPath);
         } else {
-            modelData = require(option.model)?.model;
+            modelData = require(modelPath)?.model;
         }
         gLog.debug('modelData', modelData);
     } catch (err) {
