@@ -142,7 +142,7 @@ export const generateResourceCreate = (
     let attrs = toModelAttribute(u_attrs);
     let includes = toModelInclude(u_includes);
     const code = `import React from 'react';
-import { Create, SimpleForm, TextInput } from 'react-admin';
+import { Create, SimpleForm, TextInput, ReferenceInput, SelectInput } from 'react-admin';
 
 export const ${toUp(name)}Create = (props) => (
     <Create {...props}>
