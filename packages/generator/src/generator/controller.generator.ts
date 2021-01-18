@@ -28,7 +28,7 @@ import { Controller${
         ''
     } } from './';
 import { ${name}, ${name}Attributes, ${name}CreationAttributes${
-        (includes?.length && `, ${includes.map((e) => e.name).join(', ')}`) || ''
+        (includes?.length && `, ${includes.map((e) => e.reference ?? e.name).join(', ')}`) || ''
     } } from '@dbms-proj/models';
 
 export type I${toUp(name)}JSON = ${name}Attributes${
@@ -83,8 +83,8 @@ export class ${toUp(name)}Controller extends Controller {
                             (e) => `
                 {
                     // @ts-ignore
-                    model: ${e.name},
-                    ...${toUp(e.name)}Controller.fullAttr(safe, urole, ++deep),
+                    model: ${e.reference ?? e.name},
+                    ...${toUp(e.reference ?? e.name)}Controller.fullAttr(safe, urole, ++deep),
                 },`
                         )
                         .join('')}
