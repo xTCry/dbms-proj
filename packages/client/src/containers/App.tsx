@@ -14,7 +14,7 @@ class App extends Component {
     render() {
         return (
             <Admin
-                title="Educational Panel"
+                title="YControl Panel"
                 history={history}
                 {...Providers}
                 customRoutes={Routes}

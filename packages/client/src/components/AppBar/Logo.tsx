@@ -1,6 +1,5 @@
 import React from 'react';
-import logoSVG from './logo.svg';
 
-const Logo = () => <img src={logoSVG} alt="Logo" />;
+const Logo = () => <img src="/img/logo_row_512x140.png" width={"150px"} alt="Logo" />;
 
 export default Logo;

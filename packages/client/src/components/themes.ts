@@ -1,10 +1,10 @@
 export const darkTheme = {
     palette: {
         primary: {
-            main: '#90caf9',
+            main: '#d88914',
         },
         secondary: {
-            main: '#425564',
+            main: '#18364e',
         },
         type: 'dark',
     },
@@ -13,10 +13,13 @@ export const darkTheme = {
 export const lightTheme = {
     palette: {
         secondary: {
-            light: '#5f5fc4',
-            main: '#1e84d4',
+            light: '#da7646',
+            main: '#da9665',
             dark: '#001064',
             contrastText: '#fff',
+        },
+        primary: {
+            main: '#da6262',
         },
     },
     overrides: {
