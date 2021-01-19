@@ -1,4 +1,5 @@
 import express, { ErrorRequestHandler } from 'express';
+import Sequelize from 'sequelize';
 import cors from 'cors';
 import Boom from '@hapi/boom';
 import { slog } from '@dbms-proj/utils';
@@ -23,10 +24,20 @@ const errHandler: ErrorRequestHandler = (err, req, res, next) => {
         return;
     }
 
-    // console.log('err', JSON.parse(JSON.stringify(err)));
+    console.log('err', JSON.parse(JSON.stringify(err)));
 
-    if (err?.name === 'SequelizeValidationError' && err.errors?.length > 0) {
-        const [{ message, type }] = err.errors;
+    if (err instanceof Sequelize.ValidationError) {}
+
+    if (['SequelizeValidationError', 'SequelizeDatabaseError'].includes(err?.name)) {
+        let message  = 'Ошибка при выполнении SQL запроса';
+        let type = 'db error';
+
+        if (err.errors?.length > 0) {
+            [{ message, type }] = err.errors;
+        } else if (err.parent?.message) {
+            ({ message } = err.parent);
+        }
+
         res.status(400).json({
             statusCode: 400,
             error: type,

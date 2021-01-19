@@ -9,7 +9,7 @@ import {
     scheduleCreationAttributes,
 } from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
-import { Controller, IAuditoryJSON, ITeacherJSON, TeacherController, GroupController, IGroupJSON } from './';
+import { Controller, IAuditoryJSON, ITeacherJSON, TeacherController, GroupController, IGroupJSON, LessonController, AuditoryController } from './';
 
 export type IScheduleJSON = scheduleAttributes & {
     lesson: any;
@@ -64,7 +64,7 @@ export class ScheduleController extends Controller {
                 {
                     // @ts-ignore
                     model: lesson,
-                    // ...LessonController.fullAttr(safe, urole, ++deep),
+                    ...LessonController.fullAttr(safe, urole, ++deep),
                 },
                 {
                     // @ts-ignore
@@ -74,7 +74,7 @@ export class ScheduleController extends Controller {
                 {
                     // @ts-ignore
                     model: auditory,
-                    // ...AuditoryController.fullAttr(safe, urole, ++deep),
+                    ...AuditoryController.fullAttr(safe, urole, ++deep),
                 },
                 {
                     // @ts-ignore
