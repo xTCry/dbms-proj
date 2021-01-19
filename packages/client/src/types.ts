@@ -21,7 +21,7 @@ export interface AppState {
 } */
 
 /* Records */
-export interface userAttributes extends Record {
+export interface usersAttributes extends Record {
     id: number;
     surname: string;
     name: string;

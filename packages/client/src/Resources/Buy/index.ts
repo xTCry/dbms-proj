@@ -2,7 +2,7 @@ import { BuyList } from './BuyList';
 import { BuyCreate } from './BuyCreate';
 import { BuyEdit } from './BuyEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/ShopSharp';
 import { UserRole } from '../../types';
 export const BuyIcon = icon;
 

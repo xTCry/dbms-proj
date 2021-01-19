@@ -2,7 +2,7 @@ import { OrderList } from './OrderList';
 import { OrderCreate } from './OrderCreate';
 import { OrderEdit } from './OrderEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/ShoppingBasket';
 import { UserRole } from '../../types';
 export const OrderIcon = icon;
 

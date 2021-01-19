@@ -4,8 +4,7 @@ import { Create, ReferenceInput, required, SelectInput, SimpleForm, TextInput } 
 export const ModelCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="id" autoFocus />
-            <TextInput source="model" validate={required()} />
+            <TextInput source="model" autoFocus validate={required()} />
 
             <ReferenceInput source="brand_id" reference="brand" validate={required()}>
                 <SelectInput optionText="brand" />

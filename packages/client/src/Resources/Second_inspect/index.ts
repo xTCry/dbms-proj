@@ -2,7 +2,7 @@ import { Second_inspectList } from './Second_inspectList';
 import { Second_inspectCreate } from './Second_inspectCreate';
 import { Second_inspectEdit } from './Second_inspectEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/ArrowRightSharp';
 import { UserRole } from '../../types';
 export const Second_inspectIcon = icon;
 

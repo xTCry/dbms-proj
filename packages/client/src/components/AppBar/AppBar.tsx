@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { AppBar, UserMenu, MenuItemLink, useTranslate } from 'react-admin';
 import Typography from '@material-ui/core/Typography';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ReportIcon from '@material-ui/icons/ReportOffSharp';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Logo from './Logo';
@@ -34,6 +35,12 @@ const ConfigurationMenu = forwardRef<any, any>((props, ref) => {
 const CustomUserMenu = (props: any) => (
     <UserMenu {...props}>
         <ConfigurationMenu />
+        <MenuItemLink
+            to="/report/client"
+            primaryText={"Rep. client"}
+            leftIcon={<ReportIcon />}
+            // onClick={props.onClick}
+        />
     </UserMenu>
 );
 

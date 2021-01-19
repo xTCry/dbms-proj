@@ -8,6 +8,8 @@ import {
     EditProps,
     required,
     PasswordInput,
+    ImageInput,
+    ImageField,
 } from 'react-admin';
 
 const Title = (props) => {
@@ -25,8 +27,6 @@ export const UsersEdit: FC<EditProps> = (props) => (
             <TextInput source="name" validate={required()} />
             <TextInput source="mid_name" validate={required()} />
 
-            <TextInput source="photo_employee" validate={required()} />
-
             <ReferenceInput source="graphic_id" reference="graphic" validate={required()}>
                 <SelectInput optionText="graphic_work" />
             </ReferenceInput>
@@ -36,6 +36,9 @@ export const UsersEdit: FC<EditProps> = (props) => (
             </ReferenceInput>
 
             <PasswordInput source="password" />
+
+            <ImageInput source="new_photo" accept="image/*" />
+            <ImageField source="photo_employee" />
         </SimpleForm>
     </Edit>
 );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, Datagrid, TextField, EditButton, ReferenceField } from 'react-admin';
 import { UserRole } from '../../types';
-import AvatarField from './AvatarField';
+import AvatarField from '../Users/AvatarField';
 // import UserLinkField from './UserLinkField';
 
 export const UserList = (props) => {

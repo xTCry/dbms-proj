@@ -48,14 +48,14 @@ export class UsersController extends Controller {
         return {
             attributes: [
                 'id',
+                'login',
+                ...(safe ? [] : ['password']),
                 'surname',
                 'name',
                 'mid_name',
                 'photo_employee',
                 'graphic_id',
                 'position_id',
-                'login',
-                'password',
             ],
             include: [
                 {

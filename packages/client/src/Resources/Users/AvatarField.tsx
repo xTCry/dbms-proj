@@ -4,9 +4,9 @@ import Avatar from '@material-ui/core/Avatar';
 import { FieldProps } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { userAttributes } from '../../types';
+import { usersAttributes } from '../../types';
 
-interface Props extends FieldProps<userAttributes> {
+interface Props extends FieldProps<usersAttributes> {
     className?: string;
     size?: string;
 }
@@ -24,7 +24,7 @@ const AvatarField: FC<Props> = ({ record, size = '25', className }) => {
 
     return record ? (
         <Avatar
-            src={`${record.photo_path}?size=${size}x${size}`}
+            src={`${record.photo_employee}?size=${size}x${size}`}
             style={{ width: parseInt(size, 10), height: parseInt(size, 10) }}
             className={className ?? classes.avatar}
         />
@@ -32,7 +32,7 @@ const AvatarField: FC<Props> = ({ record, size = '25', className }) => {
 };
 
 AvatarField.defaultProps = {
-    source: 'photo_path',
-    label: 'resources.user.fields.photo_path',
+    source: 'photo_employee',
+    label: 'resources.users.fields.photo_employee',
 };
 export default memo<Props>(AvatarField);

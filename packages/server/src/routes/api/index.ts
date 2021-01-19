@@ -91,6 +91,8 @@ router.use(
 
 router.use(
     '/client',
+    authType.optional,
+    ClientController.getRouter(),
     authType.required,
     crud(ClientController, {
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],

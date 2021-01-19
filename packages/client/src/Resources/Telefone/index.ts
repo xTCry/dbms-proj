@@ -2,7 +2,7 @@ import { TelefoneList } from './TelefoneList';
 import { TelefoneCreate } from './TelefoneCreate';
 import { TelefoneEdit } from './TelefoneEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/PhoneIphone';
 import { UserRole } from '../../types';
 export const TelefoneIcon = icon;
 

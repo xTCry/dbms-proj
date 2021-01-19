@@ -11,11 +11,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { userAttributes, IOrder } from '../../types';
+import { usersAttributes, IOrder } from '../../types';
 
 interface Props {
     orders?: IOrder[];
-    users?: { [key: string]: userAttributes };
+    users?: { [key: string]: usersAttributes };
 }
 
 const useStyles = makeStyles((theme) => ({

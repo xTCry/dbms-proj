@@ -2,7 +2,7 @@ import { ProviderList } from './ProviderList';
 import { ProviderCreate } from './ProviderCreate';
 import { ProviderEdit } from './ProviderEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/PeopleOutlined';
 import { UserRole } from '../../types';
 export const ProviderIcon = icon;
 

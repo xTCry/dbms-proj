@@ -66,14 +66,14 @@ export const dataProvider = {
 
     create: async (resource, params) => {
         const { data } = params;
-        if (resource === 'user' && data.new_photo?.rawFile) {
+        if (resource === 'users' && data.new_photo?.rawFile) {
             const { new_photo } = data;
             data.new_photo = undefined;
             try {
                 const isNewPhoto = new_photo.rawFile instanceof File;
                 if (isNewPhoto) {
                     const [img] = await uploadImages([new_photo]);
-                    data.photo_path = `${Backend.serverURL}/${img.path}`;
+                    data.photo_employee = `${Backend.serverURL}/${img.path}`;
                 }
             } catch (e) {
                 // TODO: Show notify with error
@@ -125,14 +125,14 @@ export const dataProvider = {
         const { data } = params;
         console.log(resource, data);
         
-        if (resource === 'user' && data.new_photo?.rawFile) {
+        if (resource === 'users' && data.new_photo?.rawFile) {
             const { new_photo } = data;
             data.new_photo = undefined;
             try {
                 const isNewPhoto = new_photo.rawFile instanceof File;
                 if (isNewPhoto) {
                     const [img] = await uploadImages([new_photo]);
-                    data.photo_path = `${Backend.serverURL}/${img.path}`;
+                    data.photo_employee = `${Backend.serverURL}/${img.path}`;
                 }
             } catch (e) {
                 // TODO: Show notify with error

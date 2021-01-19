@@ -2,7 +2,7 @@ import { StatusList } from './StatusList';
 import { StatusCreate } from './StatusCreate';
 import { StatusEdit } from './StatusEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/StarRateRounded';
 import { UserRole } from '../../types';
 export const StatusIcon = icon;
 

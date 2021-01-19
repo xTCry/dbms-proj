@@ -2,7 +2,7 @@ import { MakerList } from './MakerList';
 import { MakerCreate } from './MakerCreate';
 import { MakerEdit } from './MakerEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/WorkOutline';
 import { UserRole } from '../../types';
 export const MakerIcon = icon;
 

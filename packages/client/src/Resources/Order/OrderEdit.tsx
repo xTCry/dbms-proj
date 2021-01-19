@@ -4,7 +4,7 @@ import { UserRole } from '../../types';
 
 const Title = (props) => {
     const { record } = props ?? { record: { name: 'None' } };
-    return <span>{record ? `"${record.name}"` : ''}</span>;
+    return <span>{record ? `Изменение для "${record.client.name}"` : ''}</span>;
 };
 
 export const OrderEdit: FC<EditProps> = (props) => (
@@ -12,8 +12,8 @@ export const OrderEdit: FC<EditProps> = (props) => (
         <SimpleForm>
             <TextInput source="id" disabled />
             <DateInput source="date_accept" validate={required()} />
-            <DateInput source="date_issues" validate={required()} />
-            <TextInput source="price_repair" validate={required()} />
+            <DateInput source="date_issues" />
+            <TextInput source="price_repair" />
 
             <ReferenceInput source="telefone_id" reference="telefone" validate={required()}>
                 <SelectInput optionText="model.model" />
@@ -45,7 +45,7 @@ export const OrderEdit: FC<EditProps> = (props) => (
                 <SelectInput optionText="comment_client" />
             </ReferenceInput>
 
-            <ReferenceInput source="second_inspect_id" reference="second_inspect" validate={required()}>
+            <ReferenceInput source="second_inspect_id" reference="second_inspect">
                 <SelectInput optionText="fault" />
             </ReferenceInput>
 

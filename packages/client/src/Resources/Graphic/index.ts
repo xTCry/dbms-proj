@@ -2,7 +2,7 @@ import { GraphicList } from './GraphicList';
 import { GraphicCreate } from './GraphicCreate';
 import { GraphicEdit } from './GraphicEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/CalendarViewDayTwoTone';
 import { UserRole } from '../../types';
 export const GraphicIcon = icon;
 

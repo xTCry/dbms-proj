@@ -6,8 +6,8 @@ export const OrderCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
             <DateInput source="date_accept" autoFocus validate={required()} />
-            <DateInput source="date_issues" validate={required()} />
-            <TextInput source="price_repair" validate={required()} />
+            <DateInput source="date_issues" />
+            <TextInput source="price_repair" />
 
             <ReferenceInput source="telefone_id" reference="telefone" validate={required()}>
                 <SelectInput optionText="model.model" />
@@ -21,7 +21,7 @@ export const OrderCreate = (props) => (
                 source="operator_id"
                 reference="users"
                 validate={required()}
-                filter={{ role_id: UserRole.OPERATOR }}
+                filter={{ position_id: UserRole.OPERATOR }}
             >
                 <SelectInput optionText="name" />
             </ReferenceInput>
@@ -30,7 +30,7 @@ export const OrderCreate = (props) => (
                 source="engineer_id"
                 reference="users"
                 validate={required()}
-                filter={{ role_id: [UserRole.ENGEENER, UserRole.ENGEENER_LEAD] }}
+                filter={{ position_id: [UserRole.ENGEENER, UserRole.ENGEENER_LEAD] }}
             >
                 <SelectInput optionText="name" />
             </ReferenceInput>
@@ -39,7 +39,7 @@ export const OrderCreate = (props) => (
                 <SelectInput optionText="comment_client" />
             </ReferenceInput>
 
-            <ReferenceInput source="second_inspect_id" reference="second_inspect" validate={required()}>
+            <ReferenceInput source="second_inspect_id" reference="second_inspect">
                 <SelectInput optionText="fault" />
             </ReferenceInput>
 

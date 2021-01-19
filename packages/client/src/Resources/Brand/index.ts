@@ -2,7 +2,7 @@ import { BrandList } from './BrandList';
 import { BrandCreate } from './BrandCreate';
 import { BrandEdit } from './BrandEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/BrandingWatermarkSharp';
 import { UserRole } from '../../types';
 export const BrandIcon = icon;
 

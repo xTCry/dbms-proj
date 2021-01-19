@@ -6,7 +6,7 @@ import Welcome from './Welcome';
 import MonthlyRevenue from './MonthlyRevenue';
 import NewOrders from './NewOrders';
 import PendingOrders from './PendingOrders';
-import { EOrderStatus, IOrder, userAttributes } from '../../types';
+import { EOrderStatus, IOrder, usersAttributes } from '../../types';
 import { Card, CardContent, CardHeader } from '@material-ui/core';
 
 const styles = {
@@ -18,7 +18,7 @@ const styles = {
 };
 
 interface UserData {
-    [key: string]: userAttributes;
+    [key: string]: usersAttributes;
 }
 
 interface State {

@@ -3,7 +3,7 @@ import { Edit, SimpleForm, TextInput, ReferenceInput, SelectInput, EditProps, re
 
 const Title = (props) => {
     const { record } = props ?? { record: { name: 'None' } };
-    return <span>{record ? `"${record.name}"` : ''}</span>;
+    return <span>{record ? `Изменение для "${record.name_component}"` : ''}</span>;
 };
 
 export const ComponentEdit: FC<EditProps> = (props) => (

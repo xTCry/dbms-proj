@@ -2,7 +2,7 @@ import { ComponentList } from './ComponentList';
 import { ComponentCreate } from './ComponentCreate';
 import { ComponentEdit } from './ComponentEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/DevicesOtherSharp';
 import { UserRole } from '../../types';
 export const ComponentIcon = icon;
 

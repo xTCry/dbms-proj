@@ -2,7 +2,7 @@ import { UsersList } from './UsersList';
 import { UsersCreate } from './UsersCreate';
 import { UsersEdit } from './UsersEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/PeopleTwoTone';
 import { UserRole } from '../../types';
 export const UsersIcon = icon;
 

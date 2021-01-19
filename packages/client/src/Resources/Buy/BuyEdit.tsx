@@ -1,17 +1,17 @@
 import React, { FC } from 'react';
-import { Edit, SimpleForm, TextInput, ReferenceInput, SelectInput, EditProps, DateInput, required } from 'react-admin';
+import { Edit, SimpleForm, TextInput, ReferenceInput, SelectInput, EditProps, DateInput, required, NumberInput } from 'react-admin';
 
 const Title = (props) => {
     const { record } = props ?? { record: { name: 'None' } };
-    return <span>{record ? `"${record.name}"` : ''}</span>;
+    return <span>{record ? `Изменение для "${record.date_buy}"` : ''}</span>;
 };
 
 export const BuyEdit: FC<EditProps> = (props) => (
     <Edit title={<Title />} {...props}>
         <SimpleForm>
             <TextInput source="id" disabled />
-            <TextInput source="buy_price" validate={required()} />
-            <TextInput source="quantity" validate={required()} />
+            <NumberInput source="buy_price" validate={required()} />
+            <NumberInput source="quantity" validate={required()} />
             <DateInput source="date_buy" validate={required()} />
 
             <ReferenceInput source="maker_id" reference="provider">

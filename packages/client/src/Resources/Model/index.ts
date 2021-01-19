@@ -2,7 +2,7 @@ import { ModelList } from './ModelList';
 import { ModelCreate } from './ModelCreate';
 import { ModelEdit } from './ModelEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/DevicesOther';
 import { UserRole } from '../../types';
 export const ModelIcon = icon;
 

@@ -1,9 +1,9 @@
 import decodeJwt from 'jwt-decode';
 import store from '../store';
-import { graphicAttributes, dolzhnostAttributes, userAttributes } from '../types';
+import { graphicAttributes, dolzhnostAttributes, usersAttributes } from '../types';
 
 // User class
-export class User implements userAttributes {
+export class User implements usersAttributes {
     public id: number;
     public surname: string;
     public name: string;
@@ -19,7 +19,7 @@ export class User implements userAttributes {
     public token: string;
     public expiresIn: number;
 
-    constructor(data: userAttributes) {
+    constructor(data: usersAttributes) {
         let token = data.token || getToken();
 
         this.token = token;

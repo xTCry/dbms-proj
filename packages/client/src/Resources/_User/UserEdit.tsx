@@ -13,12 +13,12 @@ import {
 } from 'react-admin';
 import { allowedRoles } from '.';
 import CheckRole from '../../components/CheckRole';
-import { userAttributes, UserRole } from '../../types';
-import FullNameField from './FullNameField';
+import { usersAttributes, UserRole } from '../../types';
+import FullNameField from '../Users/FullNameField';
 
 export const FullName = (record) => ['last_name', 'name', 'second_name'].map((e) => record[e]).join(' ');
 
-const UserTitle: FC<FieldProps<userAttributes>> = ({ record }) =>
+const UserTitle: FC<FieldProps<usersAttributes>> = ({ record }) =>
     record ? <FullNameField record={record} size="32" /> : null;
 
 export const UserEdit: FC<EditProps> = (props) => (

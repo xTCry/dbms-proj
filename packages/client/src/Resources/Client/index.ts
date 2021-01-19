@@ -2,7 +2,7 @@ import { ClientList } from './ClientList';
 import { ClientCreate } from './ClientCreate';
 import { ClientEdit } from './ClientEdit';
 
-import icon from '@material-ui/icons/VerifiedUser';
+import icon from '@material-ui/icons/PeopleOutline';
 import { UserRole } from '../../types';
 export const ClientIcon = icon;
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Datagrid, TextField, EditButton, ReferenceField } from 'react-admin';
+import { List, Datagrid, TextField, EditButton, DateField } from 'react-admin';
 
 export const Second_inspectList = (props) => {
     return (
@@ -8,7 +8,7 @@ export const Second_inspectList = (props) => {
                 <TextField source="id" />
                 <TextField source="fault" />
                 <TextField source="price_diagnose" />
-                <TextField source="date_inspect" />
+                <DateField source="date_inspect" />
                 <EditButton />
             </Datagrid>
         </List>
