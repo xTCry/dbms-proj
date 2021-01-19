@@ -6,6 +6,8 @@ import { FieldProps } from 'react-admin';
 import AvatarField from './AvatarField';
 import { IUserModel } from '../../types';
 
+export const FullName = (record) => ['last_name', 'name', 'second_name'].map((e) => record[e]).join(' ');
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',

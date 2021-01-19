@@ -1,5 +1,4 @@
 export { roleResource } from './role';
-export { teacher2lessonResource } from './teacher2lesson';
 export { userResource } from './User';
 export { studentResource } from './Student';
 export { groupResource } from './Group';
@@ -10,4 +9,6 @@ export { lessonResource } from './Lesson';
 export { auditoryResource } from './Auditory';
 export { specialtyResource } from './Specialty';
 export { kafedraResource } from './Kafedra';
+export { teacher2lessonResource } from './Teacher2lesson';
+export { headman2groupResource } from './Headman2group';
 // export { orderResource } from './Order';

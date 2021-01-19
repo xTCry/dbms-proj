@@ -19,8 +19,6 @@ import FullNameField from './FullNameField';
 
 const allowedRoles = [UserRole.ADMIN, UserRole.DEKAN];
 
-export const FullName = (record) => ['last_name', 'name', 'second_name'].map((e) => record[e]).join(' ');
-
 const UserTitle: FC<FieldProps<IUserModel>> = ({ record }) =>
     record ? <FullNameField record={record} size="32" /> : null;
 

@@ -2,7 +2,7 @@ import { LessonList } from './LessonList';
 import { LessonCreate } from './LessonCreate';
 import { LessonEdit } from './LessonEdit';
 
-import Icon from '@material-ui/icons/PlayForWork';
+import Icon from '@material-ui/icons/BookTwoTone';
 import { UserRole } from '../../types';
 export const LessonIcon = Icon;
 

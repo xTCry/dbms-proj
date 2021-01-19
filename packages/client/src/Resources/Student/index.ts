@@ -4,12 +4,14 @@ import { StudentEdit } from './StudentEdit';
 
 import Icon from '@material-ui/icons/PeopleTwoTone';
 import { UserRole } from '../../types';
+import { StudentShow } from './StudentShow';
 export const SudentIcon = Icon;
 
 export const studentResource = (permissions) => ({
     list: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER].includes(permissions) ? StudentList : null,
     edit: [UserRole.ADMIN, UserRole.DEKAN].includes(permissions) ? StudentEdit : null,
     create: [UserRole.ADMIN, UserRole.DEKAN].includes(permissions) ? StudentCreate : null,
+    show: StudentShow,
 
     icon: SudentIcon,
     name: 'student',

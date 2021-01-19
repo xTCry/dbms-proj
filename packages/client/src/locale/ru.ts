@@ -16,6 +16,22 @@ const customMessages = {
         role_forbidden: 'Ваша роль не разрешена',
     },
     resources: {
+        user: {
+            name: 'Пользователь |||| Пользователи',
+            fields: {
+                login: 'Логин',
+                name: 'Имя',
+                last_name: 'Фамилия',
+                second_name: 'Отчество',
+                password: 'Пароль',
+                personal_address: 'Адрес',
+                personal_birthday: 'Дата рождения',
+                personal_telephone: 'Телефон',
+                role_id: 'Роль',
+                photo_path: 'Фото профиля',
+                registration_date: 'Дата регистрации',
+            },
+        },
         student: {
             name: 'Студент |||| Студенты',
             fields: {
@@ -26,26 +42,83 @@ const customMessages = {
                 'user.role_id': 'Роль',
             },
         },
-        user: {
-            name: 'Пользователь |||| Пользователи',
-            fields: {
-                login: 'Логин',
-                name: 'Имя',
-                last_name: 'Фамилия',
-                first_name: 'Отчество',
-                password: 'Пароль',
-                personal_address: 'Адрес',
-                personal_birthday: 'Дата рождения',
-                personal_telephone: 'Телефон',
-                role_id: 'Роль',
-                photo_path: 'Фото профиля',
-            },
-        },
         teacher: {
             name: 'Преподаватель |||| Преподаватели',
             fields: {
-                lessons: 'Ведет предметы',
-                'lesson_name': 'Предмет',
+                user_id: 'Пользователь',
+                lessons: 'Дисциплины',
+                experience: 'Стаж работы',
+                lesson_name: 'Предмет',
+            },
+        },
+        group: {
+            name: 'Граппа |||| Группы',
+            fields: {
+                name: 'Название',
+                date_formation: 'Дата формирования',
+                specialty_id: 'Специальность',
+            },
+        },
+        mark: {
+            name: 'Отметка |||| Отметки',
+            fields: {
+                value: 'Значение',
+                date: 'Дата выставления',
+                student_id: 'Студент',
+                schedule_id: 'Расписание',
+            },
+        },
+        schedule: {
+            name: 'Расисание |||| Расписания',
+            fields: {
+                date: 'Дата',
+                time_start: 'Время начала',
+                leson_type: 'Тип',
+                duration: 'Длительность',
+                teacher_id: 'Преподваватель',
+                lesson_id: 'Предмет',
+                group_id: 'Группа',
+                auditory_id: 'Аудитория',
+            },
+        },
+        lesson: {
+            name: 'Предмет |||| Предметы',
+            fields: {
+                name: 'Название',
+            },
+        },
+        auditory: {
+            name: 'Аудитория |||| Аудитории',
+            fields: {
+                name: 'Название',
+                corpus: 'Корпус',
+            },
+        },
+        specialty: {
+            name: 'Специальность |||| Специальности',
+            fields: {
+                name: 'Название',
+                kafedra_id: 'Кафедра',
+            },
+        },
+        kafedra: {
+            name: 'Кафедра |||| Кафедры',
+            fields: {
+                name: 'Название',
+            },
+        },
+        teacher2lesson: {
+            name: 'Дисциплина преп. |||| Дисциплины преп.',
+            fields: {
+                teacher_id: 'Преподваватель',
+                lesson_id: 'Предмет',
+            },
+        },
+        headman2group: {
+            name: 'Староста |||| Старосты',
+            fields: {
+                student_id: 'Студент',
+                group_id: 'Группа',
             },
         },
         role: {
@@ -59,6 +132,44 @@ const customMessages = {
                 ADMIN: 'Администратор',
             },
         },
+    },
+    csv: {
+        buttonMain: {
+            label: 'Импорт',
+            tooltip: "Это должен быть файл с расширением '.csv' или '.tsv'.",
+            emptyResource: "Свойство 'resource' было пустым, вы точно передали {...props} в ImportButton?",
+        },
+        parsing: {
+            collidingIds: 'Обнаружены конфликтующие поля "id"',
+            failedValidateRow: 'CSV не прошел требуемую валидацию',
+            invalidCsv: 'Документ не может быть проанализирован как файл "csv"',
+        },
+        dialogCommon: {
+            subtitle: 'Импорт %{count} элементов из %{fileName} в "%{resource}"',
+            conflictCount:
+                'Ресурс <strong>%{resource}</strong> имеет еще <strong>%{conflictingCount}</strong> записей с конфликтующими id',
+            buttons: {
+                cancel: 'Отмена',
+            },
+        },
+        dialogImport: {
+            alertClose: 'Импортирован %{fname}',
+            title: 'Импортирование в "%{resource}"',
+            buttons: {
+                replaceAllConflicts: 'Заменить строки',
+                skipAllConflicts: 'Пропустить эти строки',
+                letmeDecide: 'Принять решение для каждой строки вручную',
+            },
+        },
+        dialogDecide: {
+            title: 'Импортирование id %{id} в "%{resource}"',
+            buttons: {
+                replaceRow: 'Заменить строку id=%{id}',
+                addAsNewRow: "Добавить как новую строку (не заменять)",
+                skipDontReplace: "Пропустить эту строку (не заменять)",
+            },
+        },
+        loading: 'Загрузка...',
     },
 };
 

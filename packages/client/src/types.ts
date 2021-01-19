@@ -1,6 +1,5 @@
-import { Record } from 'ra-core';
 import { UserRole } from '@dbms-proj/utils/lib/UserRole';
-import { roleAttributes, userAttributes } from '@dbms-proj/models';
+import { scheduleAttributes, userAttributes } from '@dbms-proj/models';
 import { User } from './modules/UserModule';
 export { UserRole };
 
@@ -13,14 +12,6 @@ export interface AppState {
     UserModule: User;
 }
 
-// Ordres
-export enum EOrderStatus {
-    None = 0,
-    Wait,
-    Done,
-    Broke,
-}
-
 /* Records */
 
 export interface IUserModel extends Partial<userAttributes> {
@@ -30,4 +21,6 @@ export interface IUserModel extends Partial<userAttributes> {
     token?: string;
     expiresIn?: number;
 }
+
+// export type IScheduleModel = Partial<scheduleAttributes> & Required<{ id: number }>;
 

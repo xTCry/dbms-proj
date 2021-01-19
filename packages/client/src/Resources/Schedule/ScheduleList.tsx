@@ -106,19 +106,20 @@ export const ScheduleList = (props) => {
         >
             <Datagrid rowClick={dataRowClick} expand={<ExpandEdit />}>
                 <DateField source="date" />
+                <DateField source="time_start" />
+
                 <TextField source="lesson_type" />
                 <NumberField source="duration" />
                 
-
                 <ReferenceField source="teacher_id" reference="teacher">
+                    <TextField source="user.name" />
+                </ReferenceField>
+
+                <ReferenceField source="lesson_id" reference="lesson">
                     <TextField source="name" />
                 </ReferenceField>
 
                 <ReferenceField source="group_id" reference="group">
-                    <TextField source="name" />
-                </ReferenceField>
-
-                <ReferenceField source="lesson_id" reference="lesson">
                     <TextField source="name" />
                 </ReferenceField>
 

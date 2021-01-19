@@ -5,11 +5,11 @@ import { Box, Button } from '@material-ui/core';
 import ContentFilter from '@material-ui/icons/FilterList';
 import Close from '@material-ui/icons/Close';
 
-const TeacherFilter = (props) => {
+const Headman2groupFilter = (props) => {
     return props.context === 'button' ? <FilterButton {...props} /> : <FilterForm {...props} />;
 };
 
-export default TeacherFilter;
+export default Headman2groupFilter;
 
 const FilterButton = ({ showFilter }) => (
     <Button size="small" color="primary" onClick={() => showFilter('main')} startIcon={<ContentFilter />}>

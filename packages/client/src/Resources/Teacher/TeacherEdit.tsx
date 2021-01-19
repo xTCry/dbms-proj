@@ -8,7 +8,7 @@ const Title = (props) => {
     return <span>Студент {record ? `"${record.student_id}"` : ''}</span>;
 };
 
-export const StudentEdit = (props) => (
+export const TeacherEdit = (props) => (
     <Edit title={<Title />} {...props}>
         <SimpleForm>
             <TextInput source="id" disabled />
