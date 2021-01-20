@@ -28,7 +28,8 @@
     "react-scripts": "4.0.1",
     "typescript": "~3.7.2",
     "websocket": "^1.0.31",
-    "whatwg-fetch": "^3.5.0"
+    "whatwg-fetch": "^3.5.0",
+    "xml-js": "^1.6.11"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -66,7 +66,7 @@ const ClientReport: FC = (props) => {
 
     const fetchClientReport = useCallback(async () => {
         console.log('date between', selectedDateFrom, selectedDateTo);
-        const { data: reports } = await dataProvider.getList<IClientReport>('client/report', {
+        const { data: reports } = await dataProvider.getList<IClientReport>('report-client', {
             filter: { date1: selectedDateFrom, date2: selectedDateTo },
             sort: { field: 'date', order: 'DESC' },
             pagination: { page: 1, perPage: 50 },

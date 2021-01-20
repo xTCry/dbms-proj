@@ -5,7 +5,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ReportIcon from '@material-ui/icons/ReportOffSharp';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Logo from './Logo';
+// import Logo from './Logo';
 
 const useStyles = makeStyles({
     title: {
@@ -54,7 +54,7 @@ const CustomAppBar = (props: any) => {
                 className={classes.title}
                 id="react-admin-title"
             />
-            <Logo />
+            {/* <Logo /> */}
             <span className={classes.spacer} />
         </AppBar>
     );

@@ -160,6 +160,24 @@ const customMessages = {
                 brand: 'Марка',
             },
         },
+        'report-remains': {
+            name: 'Отчет остат. расх. мат.',
+            fields: {
+                name_component: 'Компонент',
+                quantity_start: 'Начальное кол-во',
+                quantity_after_uses: 'Кол-во после использования',
+            },
+        },
+        'report-workload_engineers': {
+            name: 'Отчет загруженности инж.',
+            fields: {
+                name: 'Имя',
+                surname: 'Фамилия',
+                mid_name: 'Отчество',
+                position: 'Роль',
+                work_tasks: 'Задач в работе',
+            },
+        },
         /* role: {
             name: 'Роли',
             data: {
