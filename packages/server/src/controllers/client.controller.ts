@@ -51,43 +51,4 @@ export class ClientController extends Controller {
     }
 
     // Service methods
-
-    public static getRouter() {
-        const router = Router();
-        router.use(json());
-
-        router.route('/report').get(
-            // authRoles(UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE),
-            async (req, res, next) => {
-                try {
-                    const { limit, offset, order, where } = parseQuery(req.query);
-
-                    const { rows, count } = await this.doGetReport({ offset, limit, order, where });
-
-                    setGetListHeaders(res, offset, count, rows.length);
-                    res.jsongo(rows);
-                } catch (error) {
-                    next(error);
-                }
-            }
-        );
-
-        return router;
-    }
-
-    public static async doGetReport(
-        options: FindOptions<clientAttributes>,
-        urole?: UserRole
-    ): Promise<{ rows: clientAttributes[]; count: number }> {
-        const where = options.where as any;
-        let date1 = where?.date1 ? new Date(where.date1) : new Date();
-        let date2 = where?.date2 ? new Date(where.date2) : new Date();
-
-        const [rows, count] = await Database.instance().db.query('SELECT * FROM client_serviced (:date1, :date2)', {
-            type: QueryTypes.RAW,
-            replacements: { date1, date2 },
-        });
-
-        return { rows, count } as { rows: clientAttributes[]; count: number };
-    }
 }

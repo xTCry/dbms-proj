@@ -24,6 +24,7 @@ import {
     TelefoneController,
     UsersController,
 } from '../../controllers';
+import { ReportController } from '../../controllers/report.controller';
 
 const router = Router();
 
@@ -42,6 +43,8 @@ let defaultRoles = [
     UserRole.OPERATOR,
 ];
 // Set models controllers
+
+router.use('/report-:sup', ReportController.getRouter());
 
 router.use(
     '/users',
@@ -91,8 +94,6 @@ router.use(
 
 router.use(
     '/client',
-    authType.optional,
-    ClientController.getRouter(),
     authType.required,
     crud(ClientController, {
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
