@@ -34,7 +34,13 @@ router.use(urlencoded({ extended: false }));
 // API Routes
 router.use('/auth', authRoute);
 
-
+let defaultRoles = [
+    UserRole.ADMIN,
+    UserRole.ADMIN_WAREHOUSE,
+    UserRole.ENGEENER_LEAD,
+    UserRole.ENGEENER,
+    UserRole.OPERATOR,
+];
 // Set models controllers
 
 router.use(
@@ -50,13 +56,7 @@ router.use(
             [Action.UPDATE]: [UserRole.ADMIN],
         },
         // Дефолтные роли, которые устанавливаются по умолчанию на каждое действие, которое не было определено в `actions`
-        defaultRoles: [
-            UserRole.ADMIN,
-            UserRole.ADMIN_WAREHOUSE,
-            UserRole.ENGEENER,
-            UserRole.ENGEENER_LEAD,
-            UserRole.OPERATOR,
-        ],
+        defaultRoles,
     })
 );
 // Set models controllers
@@ -71,7 +71,7 @@ router.use(
             [Action.DELETE]: [UserRole.ADMIN],
             [Action.UPDATE]: [UserRole.ADMIN],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -81,11 +81,11 @@ router.use(
     crud(BuyController, {
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN],
-            [Action.DELETE]: [UserRole.ADMIN],
-            [Action.UPDATE]: [UserRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -97,11 +97,11 @@ router.use(
     crud(ClientController, {
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN],
-            [Action.DELETE]: [UserRole.ADMIN],
-            [Action.UPDATE]: [UserRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.OPERATOR],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.OPERATOR],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.OPERATOR],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -111,11 +111,11 @@ router.use(
     crud(ComponentController, {
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN],
-            [Action.DELETE]: [UserRole.ADMIN],
-            [Action.UPDATE]: [UserRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -129,7 +129,7 @@ router.use(
             [Action.DELETE]: [UserRole.ADMIN],
             [Action.UPDATE]: [UserRole.ADMIN],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -139,11 +139,11 @@ router.use(
     crud(First_inspectController, {
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN],
-            [Action.DELETE]: [UserRole.ADMIN],
-            [Action.UPDATE]: [UserRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.OPERATOR],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.OPERATOR],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.OPERATOR],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -157,7 +157,7 @@ router.use(
             [Action.DELETE]: [UserRole.ADMIN],
             [Action.UPDATE]: [UserRole.ADMIN],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -167,11 +167,11 @@ router.use(
     crud(MakerController, {
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN],
-            [Action.DELETE]: [UserRole.ADMIN],
-            [Action.UPDATE]: [UserRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -185,7 +185,7 @@ router.use(
             [Action.DELETE]: [UserRole.ADMIN],
             [Action.UPDATE]: [UserRole.ADMIN],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -195,11 +195,11 @@ router.use(
     crud(OrderController, {
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN],
-            [Action.DELETE]: [UserRole.ADMIN],
-            [Action.UPDATE]: [UserRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.OPERATOR, UserRole.ENGEENER, UserRole.ENGEENER_LEAD],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.OPERATOR, UserRole.ENGEENER, UserRole.ENGEENER_LEAD],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.OPERATOR, UserRole.ENGEENER, UserRole.ENGEENER_LEAD],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -209,11 +209,11 @@ router.use(
     crud(ProviderController, {
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN],
-            [Action.DELETE]: [UserRole.ADMIN],
-            [Action.UPDATE]: [UserRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -223,11 +223,11 @@ router.use(
     crud(Pruduct_trackController, {
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN],
-            [Action.DELETE]: [UserRole.ADMIN],
-            [Action.UPDATE]: [UserRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.ENGEENER, UserRole.ENGEENER_LEAD],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.ENGEENER, UserRole.ENGEENER_LEAD],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.ENGEENER, UserRole.ENGEENER_LEAD],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -237,11 +237,11 @@ router.use(
     crud(Second_inspectController, {
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN],
-            [Action.DELETE]: [UserRole.ADMIN],
-            [Action.UPDATE]: [UserRole.ADMIN],
+            [Action.CREATE]: [UserRole.ADMIN, UserRole.ENGEENER, UserRole.ENGEENER_LEAD],
+            [Action.DELETE]: [UserRole.ADMIN, UserRole.ENGEENER, UserRole.ENGEENER_LEAD],
+            [Action.UPDATE]: [UserRole.ADMIN, UserRole.ENGEENER, UserRole.ENGEENER_LEAD],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -255,7 +255,7 @@ router.use(
             [Action.DELETE]: [UserRole.ADMIN],
             [Action.UPDATE]: [UserRole.ADMIN],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
@@ -269,7 +269,7 @@ router.use(
             [Action.DELETE]: [UserRole.ADMIN],
             [Action.UPDATE]: [UserRole.ADMIN],
         },
-        defaultRoles: [UserRole.ADMIN],
+        defaultRoles,
     })
 );
 
