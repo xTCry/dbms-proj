@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 import { initModels } from '@dbms-proj/models';
-import { olog } from '@dbms-proj/utils';
+import { slog } from '@dbms-proj/utils';
 import { config } from '../config';
 
 interface DBConfig {
@@ -14,6 +14,7 @@ interface DBConfig {
 export class Database {
     private static _inst: Database;
     public db: Sequelize;
+    public static log = slog.scope('SQL');
 
     constructor(c: DBConfig) {
         this.db = new Sequelize(c.database, c.username, c.password, {
@@ -24,6 +25,9 @@ export class Database {
                 options: {
                     validateBulkLoadParameters: true,
                 },
+            },
+            logging(sql: string, timing?: number | undefined) {
+                Database.log.db(sql);
             },
         });
     }
@@ -51,16 +55,16 @@ export class Database {
         try {
             await this.db.authenticate();
             // await this.db.sync();
-            olog.info('DB Connected');
+            Database.log.info('DB Connected');
         } catch (err) {
-            olog.error('Unable to connected DB');
+            Database.log.error('Unable to connected DB');
         }
 
         try {
             initModels(this.db);
-            olog.info('Models was initialised');
+            Database.log.info('Models was initialised');
         } catch (err) {
-            olog.error('Unable to initialize models');
+            Database.log.error('Unable to initialize models');
         }
     }
 }

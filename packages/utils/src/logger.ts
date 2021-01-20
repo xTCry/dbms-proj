@@ -9,6 +9,14 @@ export const olog = ololog.configure({
 export const slog = new Signale({
     disabled: false,
     interactive: false,
+    types: {
+        db: {
+            badge: '🕮',
+            color: 'yellow',
+            label: 'DB',
+            logLevel: 'info',
+        },
+    },
 });
 slog.config({
     displayFilename: true,
