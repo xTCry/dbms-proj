@@ -7,10 +7,10 @@ import { UserRole } from '../../types';
 export const BuyIcon = icon;
 
 export const allowedRoles = {
-    list: [UserRole.ADMIN],
-    create: [UserRole.ADMIN],
-    edit: [UserRole.ADMIN],
-    fields: [UserRole.ADMIN],
+    list: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE, UserRole.ENGEENER_LEAD, UserRole.ENGEENER, UserRole.OPERATOR],
+    create: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
+    edit: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE],
+    // fields: [UserRole.ADMIN],
 };
 
 export const buyResource = (permissions) => ({

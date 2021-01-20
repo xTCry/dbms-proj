@@ -7,10 +7,10 @@ import { UserRole } from '../../types';
 export const OrderIcon = icon;
 
 export const allowedRoles = {
-    list: [UserRole.ADMIN],
-    create: [UserRole.ADMIN],
-    edit: [UserRole.ADMIN],
-    fields: [UserRole.ADMIN],
+    list: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE, UserRole.ENGEENER_LEAD, UserRole.ENGEENER, UserRole.OPERATOR],
+    create: [UserRole.ADMIN, UserRole.ENGEENER_LEAD, UserRole.ENGEENER, UserRole.OPERATOR],
+    edit: [UserRole.ADMIN, UserRole.ENGEENER_LEAD, UserRole.ENGEENER, UserRole.OPERATOR],
+    // fields: [UserRole.ADMIN],
 };
 
 export const orderResource = (permissions) => ({

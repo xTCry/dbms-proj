@@ -14,3 +14,5 @@ export { makerResource } from './Maker';
 export { providerResource } from './Provider';
 export { brandResource } from './Brand';
 export { statusResource } from './Status';
+export { reporUserWorkEng } from './ReporUserWorkEng';
+export { reporRemains } from './ReporRemains';

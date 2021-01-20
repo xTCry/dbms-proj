@@ -7,10 +7,10 @@ import { UserRole } from '../../types';
 export const DolzhnostIcon = icon;
 
 export const allowedRoles = {
-    list: [UserRole.ADMIN],
+    list: [UserRole.ADMIN, UserRole.ADMIN_WAREHOUSE, UserRole.ENGEENER_LEAD, UserRole.ENGEENER, UserRole.OPERATOR],
     create: [UserRole.ADMIN],
     edit: [UserRole.ADMIN],
-    fields: [UserRole.ADMIN],
+    // fields: [UserRole.ADMIN],
 };
 
 export const dolzhnostResource = (permissions) => ({
