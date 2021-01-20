@@ -74,6 +74,18 @@ export class UserController extends Controller {
         };
     }
 
+    public static async doGetSearchList(q: string, limit: number) {
+        // return await this.model.findAndCountAll<student>({ limit, where: { [Op.or]: [] } });
+        return await this.sequelizeSearchFields([
+            'login',
+            'name',
+            'last_name',
+            'second_name',
+            'personal_address',
+            'personal_telephone',
+        ])(q, limit);
+    }
+
     // Service methods
 
     public static async register(attr: userCreationAttributes) {
