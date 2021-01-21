@@ -21,6 +21,7 @@ import {
     Teacher2lessonController,
     Headman2groupController,
 } from '../../controllers';
+import { Mark_logController } from '../../controllers/mark_log.controller';
 
 const router = Router();
 
@@ -32,7 +33,7 @@ router.use(urlencoded({ extended: false }));
 router.use('/auth', authRoute);
 
 let superRoles = [UserRole.ADMIN, UserRole.DEKAN];
-let defaultRoles = [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER];
+let defaultRoles = [...superRoles, UserRole.TEACHER];
 let defaultRolesWithStudent = [...defaultRoles, UserRole.STUDENT];
 
 // Set models controllers
@@ -97,6 +98,19 @@ router.use(
     '/mark',
     authType.required,
     crud(MarkController, {
+        actions: {
+            [Action.CREATE]: [...defaultRoles],
+            [Action.DELETE]: [...defaultRoles],
+            [Action.UPDATE]: [...defaultRoles],
+        },
+        defaultRoles: defaultRolesWithStudent,
+    })
+);
+
+router.use(
+    '/mark_log',
+    authType.required,
+    crud(Mark_logController, {
         actions: {
             [Action.CREATE]: [...defaultRoles],
             [Action.DELETE]: [...defaultRoles],
