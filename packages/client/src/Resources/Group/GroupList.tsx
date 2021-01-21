@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import {
     List,
     Datagrid,
     TextField,
     EditButton,
-    BulkDeleteButton,
     CreateButton,
     useTranslate,
     Edit,
@@ -18,14 +17,13 @@ import {
     ReferenceField,
 } from 'react-admin';
 import { makeStyles, Typography, Box } from '@material-ui/core';
+import { FilterProps, Filter, TopToolbar, ExportButton } from 'react-admin';
+import { ImportButton } from 'react-admin-import-csv';
+import { createExporter } from '../../components/ExporterComponent';
+import CheckRole from '../../components/CheckRole';
 
 import { styles } from './GroupCreate';
-import { GroupFilter } from './GroupFilter';
-
-const dataRowClick = (id, basePath, record) => {
-    console.log('editRecord', record);
-    return 'edit'; // record.editable ? 'edit' : 'show';
-};
+import { allowedRoles } from '.';
 
 const useStyles = makeStyles({
     ...styles,
@@ -36,13 +34,34 @@ const useStyles = makeStyles({
     },
 }) as any;
 
-const BulkActionButtons = (props) => (
-    <>
-        <BulkDeleteButton {...props} />
-    </>
+const MyFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
+    <Filter {...props}>
+        <TextInput label="Поиск" source="q" resettable alwaysOn />
+
+        <TextInput source="name" resettable />
+        <DateInput source="date_formation" resettable />
+
+        <ReferenceInput source="specialty_id" reference="specialty">
+            <SelectInput optionText="name" resettable />
+        </ReferenceInput>
+    </Filter>
 );
 
-const Empty = ({ basePath = '', resource = {} }) => {
+const ListActions = (props) => {
+    const { className, basePath, total, resource, currentSort /* , exporter */ } = props;
+    return (
+        <TopToolbar className={className}>
+            <MyFilter context="button" />
+            {/* <CheckRole permissions={props.permissions} allowed={allowedRoles.create}> */}
+                <CreateButton basePath={basePath} />
+            {/* </CheckRole> */}
+            <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
+            <ImportButton {...props} />
+        </TopToolbar>
+    );
+};
+
+const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
     const translate = useTranslate();
 
     return (
@@ -51,7 +70,9 @@ const Empty = ({ basePath = '', resource = {} }) => {
                 {translate('resources.group.page.empty')}
             </Typography>
             <Typography variant="body1">{translate('resources.group.page.invite')}</Typography>
-            <CreateButton basePath={basePath} />
+            {/* <CheckRole permissions={permissions} allowed={allowedRoles.create}> */}
+                <CreateButton basePath={basePath} />
+            {/* </CheckRole> */}
             {/* <Button onClick={...}>Import</Button> */}
         </Box>
     );
@@ -72,25 +93,30 @@ const ExpandGroupEdit = (props) => {
     );
 };
 
+const exporter = createExporter('group', ['id', 'name', 'date_formation', 'specialty_id']);
+
 export const GroupList = (props) => {
     return (
         <List
-            exporter={false}
             // aside={<Aside />}
             empty={<Empty />}
-            {...props}
             sort={{ field: 'id', order: 'DESC' }}
-            filters={<GroupFilter />}
-            bulkActionButtons={<BulkActionButtons />}
+            bulkActionButtons={false}
+            exporter={exporter}
+            actions={<ListActions />}
+            filters={<MyFilter context="button" />}
+            {...props}
         >
-            <Datagrid rowClick={dataRowClick} expand={<ExpandGroupEdit />}>
+            <Datagrid expand={<ExpandGroupEdit />}>
                 <TextField source="name" />
                 <DateField source="date_formation" />
                 <ReferenceField source="specialty_id" reference="specialty">
                     <TextField source="name" />
                 </ReferenceField>
-                <EditButton label="" />
-                {/* <ShowButton label="" /> */}
+
+                <CheckRole permissions={props.permissions} allowed={allowedRoles.edit}>
+                    <EditButton />
+                </CheckRole>
             </Datagrid>
         </List>
     );

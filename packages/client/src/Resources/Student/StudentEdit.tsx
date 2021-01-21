@@ -5,7 +5,7 @@ import { FullName } from '../User/FullNameField';
 
 const Title = (props) => {
     const { record } = props ?? { record: { student_id: 'None' } };
-    return <span>Студент {record ? `"${record.student_id}"` : ''}</span>;
+    return <span>Изменение студента {record ? `"${record.student_id}"` : ''}</span>;
 };
 
 export const StudentEdit = (props) => (
@@ -14,11 +14,16 @@ export const StudentEdit = (props) => (
             <TextInput source="id" disabled />
             <TextInput source="student_id" validate={required()} />
 
-            <ReferenceInput source="user_id" reference="user" filter={{ role_id: UserRole.STUDENT }}>
+            <ReferenceInput
+                source="user_id"
+                reference="user"
+                filter={{ role_id: UserRole.STUDENT }}
+                validate={required()}
+            >
                 <SelectInput optionText={FullName} />
             </ReferenceInput>
 
-            <ReferenceInput source="group_id" reference="group">
+            <ReferenceInput source="group_id" reference="group" validate={required()}>
                 <SelectInput optionText="name" />
             </ReferenceInput>
         </SimpleForm>

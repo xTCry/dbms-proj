@@ -13,7 +13,7 @@ export const SpecialtyCreate = (props) => {
         <Create title="Добавить специальность" {...props}>
             <SimpleForm>
                 <TextInput source="name" validate={required()} />
-                <ReferenceInput source="kafedra_id" reference="kafedra">
+                <ReferenceInput source="kafedra_id" reference="kafedra" validate={required()}>
                     <SelectInput optionText="name" />
                 </ReferenceInput>
             </SimpleForm>

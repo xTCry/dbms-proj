@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import {
     List,
     Datagrid,
     TextField,
     EditButton,
     ReferenceField,
-    BulkDeleteButton,
+    CreateButton,
     Edit,
     SimpleForm,
     TextInput,
@@ -13,19 +13,39 @@ import {
     ReferenceInput,
     required,
 } from 'react-admin';
-
-import TeacherFilter from './Headman2groupFilter';
-import { UserRole } from '../../types';
-import FullNameField from '../User/FullNameField';
+import { FilterProps, Filter, TopToolbar, ExportButton } from 'react-admin';
+import { ImportButton } from 'react-admin-import-csv';
+import { createExporter } from '../../components/ExporterComponent';
 import CheckRole from '../../components/CheckRole';
 
-const allowedRoles = [UserRole.ADMIN, UserRole.DEKAN];
+import FullNameField from '../User/FullNameField';
+import { allowedRoles } from '.';
 
-const BulkActionButtons = (props) => (
-    <>
-        <BulkDeleteButton {...props} />
-    </>
+const exporter = createExporter('headmab2group', ['id', 'student_id', 'group_id']);
+
+const MyFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
+    <Filter {...props}>
+        <TextInput label="Поиск" source="q" resettable alwaysOn />
+
+        <ReferenceInput source="group_id" reference="group" sort={{ field: 'id', order: 'ASC' }}>
+            <SelectInput optionText="name" />
+        </ReferenceInput>
+    </Filter>
 );
+
+const ListActions = (props) => {
+    const { className, basePath, total, resource, currentSort /* , exporter */ } = props;
+    return (
+        <TopToolbar className={className}>
+            <MyFilter context="button" />
+            {/* <CheckRole permissions={props.permissions} allowed={allowedRoles.create}> */}
+                <CreateButton basePath={basePath} />
+            {/* </CheckRole> */}
+            <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
+            <ImportButton {...props} />
+        </TopToolbar>
+    );
+};
 
 const ExpandEdit = (props: any) => {
     return (
@@ -49,28 +69,28 @@ const ExpandEdit = (props: any) => {
 export const Headman2groupList = (props) => {
     return (
         <List
-            exporter={false}
-            {...props}
             sort={{ field: 'id', order: 'DESC' }}
-            filters={<TeacherFilter />}
-            bulkActionButtons={<BulkActionButtons />}
+            exporter={exporter}
+            actions={<ListActions />}
+            filters={<MyFilter context="button" />}
+            bulkActionButtons={false}
+            {...props}
         >
             <Datagrid
-                rowClick={(id, basePath, record) => (allowedRoles.includes(props.permissions) ? 'edit' : 'show')}
-                expand={allowedRoles.includes(props.permissions) ? <ExpandEdit /> : null}
+            // rowClick={(id, basePath, record) => (allowedRoles.includes(props.permissions) ? 'edit' : 'show')}
+            // expand={allowedRoles.includes(props.permissions) ? <ExpandEdit /> : null}
             >
                 <ReferenceField source="student_id" reference="student">
-                    <TextField source="user.name" />
+                    <FullNameField />
                 </ReferenceField>
 
                 <ReferenceField source="group_id" reference="group">
                     <TextField source="name" />
                 </ReferenceField>
 
-                <CheckRole permissions={props.permissions} allowed={allowedRoles} deny={<EditButton disabled />}>
+                <CheckRole permissions={props.permissions} allowed={allowedRoles.edit}>
                     <EditButton />
                 </CheckRole>
-                {/* <ShowButton label="" /> */}
             </Datagrid>
         </List>
     );

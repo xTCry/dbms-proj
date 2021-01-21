@@ -1,11 +1,9 @@
 import React from 'react';
-import { Edit, SimpleForm, TextInput, required, SelectInput, ReferenceInput } from 'react-admin';
-import { UserRole } from '../../types';
-import { FullName } from '../User/UserEdit';
+import { Edit, SimpleForm, TextInput, required } from 'react-admin';
 
 const Title = (props) => {
-    const { record } = props ?? { record: { student_id: 'None' } };
-    return <span>Студент {record ? `"${record.student_id}"` : ''}</span>;
+    const { record } = props;
+    return <span>Изменение предмета {record ? `"${record.name}"` : ''}</span>;
 };
 
 export const LessonEdit = (props) => (

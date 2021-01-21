@@ -13,12 +13,11 @@ import {
     FieldProps,
     EditProps,
 } from 'react-admin';
+import { allowedRoles } from '.';
 import CheckRole from '../../components/CheckRole';
 import { IUserModel, UserRole } from '../../types';
 import AvatarField from './AvatarField';
 import FullNameField from './FullNameField';
-
-const allowedRoles = [UserRole.ADMIN, UserRole.DEKAN];
 
 const UserTitle: FC<FieldProps<IUserModel>> = ({ record }) =>
     record ? <FullNameField record={record} size="32" /> : null;
@@ -34,13 +33,13 @@ export const UserEdit: FC<EditProps> = (props) => (
             <DateInput source="personal_birthday" />
             <DateInput source="registeration_date" disabled />
 
-            <PasswordInput source="password" disabled={!allowedRoles.includes(props.permissions)} />
+            <PasswordInput source="password" /* disabled={!allowedRoles.fields.includes(props.permissions)} */ />
 
-            <CheckRole permissions={props.permissions} allowed={allowedRoles} deny={<TextInput source="role.name" />}>
+            {/* <CheckRole permissions={props.permissions} allowed={allowedRoles} deny={<TextInput source="role.name" />}> */}
                 <ReferenceInput source="role_id" reference="role">
                     <SelectInput optionText="name" />
                 </ReferenceInput>
-            </CheckRole>
+            {/* </CheckRole> */}
 
             <AvatarField size={'128'} />
             <ImageInput source="new_photo" accept="image/*">

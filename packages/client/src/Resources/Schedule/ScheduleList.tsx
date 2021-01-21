@@ -1,52 +1,32 @@
-import React from 'react';
+import React, { FC } from 'react';
 import {
     List,
     Datagrid,
     TextField,
     EditButton,
-    BulkDeleteButton,
     CreateButton,
     useTranslate,
-    Edit,
-    SimpleForm,
     TextInput,
-    required,
-    DateInput,
     DateField,
     ReferenceInput,
     SelectInput,
     ReferenceField,
-    NumberField,
-    NumberInput,
+    DateInput,
 } from 'react-admin';
-import { makeStyles, Typography, Box } from '@material-ui/core';
+import { Typography, Box } from '@material-ui/core';
+import { FilterProps, Filter, TopToolbar, ExportButton } from 'react-admin';
+import { ImportButton } from 'react-admin-import-csv';
+import { createExporter } from '../../components/ExporterComponent';
+import { allowedRoles, scheduleType } from '.';
 
-import { styles } from './ScheduleCreate';
 import TimeField from '../../components/TimeField';
-import FullNameField from '../User/FullNameField';
+import FullNameField, { FullName } from '../User/FullNameField';
 import ScheduleTypeField from './ScheduleTypeField';
+import CheckRole from '../../components/CheckRole';
+import MyTimeInput from '../../components/MyTimeInput';
+import MyDurationInput from '../../components/MyDurationInput';
 
-const dataRowClick = (id, basePath, record) => {
-    console.log('editRecord', id, basePath, record);
-    return 'edit'; // record.editable ? 'edit' : 'show';
-};
-
-const useStyles = makeStyles({
-    ...styles,
-    image: {
-        width: '60px',
-        margin: '0.5rem',
-        maxHeight: '10rem',
-    },
-}) as any;
-
-const BulkActionButtons = (props) => (
-    <>
-        <BulkDeleteButton {...props} />
-    </>
-);
-
-const Empty = ({ basePath = '', resource = {} }) => {
+const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
     const translate = useTranslate();
 
     return (
@@ -55,61 +35,83 @@ const Empty = ({ basePath = '', resource = {} }) => {
                 {translate('resources.schedule.page.empty')}
             </Typography>
             <Typography variant="body1">{translate('resources.schedule.page.invite')}</Typography>
-            <CreateButton basePath={basePath} />
+            {/* <CheckRole permissions={permissions} allowed={allowedRoles.create}> */}
+                <CreateButton basePath={basePath} />
+            {/* </CheckRole> */}
             {/* <Button onClick={...}>Import</Button> */}
         </Box>
     );
 };
 
-const ExpandEdit = (props) => {
-    const classes = useStyles();
+const exporter = createExporter('schedules', [
+    'id',
+    'time_start',
+    'date',
+    'duration',
+    'lesson_type',
+    'lesson_id',
+    'teacher_id',
+    'auditory_id',
+    'group_id',
+]);
+
+const MyFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
+    <Filter {...props}>
+        <TextInput label="Поиск" source="q" resettable alwaysOn />
+
+        <DateInput source="date" />
+        <MyTimeInput source="time_start" options={{ format: 'HH:mm' }} minutesStep={5} resettable />
+        <MyDurationInput source="duration" options={{ format: 'HH:mm' }} minutesStep={5} resettable />
+        <SelectInput source="lesson_type" choices={scheduleType} resettable />
+
+        <ReferenceInput source="teacher_id" reference="teacher">
+            <SelectInput optionText={FullName} resettable />
+        </ReferenceInput>
+
+        <ReferenceInput source="group_id" reference="group">
+            <SelectInput optionText="name" resettable />
+        </ReferenceInput>
+
+        <ReferenceInput source="lesson_id" reference="lesson">
+            <SelectInput optionText="name" resettable />
+        </ReferenceInput>
+
+        <ReferenceInput source="auditory_id" reference="auditory">
+            <SelectInput optionText="name" resettable />
+        </ReferenceInput>
+    </Filter>
+);
+
+const ListActions = (props) => {
+    const { className, basePath, total, resource, currentSort /* , exporter */ } = props;
     return (
-        <Edit {...props} title=" ">
-            <SimpleForm undoable={false}>
-                <DateInput source="date" formClassName={classes.part_first} />
-                <TextInput
-                    type="time"
-                    defaultValue="8:30"
-                    inputProps={{ step: 300 }}
-                    InputLabelProps={{ shrink: true }}
-                    source="time_start"
-                />
-                <NumberInput source="duration" step={300} />
-                <TextInput source="lesson_type" />
-
-                <ReferenceInput source="teacher_id" reference="teacher">
-                    <SelectInput optionText="user.name" />
-                </ReferenceInput>
-
-                <ReferenceInput source="group_id" reference="group">
-                    <SelectInput optionText="name" />
-                </ReferenceInput>
-
-                <ReferenceInput source="lesson_id" reference="lesson">
-                    <SelectInput optionText="name" />
-                </ReferenceInput>
-
-                <ReferenceInput source="auditory_id" reference="auditory">
-                    <SelectInput optionText="name" />
-                </ReferenceInput>
-            </SimpleForm>
-        </Edit>
+        <TopToolbar className={className}>
+            <MyFilter context="button" />
+            {/* <CheckRole permissions={props.permissions} allowed={allowedRoles.create}> */}
+                <CreateButton basePath={basePath} />
+            {/* </CheckRole> */}
+            <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
+            <ImportButton {...props} />
+        </TopToolbar>
     );
 };
 
 export const ScheduleList = (props) => {
     return (
         <List
-            exporter={false}
             // aside={<Aside />}
             empty={<Empty />}
             {...props}
             sort={{ field: 'id', order: 'DESC' }}
-            bulkActionButtons={<BulkActionButtons />}
+            exporter={exporter}
+            actions={<ListActions />}
+            filters={<MyFilter context="button" />}
+            bulkActionButtons={false}
         >
-            <Datagrid rowClick={dataRowClick} expand={<ExpandEdit />}>
+            <Datagrid>
+                <TextField source="id" />
                 <DateField source="date" />
-                
+
                 <TimeField source="time_start" />
 
                 <ScheduleTypeField />
@@ -133,8 +135,9 @@ export const ScheduleList = (props) => {
                     <TextField source="name" />
                 </ReferenceField>
 
-                <EditButton label="" />
-                {/* <ShowButton label="" /> */}
+                <CheckRole permissions={props.permissions} allowed={allowedRoles.edit}>
+                    <EditButton />
+                </CheckRole>
             </Datagrid>
         </List>
     );

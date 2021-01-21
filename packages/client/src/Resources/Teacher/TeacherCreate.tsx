@@ -12,7 +12,7 @@ export const TeacherCreate = (props) => {
     return (
         <Create title="Добавить преподавателя" {...props}>
             <SimpleForm>
-                <TextInput source="experience" validate={required()} />
+                <TextInput source="experience" />
                 <ReferenceInput source="user_id" reference="user" validate={required()}>
                     <SelectInput optionText="name" />
                 </ReferenceInput>

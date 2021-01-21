@@ -1,10 +1,11 @@
 import jsonExport from 'jsonexport/dist';
+import { Exporter } from 'react-admin';
 import { json2xml } from 'xml-js';
 import { objFilter } from '../Providers/DataProvider';
 import { downloadAsCSV, downloadAsJSON, downloadAsXML } from './downloadFile';
 
-export const exporter = (filename, headers) => (fields) => {
-    const forExport = fields.map((field) => {
+export const createExporter = (filename, headers): Exporter => async (data: any) => {
+    const forExport = data.map((field) => {
         return objFilter(field, headers);
     });
 

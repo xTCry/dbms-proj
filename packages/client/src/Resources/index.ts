@@ -11,3 +11,4 @@ export { specialtyResource } from './Specialty';
 export { kafedraResource } from './Kafedra';
 export { teacher2lessonResource } from './Teacher2lesson';
 export { headman2groupResource } from './Headman2group';
+export { marklogResource } from './Marklog';

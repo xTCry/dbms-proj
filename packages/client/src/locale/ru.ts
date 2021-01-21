@@ -4,6 +4,9 @@ const customMessages = {
     ...russianMessages,
     bo: {
         configuration: 'Конфигурация',
+        profile: {
+            title: 'Профиль',
+        },
         language: 'Язык',
         theme: {
             name: 'Тема',
@@ -31,6 +34,10 @@ const customMessages = {
                 photo_path: 'Фото профиля',
                 registeration_date: 'Дата регистрации',
             },
+            page: {
+                empty: 'Пользователей еще нету',
+                invite: 'Добавьте пользователя',
+            },
         },
         student: {
             name: 'Студент |||| Студенты',
@@ -40,6 +47,10 @@ const customMessages = {
                 group_id: 'Группа',
                 user_id: 'Пользователь',
                 'user.role_id': 'Роль',
+            },
+            page: {
+                empty: 'Студентов еще нету',
+                invite: 'Добавьте студента',
             },
         },
         teacher: {
@@ -62,6 +73,10 @@ const customMessages = {
                 date_formation: 'Дата формирования',
                 specialty_id: 'Специальность',
             },
+            page: {
+                empty: 'Группы еще не добавлены',
+                invite: 'Добавьте группу',
+            },
         },
         mark: {
             name: 'Отметка |||| Отметки',
@@ -70,6 +85,23 @@ const customMessages = {
                 date: 'Дата выставления',
                 student_id: 'Студент',
                 schedule_id: 'Расписание',
+            },
+            page: {
+                empty: 'Отметок еще нету',
+                invite: 'Добавьте отметку',
+            },
+        },
+        mark_log: {
+            name: 'Лог отметок',
+            fields: {
+                changed_date: 'Дата изменения',
+                last_value: 'Прошлое значение',
+                new_value: 'новое значение',
+                mark_id: 'Отметка',
+            },
+            page: {
+                empty: 'Журнал изменения отметок пуст',
+                invite: 'Измените отметку и здесь появится запись',
             },
         },
         schedule: {
@@ -92,11 +124,19 @@ const customMessages = {
                 other: 'Другое',
                 exam: 'Экзамен',
             },
+            page: {
+                empty: 'Расписание еще не добавлено',
+                invite: 'Добавьте расписание',
+            },
         },
         lesson: {
             name: 'Предмет |||| Предметы',
             fields: {
                 name: 'Название',
+            },
+            page: {
+                empty: 'Предметов еще нету',
+                invite: 'Добавьте предмет',
             },
         },
         auditory: {
@@ -105,6 +145,10 @@ const customMessages = {
                 name: 'Название',
                 corpus: 'Корпус',
             },
+            page: {
+                empty: 'Список аудиторий пуст',
+                invite: 'Добавьте аудиторию',
+            },
         },
         specialty: {
             name: 'Специальность |||| Специальности',
@@ -112,11 +156,19 @@ const customMessages = {
                 name: 'Название',
                 kafedra_id: 'Кафедра',
             },
+            page: {
+                empty: 'Специальности еще не заполнены',
+                invite: 'Добавьте специальность',
+            },
         },
         kafedra: {
             name: 'Кафедра |||| Кафедры',
             fields: {
                 name: 'Название',
+            },
+            page: {
+                empty: 'Кафедры еще не добавлены',
+                invite: 'Добавьте кафедру',
             },
         },
         teacher2lesson: {
@@ -125,12 +177,20 @@ const customMessages = {
                 teacher_id: 'Преподваватель',
                 lesson_id: 'Предмет',
             },
+            page: {
+                empty: 'Дисциплин преподавателей не найдено',
+                invite: 'Добавьте преподавателю дисциплину',
+            },
         },
         headman2group: {
             name: 'Староста |||| Старосты',
             fields: {
                 student_id: 'Студент',
                 group_id: 'Группа',
+            },
+            page: {
+                empty: 'Старосты групп не обнаружены',
+                invite: 'Добавьте старост групп',
             },
         },
         role: {

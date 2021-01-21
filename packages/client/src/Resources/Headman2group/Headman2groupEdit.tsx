@@ -4,7 +4,7 @@ import { UserRole } from '../../types';
 
 const Title = (props) => {
     const { record } = props ?? { record: { student_id: 'None' } };
-    return <span>Студент {record ? `"${record.student_id}"` : ''}</span>;
+    return <span>Изменение старосты группы {record ? `"${record.student_id}"` : ''}</span>;
 };
 
 export const Headman2groupEdit = (props) => (
@@ -16,7 +16,7 @@ export const Headman2groupEdit = (props) => (
                 source="student_id"
                 reference="student"
                 validate={required()}
-                filter={{ role_id: UserRole.STUDENT }}
+                // filter={{ role_id: UserRole.STUDENT }}
             >
                 <SelectInput optionText="user.name" />
             </ReferenceInput>

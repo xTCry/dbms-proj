@@ -1,10 +1,19 @@
 import React from 'react';
-import { Create, SimpleForm, TextInput, PasswordInput, required, ReferenceInput, SelectInput, DateInput, ImageInput, ImageField } from 'react-admin';
-// import PhoneInput from 'react-phone-number-input'
-// import 'react-phone-number-input/style.css'
+import {
+    Create,
+    SimpleForm,
+    TextInput,
+    PasswordInput,
+    required,
+    ReferenceInput,
+    SelectInput,
+    DateInput,
+    ImageInput,
+    ImageField,
+} from 'react-admin';
 
 export const UserCreate = (props) => (
-    <Create {...props}>
+    <Create title="Добавить пользователя" {...props}>
         <SimpleForm>
             <TextInput source="login" autoFocus validate={required()} />
             <TextInput source="name" validate={required()} />
@@ -15,7 +24,7 @@ export const UserCreate = (props) => (
             <TextInput source="personal_telephone" validate={required()} />
 
             <PasswordInput source="password" validate={required()} />
-            <ReferenceInput source="role_id" reference="role">
+            <ReferenceInput source="role_id" reference="role" validate={required()}>
                 <SelectInput optionText="name" />
             </ReferenceInput>
 

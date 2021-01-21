@@ -1,10 +1,11 @@
 import React from 'react';
 import { Edit, SimpleForm, TextInput, required, SelectInput, ReferenceInput } from 'react-admin';
 import { UserRole } from '../../types';
+import { FullName } from '../User/FullNameField';
 
 const Title = (props) => {
-    const { record } = props ?? { record: { student_id: 'None' } };
-    return <span>Студент {record ? `"${record.student_id}"` : ''}</span>;
+    const { record } = props;
+    return <span>Изменение дисцип. преп. {record ? `"${FullName(record.teacher.user)}"` : ''}</span>;
 };
 
 export const Teacher2lessonEdit = (props) => (
@@ -12,8 +13,13 @@ export const Teacher2lessonEdit = (props) => (
         <SimpleForm>
             <TextInput source="id" disabled />
 
-            <ReferenceInput source="teacher_id" reference="teacher" validate={required()} filter={{ role_id: UserRole.TEACHER }}>
-                <SelectInput optionText="user.name" />
+            <ReferenceInput
+                source="teacher_id"
+                reference="teacher"
+                validate={required()}
+                filter={{ role_id: UserRole.TEACHER }}
+            >
+                <SelectInput optionText={FullName} />
             </ReferenceInput>
 
             <ReferenceInput source="lesson_id" reference="lesson" validate={required()}>

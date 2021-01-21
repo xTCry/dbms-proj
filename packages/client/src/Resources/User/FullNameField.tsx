@@ -3,13 +3,14 @@ import { FC, memo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { FieldProps } from 'react-admin';
-import get from 'lodash/get';
+// import get from 'lodash/get';
 import AvatarField from './AvatarField';
 import { IUserModel } from '../../types';
 
 export const FullName = (record) => {
+    let temp = record.student_id ? ` (${record.student_id})` : '';
     record = record.user ?? record;
-    return ['last_name', 'name', 'second_name'].map((e) => record[e]).join(' ');
+    return ['last_name', 'name', 'second_name'].map((e) => record[e]).join(' ') + temp;
 };
 
 const useStyles = makeStyles((theme) => ({

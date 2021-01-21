@@ -12,7 +12,7 @@ export const GroupEdit = (props) => (
             <TextInput source="name" validate={required()} />
             <DateInput source="date_formation" validate={required()} />
 
-            <ReferenceInput source="user_id" reference="user">
+            <ReferenceInput source="specialty_id" reference="specialty">
                 <SelectInput optionText="name" />
             </ReferenceInput>
         </SimpleForm>

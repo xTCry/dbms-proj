@@ -3,7 +3,7 @@ import { KeyboardTimePicker } from '@material-ui/pickers';
 import { FieldTitle, InputHelperText, useInput } from 'react-admin';
 import Icon from '@material-ui/icons/Timer'
 
-const MyTimeInput = ({ source, options, label, helperText, margin = 'dense', resource, validate }: any) => {
+const MyDurationInput = ({ source, options, label, helperText, margin = 'dense', resource, validate }: any) => {
     const {
         input,
         meta: { touched, error },
@@ -46,4 +46,4 @@ const MyTimeInput = ({ source, options, label, helperText, margin = 'dense', res
     );
 };
 
-export default MyTimeInput;
+export default MyDurationInput;

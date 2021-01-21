@@ -5,83 +5,41 @@ import {
     TextField,
     EditButton,
     ReferenceField,
-    BulkDeleteButton,
     CreateButton,
     useTranslate,
-    Edit,
-    SimpleForm,
-    TextInput,
-    SelectInput,
-    ReferenceInput,
-    required,
     ReferenceManyField,
+    ShowButton,
 } from 'react-admin';
 import { Typography, Box } from '@material-ui/core';
 
-import TeacherFilter from './TeacherFilter';
-import { UserRole } from '../../types';
 import FullNameField from '../User/FullNameField';
 import CheckRole from '../../components/CheckRole';
+import TextFieldEmpty from '../../components/TextFieldEmpty';
+import { allowedRoles } from '.';
 
-const allowedRoles = [UserRole.ADMIN, UserRole.DEKAN];
-
-const BulkActionButtons = (props) => (
-    <>
-        <BulkDeleteButton {...props} />
-    </>
-);
-
-const Empty = ({ basePath = '', resource = {} }) => {
+const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
     const translate = useTranslate();
 
     return (
         <Box textAlign="center" m={1}>
             <Typography variant="h4" paragraph>
-                {translate('resources.orders.page.empty')}
+                {translate('resources.teacher.page.empty')}
             </Typography>
-            <Typography variant="body1">{translate('resources.orders.page.invite')}</Typography>
-            <CreateButton basePath={basePath} />
+            <Typography variant="body1">{translate('resources.teacher.page.invite')}</Typography>
+
+            {/* <CheckRole permissions={permissions} allowed={allowedRoles.create}> */}
+                <CreateButton basePath={basePath} />
+            {/* </CheckRole> */}
             {/* <Button onClick={...}>Import</Button> */}
         </Box>
-    );
-};
-
-const ExpandEdit = (props: any) => {
-    return (
-        <Edit {...props} title=" ">
-            <SimpleForm
-                // form={`order_edit_${props.id}`}
-                undoable={false}
-            >
-                <TextInput source="experience" validate={required()} />
-                <ReferenceInput
-                    source="user_id"
-                    reference="user"
-                    validate={required()}
-                    filter={{ role_id: UserRole.TEACHER }}
-                >
-                    <SelectInput optionText="name" />
-                </ReferenceInput>
-            </SimpleForm>
-        </Edit>
     );
 };
 
 export const TeacherList = (props) => {
     const translate = useTranslate();
     return (
-        <List
-            exporter={false}
-            empty={<Empty />}
-            {...props}
-            sort={{ field: 'id', order: 'DESC' }}
-            filters={<TeacherFilter />}
-            bulkActionButtons={<BulkActionButtons />}
-        >
-            <Datagrid
-                rowClick={(id, basePath, record) => (allowedRoles.includes(props.permissions) ? 'edit' : 'show')}
-                expand={allowedRoles.includes(props.permissions) ? <ExpandEdit /> : null}
-            >
+        <List exporter={false} empty={<Empty />} sort={{ field: 'id', order: 'DESC' }} {...props}>
+            <Datagrid>
                 <ReferenceField source="user_id" reference="user">
                     <FullNameField />
                 </ReferenceField>
@@ -97,12 +55,22 @@ export const TeacherList = (props) => {
                     </Datagrid>
                 </ReferenceManyField>
 
-                <TextField source="experience" />
+                <TextFieldEmpty source="experience" />
 
-                <CheckRole permissions={props.permissions} allowed={allowedRoles} deny={<EditButton disabled />}>
+                <CheckRole
+                    permissions={props.permissions}
+                    allowed={allowedRoles.edit}
+                    deny={<EditButton label="" disabled />}
+                >
                     <EditButton />
                 </CheckRole>
-                {/* <ShowButton label="" /> */}
+                <CheckRole
+                    permissions={props.permissions}
+                    allowed={allowedRoles.show}
+                    deny={<ShowButton label="" disabled />}
+                >
+                    <ShowButton />
+                </CheckRole>
             </Datagrid>
         </List>
     );

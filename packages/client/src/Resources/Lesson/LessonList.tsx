@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import {
     List,
     Datagrid,
     TextField,
     EditButton,
-    ReferenceField,
-    BulkDeleteButton,
     CreateButton,
     useTranslate,
     Edit,
@@ -13,28 +11,13 @@ import {
     TextInput,
     required,
 } from 'react-admin';
-import { makeStyles, Typography, Box } from '@material-ui/core';
-
-import { styles } from './LessonCreate';
-import LessonFilter from './LessonFilter';
+import { Typography, Box } from '@material-ui/core';
+import { FilterProps, Filter, TopToolbar, ExportButton } from 'react-admin';
+import { ImportButton } from 'react-admin-import-csv';
+import { createExporter } from '../../components/ExporterComponent';
+import CheckRole from '../../components/CheckRole';
 import { UserRole } from '../../types';
-
-const dataRowClick = (id, basePath, record) => 'edit'; // record.editable ? 'edit' : 'show';
-
-const useStyles = makeStyles({
-    ...styles,
-    image: {
-        width: '60px',
-        margin: '0.5rem',
-        maxHeight: '10rem',
-    },
-}) as any;
-
-const BulkActionButtons = (props) => (
-    <>
-        <BulkDeleteButton {...props} />
-    </>
-);
+import { allowedRoles } from '.';
 
 const Empty = ({ basePath = '', resource = {} }) => {
     const translate = useTranslate();
@@ -52,36 +35,53 @@ const Empty = ({ basePath = '', resource = {} }) => {
 };
 
 const ExpandEdit = ({ permissions, ...props }: any) => {
-    const classes = useStyles();
     return (
-        [UserRole.ADMIN, UserRole.DEKAN].includes(permissions) && (
-            <Edit {...props} title=" ">
-                <SimpleForm
-                    // form={`order_edit_${props.id}`}
-                    undoable={false}
-                >
-                    <TextInput source="name" validate={required()} />
-                </SimpleForm>
-            </Edit>
-        )
+        <Edit {...props} title=" ">
+            <SimpleForm undoable={false}>
+                <TextInput source="name" validate={required()} />
+            </SimpleForm>
+        </Edit>
     );
 };
 
+const exporter = createExporter('lessons', ['id', 'name']);
+
+const MyFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
+    <Filter {...props}>
+        <TextInput label="Поиск" source="q" resettable alwaysOn />
+    </Filter>
+);
+
+const ListActions = (props) => {
+    const { className, basePath, total, resource, currentSort /* , exporter */ } = props;
+    return (
+        <TopToolbar className={className}>
+            <MyFilter context="button" />
+            {/* <CheckRole permissions={props.permissions} allowed={allowedRoles.create}> */}
+                <CreateButton basePath={basePath} />
+            {/* </CheckRole> */}
+            <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
+            <ImportButton {...props} />
+        </TopToolbar>
+    );
+};
 export const LessonList = ({ permissions, ...props }) => {
     return (
         <List
-            exporter={false}
             empty={<Empty />}
-            {...props}
             sort={{ field: 'id', order: 'DESC' }}
-            filters={<LessonFilter />}
-            bulkActionButtons={<BulkActionButtons />}
+            exporter={exporter}
+            actions={<ListActions />}
+            filters={<MyFilter context="button" />}
+            bulkActionButtons={false}
+            {...props}
         >
-            <Datagrid rowClick={dataRowClick} expand={<ExpandEdit />}>
+            <Datagrid expand={<ExpandEdit />}>
                 <TextField source="name" />
 
-                {[UserRole.ADMIN, UserRole.DEKAN].includes(permissions) && <EditButton />}
-                {/* <ShowButton label="" /> */}
+                <CheckRole permissions={props.permissions} allowed={allowedRoles.edit}>
+                    <EditButton />
+                </CheckRole>
             </Datagrid>
         </List>
     );

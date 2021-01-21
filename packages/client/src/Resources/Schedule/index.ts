@@ -1,6 +1,7 @@
 import { ScheduleList } from './ScheduleList';
 import { ScheduleCreate } from './ScheduleCreate';
 import { ScheduleEdit } from './ScheduleEdit';
+import { ScheduleShow } from './ScheduleShow';
 
 import Icon from '@material-ui/icons/ScheduleRounded';
 import { getUserRole } from '../../modules/UserModule';
@@ -32,7 +33,7 @@ export const scheduleResource = {
         list: allowedRoles.list.includes(permissions) ? ScheduleList : null,
         create: allowedRoles.create.includes(permissions) ? ScheduleCreate : null,
         edit: allowedRoles.edit.includes(permissions) ? ScheduleEdit : null,
-        // show: allowedRoles.show.includes(permissions) ? StudentShow : null,
+        show: allowedRoles.show.includes(permissions) ? ScheduleShow : null,
 
         icon: ScheduleIcon,
         name: 'schedule',

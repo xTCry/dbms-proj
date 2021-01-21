@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { AppBar, UserMenu, MenuItemLink, useTranslate } from 'react-admin';
 import Typography from '@material-ui/core/Typography';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ProfileIcon from '@material-ui/icons/SupervisedUserCircleSharp';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Logo from './Logo';
@@ -29,6 +30,13 @@ const ConfigurationMenu = forwardRef<any, any>((props, ref) => {
                 leftIcon={<SettingsIcon />}
                 onClick={props.onClick}
             />
+            {/* <MenuItemLink
+                ref={ref}
+                to="/profile"
+                primaryText={translate('bo.profile')}
+                leftIcon={<ProfileIcon />}
+                onClick={props.onClick}
+            /> */}
         </>
     );
 });

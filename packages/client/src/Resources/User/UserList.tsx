@@ -1,14 +1,71 @@
-import React from 'react';
-import { List, Datagrid, TextField, EditButton, ReferenceField } from 'react-admin';
-import { UserRole } from '../../types';
+import React, { FC } from 'react';
+import {
+    List,
+    Datagrid,
+    TextField,
+    EditButton,
+    ReferenceField,
+    FilterProps,
+    Filter,
+    TextInput,
+    ReferenceInput,
+    SelectInput,
+    TopToolbar,
+    CreateButton,
+    ExportButton,
+    ShowButton,
+} from 'react-admin';
+import { ImportButton } from 'react-admin-import-csv';
 import AvatarField from './AvatarField';
-// import UserLinkField from './UserLinkField';
+import { createExporter } from '../../components/ExporterComponent';
+import { allowedRoles } from '.';
+import CheckRole from '../../components/CheckRole';
 
-export const UserList = ({ permissions, ...props }) => {
-    // const translate = useTranslate();
+const exporter = createExporter('users', [
+    'id',
+    'login',
+    'name',
+    'last_name',
+    'second_name',
+    'role_id',
+    'personal_address',
+    'personal_telephone',
+    'personal_birthday',
+]);
+
+const MyFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
+    <Filter {...props}>
+        <TextInput label="Поиск" source="q" resettable alwaysOn />
+
+        <ReferenceInput source="role_id" reference="role" sort={{ field: 'id', order: 'ASC' }}>
+            <SelectInput optionText="name" />
+        </ReferenceInput>
+    </Filter>
+);
+
+const ListActions = (props) => {
+    const { className, basePath, total, resource, currentSort /* , exporter */ } = props;
     return (
-        <List exporter={false} perPage={25} {...props}>
-            <Datagrid optimized rowClick="edit">
+        <TopToolbar className={className}>
+            <MyFilter context="button" />
+            <CreateButton basePath={basePath} />
+            <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
+            <ImportButton {...props} />
+        </TopToolbar>
+    );
+};
+
+export const UserList = (props) => {
+    return (
+        <List
+            {...props}
+            exporter={exporter}
+            actions={<ListActions />}
+            filters={<MyFilter context="button" />}
+            perPage={25}
+            bulkActionButtons={false}
+        >
+            <Datagrid>
                 {/* <UserLinkField /> */}
                 <AvatarField size={'30'} />
                 <TextField source="id" />
@@ -21,21 +78,20 @@ export const UserList = ({ permissions, ...props }) => {
                     <TextField source="name" />
                 </ReferenceField>
 
-                {/* <MyUrlField source="telegram" /> */}
-
-                {/* <ReferenceManyField
-                    label={translate('resources.users.fields.orders')}
-                    reference="orders"
-                    target="executor"
-                    sortable={false}
+                <CheckRole
+                    permissions={props.permissions}
+                    allowed={allowedRoles.edit}
+                    deny={<EditButton label="" disabled />}
                 >
-                    <Datagrid>
-                        <TextField source="title" />
-                        <SelectField source="status" choices={orderStatus} />
-                        <EditButton label="" />
-                    </Datagrid>
-                </ReferenceManyField> */}
-                {[UserRole.ADMIN, UserRole.DEKAN].includes(permissions) && <EditButton />}
+                    <EditButton />
+                </CheckRole>
+                <CheckRole
+                    permissions={props.permissions}
+                    allowed={allowedRoles.show}
+                    deny={<ShowButton label="" disabled />}
+                >
+                    <ShowButton />
+                </CheckRole>
             </Datagrid>
         </List>
     );

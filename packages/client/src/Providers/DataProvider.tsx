@@ -50,8 +50,8 @@ const fixDataSchedule = (data) => {
 
     console.log('data.time_start 1', data.time_start);
     
-    if (/* !isNaN(data.time_start) &&  */Date.parse(data.time_start)) {
-        data.time_start = new Date(data.time_start).toLocaleTimeString();
+    if (Date.parse(data.time_start)) {
+        data.time_start = new Date(data.time_start).toLocaleTimeString().split(':').slice(0, -1).join(':');
     }
     console.log('data.time_start 2', data.time_start);
 

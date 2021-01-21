@@ -4,7 +4,6 @@ import {
     Datagrid,
     TextField,
     EditButton,
-    BulkDeleteButton,
     CreateButton,
     useTranslate,
     Edit,
@@ -16,21 +15,18 @@ import {
     ReferenceField,
     TopToolbar,
     ExportButton,
-    downloadCSV,
     Filter,
     FilterProps,
     TextInput,
 } from 'react-admin';
 import { makeStyles, Typography, Box } from '@material-ui/core';
 import { ImportButton } from 'react-admin-import-csv';
-import { unparse as convertToCSV } from 'papaparse/papaparse.min';
 import { styles } from './MarkCreate';
 import ScheduleField, { ScheduleTitle } from '../Schedule/ScheduleField';
-
-const dataRowClick = (id, basePath, record) => {
-    console.log('editRecord', id, basePath, record);
-    return 'edit'; // record.editable ? 'edit' : 'show';
-};
+import { createExporter } from '../../components/ExporterComponent';
+import CheckRole from '../../components/CheckRole';
+import { allowedRoles } from '.';
+import FullNameField, { FullName } from '../User/FullNameField';
 
 const useStyles = makeStyles({
     ...styles,
@@ -41,13 +37,7 @@ const useStyles = makeStyles({
     },
 }) as any;
 
-const BulkActionButtons = (props) => (
-    <>
-        <BulkDeleteButton {...props} />
-    </>
-);
-
-const Empty = ({ basePath = '', resource = {} }) => {
+const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
     const translate = useTranslate();
 
     return (
@@ -56,7 +46,9 @@ const Empty = ({ basePath = '', resource = {} }) => {
                 {translate('resources.mark.page.empty')}
             </Typography>
             <Typography variant="body1">{translate('resources.mark.page.invite')}</Typography>
-            <CreateButton basePath={basePath} />
+            {/* <CheckRole permissions={permissions} allowed={allowedRoles.create}> */}
+                <CreateButton basePath={basePath} />
+            {/* </CheckRole> */}
             {/* <Button onClick={...}>Import</Button> */}
         </Box>
     );
@@ -94,34 +86,23 @@ const ExpandEdit = (props) => {
 };
 
 const ListActions = (props) => {
-    const { className, basePath, total, resource, currentSort/* , exporter */ } = props;
+    const { className, basePath, total, resource, currentSort /* , exporter */ } = props;
     return (
         <TopToolbar className={className}>
             <MyFilter context="button" />
             <CreateButton basePath={basePath} />
-            <ExportButton
-                disabled={total === 0}
-                resource={resource}
-                sort={currentSort}
-                exporter={exporter}
-            />
+            <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
             <ImportButton {...props} />
         </TopToolbar>
     );
 };
 
-const exporter = async (records, fetchRelatedRecords: (data: any, field: string, resource: string) => Promise<any>) => {
-    const csv = convertToCSV({
-        data: records,
-        fields: ['id', 'value', 'student_id', 'schedule_id'],
-    });
-    downloadCSV(csv, 'marks');
-};
+const exporter = createExporter('marks', ['id', 'value', 'student_id', 'schedule_id']);
 
 const Aside = () => {
     // const { data, ids } = useListContext();
     // console.log(data, ids);
-    
+
     return (
         <div style={{ width: 200, margin: '1em' }}>
             <Typography variant="h6">Статистика отметок</Typography>
@@ -135,20 +116,12 @@ const Aside = () => {
 const MyFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
     <Filter {...props}>
         <TextInput label="Search" source="q" alwaysOn />
-        
-        <ReferenceInput
-            source="student_id"
-            reference="student"
-            sort={{ field: 'id', order: 'ASC' }}
-        >
-            <SelectInput optionText="student_id" />
+
+        <ReferenceInput source="student_id" reference="student" sort={{ field: 'id', order: 'ASC' }}>
+            <SelectInput optionText={FullName} />
         </ReferenceInput>
 
-        <ReferenceInput
-            source="schedule_id"
-            reference="schedule"
-            sort={{ field: 'id', order: 'ASC' }}
-        >
+        <ReferenceInput source="schedule_id" reference="schedule" sort={{ field: 'id', order: 'ASC' }}>
             <SelectInput optionText={ScheduleTitle} />
         </ReferenceInput>
     </Filter>
@@ -160,30 +133,31 @@ const postRowStyle = (record, index) => ({
 export const MarkList = (props) => {
     return (
         <List
-            {...props}
-            exporter={exporter}
-            // aside={<Aside />}
+            aside={<Aside />}
             empty={<Empty />}
             sort={{ field: 'id', order: 'DESC' }}
             bulkActionButtons={false}
+            exporter={exporter}
             actions={<ListActions />}
             filters={<MyFilter context="button" />}
+            {...props}
         >
-            <Datagrid rowStyle={postRowStyle} rowClick={dataRowClick} expand={<ExpandEdit />}>
+            <Datagrid rowStyle={postRowStyle} expand={<ExpandEdit />}>
                 <TextField source="id" />
                 <TextField source="value" />
                 <DateField source="date" />
 
                 <ReferenceField source="student_id" reference="student">
-                    <TextField source="student_id" />
+                    <FullNameField />
                 </ReferenceField>
 
                 <ReferenceField source="schedule_id" reference="schedule">
                     <ScheduleField />
                 </ReferenceField>
 
-                <EditButton label="" />
-                {/* <ShowButton label="" /> */}
+                <CheckRole permissions={props.permissions} allowed={allowedRoles.edit}>
+                    <EditButton />
+                </CheckRole>
             </Datagrid>
         </List>
     );
