@@ -21,13 +21,15 @@ const useStyles = makeStyles({
 const ConfigurationMenu = forwardRef<any, any>((props, ref) => {
     const translate = useTranslate();
     return (
-        <MenuItemLink
-            ref={ref}
-            to="/configuration"
-            primaryText={translate('bo.configuration')}
-            leftIcon={<SettingsIcon />}
-            onClick={props.onClick}
-        />
+        <>
+            <MenuItemLink
+                ref={ref}
+                to="/configuration"
+                primaryText={translate('bo.configuration')}
+                leftIcon={<SettingsIcon />}
+                onClick={props.onClick}
+            />
+        </>
     );
 });
 
@@ -40,13 +42,8 @@ const CustomUserMenu = (props: any) => (
 const CustomAppBar = (props: any) => {
     const classes = useStyles();
     return (
-        <AppBar {...props} userMenu={<CustomUserMenu />}>
-            <Typography
-                variant="h6"
-                color="inherit"
-                className={classes.title}
-                id="react-admin-title"
-            />
+        <AppBar {...props} userMenu={<CustomUserMenu />} >
+            <Typography variant="h6" color="inherit" className={classes.title} id="react-admin-title" />
             <Logo />
             <span className={classes.spacer} />
         </AppBar>
