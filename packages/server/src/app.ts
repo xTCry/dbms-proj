@@ -2,6 +2,7 @@ import express, { ErrorRequestHandler } from 'express';
 import Sequelize from 'sequelize';
 import cors from 'cors';
 import Boom from '@hapi/boom';
+import Path from 'path';
 import { slog } from '@dbms-proj/utils';
 
 import { appLogging } from './tools/appLogging';
@@ -26,10 +27,11 @@ const errHandler: ErrorRequestHandler = (err, req, res, next) => {
 
     console.log('err', JSON.parse(JSON.stringify(err)));
 
-    if (err instanceof Sequelize.ValidationError) {}
+    if (err instanceof Sequelize.ValidationError) {
+    }
 
     if (['SequelizeValidationError', 'SequelizeDatabaseError'].includes(err?.name)) {
-        let message  = 'Ошибка при выполнении SQL запроса';
+        let message = 'Ошибка при выполнении SQL запроса';
         let type = 'db error';
 
         if (err.errors?.length > 0) {
@@ -45,7 +47,7 @@ const errHandler: ErrorRequestHandler = (err, req, res, next) => {
         });
         return;
     }
-    
+
     const defaultError = Boom.badImplementation(err.message || 'An internal server error occurred');
     const { statusCode, payload } = defaultError.output;
     res.status(statusCode).json(payload);
@@ -53,6 +55,7 @@ const errHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 export async function createApp() {
     const app = express();
+    let buildClientPath = Path.join(__dirname, '../../client/build');
 
     app
         // Backend middleware
@@ -62,6 +65,11 @@ export async function createApp() {
         })
         .use(appLogging())
         .use(cors())
+
+        // .get('/', (req, res) => {
+        //     res.sendFile(Path.join(buildClientPath, 'index.html'));
+        // })
+        .use(express.static(buildClientPath))
 
         .use('/api', apiRoutes)
         .use('/uploads', express.static('./uploads'))
