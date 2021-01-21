@@ -29,7 +29,7 @@ const customMessages = {
                 personal_telephone: 'Телефон',
                 role_id: 'Роль',
                 photo_path: 'Фото профиля',
-                registration_date: 'Дата регистрации',
+                registeration_date: 'Дата регистрации',
             },
         },
         student: {
@@ -49,6 +49,10 @@ const customMessages = {
                 lessons: 'Дисциплины',
                 experience: 'Стаж работы',
                 lesson_name: 'Предмет',
+            },
+            page: {
+                empty: 'Преподавателей еще нету',
+                invite: 'Добавьте преподавателей',
             },
         },
         group: {
@@ -73,12 +77,20 @@ const customMessages = {
             fields: {
                 date: 'Дата',
                 time_start: 'Время начала',
-                leson_type: 'Тип',
+                lesson_type: 'Тип',
                 duration: 'Длительность',
                 teacher_id: 'Преподваватель',
                 lesson_id: 'Предмет',
                 group_id: 'Группа',
                 auditory_id: 'Аудитория',
+            },
+            type: {
+                none: 'Не указано',
+                lecture: 'Лекция',
+                practice: 'Практика',
+                lab: 'Лабораторная',
+                other: 'Другое',
+                exam: 'Экзамен',
             },
         },
         lesson: {
@@ -165,8 +177,8 @@ const customMessages = {
             title: 'Импортирование id %{id} в "%{resource}"',
             buttons: {
                 replaceRow: 'Заменить строку id=%{id}',
-                addAsNewRow: "Добавить как новую строку (не заменять)",
-                skipDontReplace: "Пропустить эту строку (не заменять)",
+                addAsNewRow: 'Добавить как новую строку (не заменять)',
+                skipDontReplace: 'Пропустить эту строку (не заменять)',
             },
         },
         loading: 'Загрузка...',

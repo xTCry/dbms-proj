@@ -4,8 +4,6 @@ import {
     Datagrid,
     TextField,
     EditButton,
-    ReferenceField,
-    BulkDeleteButton,
     CreateButton,
     useTranslate,
     Edit,
@@ -13,28 +11,10 @@ import {
     TextInput,
     required,
 } from 'react-admin';
-import { makeStyles, Typography, Box } from '@material-ui/core';
+import { Typography, Box } from '@material-ui/core';
 
-import { styles } from './AuditoryCreate';
 import AuditoryFilter from './AuditoryFilter';
 import { UserRole } from '../../types';
-
-const dataRowClick = (id, basePath, record) => 'edit'; // record.editable ? 'edit' : 'show';
-
-const useStyles = makeStyles({
-    ...styles,
-    image: {
-        width: '60px',
-        margin: '0.5rem',
-        maxHeight: '10rem',
-    },
-}) as any;
-
-const BulkActionButtons = (props) => (
-    <>
-        <BulkDeleteButton {...props} />
-    </>
-);
 
 const Empty = ({ basePath = '', resource = {} }) => {
     const translate = useTranslate();
@@ -52,14 +32,10 @@ const Empty = ({ basePath = '', resource = {} }) => {
 };
 
 const ExpandEdit = ({ permissions, ...props }: any) => {
-    const classes = useStyles();
     return (
         [UserRole.ADMIN, UserRole.DEKAN].includes(permissions) && (
             <Edit {...props} title=" ">
-                <SimpleForm
-                    // form={`order_edit_${props.id}`}
-                    undoable={false}
-                >
+                <SimpleForm undoable={false}>
                     <TextInput source="name" validate={required()} />
                     <TextInput source="corpus" validate={required()} />
                 </SimpleForm>
@@ -71,14 +47,13 @@ const ExpandEdit = ({ permissions, ...props }: any) => {
 export const AuditoryList = ({ permissions, ...props }) => {
     return (
         <List
-            exporter={false}
             empty={<Empty />}
             {...props}
             sort={{ field: 'id', order: 'DESC' }}
             filters={<AuditoryFilter />}
-            bulkActionButtons={<BulkActionButtons />}
+            bulkActionButtons={false}
         >
-            <Datagrid rowClick={dataRowClick} expand={<ExpandEdit />}>
+            <Datagrid  expand={<ExpandEdit />}>
                 <TextField source="name" />
                 <TextField source="corpus" />
 

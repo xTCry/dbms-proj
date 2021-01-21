@@ -1,5 +1,6 @@
 import React from 'react';
 import { Edit, SimpleForm, TextInput, required, SelectInput, ReferenceInput } from 'react-admin';
+import { ScheduleTitle } from '../Schedule/ScheduleField';
 
 const Title = ({ record = { title: 'None' } } = {}) => {
     return <span>Студент {record ? `"${record.title}"` : ''}</span>;
@@ -27,7 +28,7 @@ export const MarkEdit = ({ permissions, ...props }) => (
             </ReferenceInput>
 
             <ReferenceInput source="schedule_id" reference="schedule">
-                <SelectInput optionText="date" />
+                <SelectInput optionText={ScheduleTitle} />
             </ReferenceInput>
         </SimpleForm>
     </Edit>

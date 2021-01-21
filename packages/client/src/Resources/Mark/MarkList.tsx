@@ -18,13 +18,12 @@ import {
     ExportButton,
     downloadCSV,
     Filter,
-    TextInput,
     FilterProps,
+    TextInput,
 } from 'react-admin';
 import { makeStyles, Typography, Box } from '@material-ui/core';
 import { ImportButton } from 'react-admin-import-csv';
 import { unparse as convertToCSV } from 'papaparse/papaparse.min';
-
 import { styles } from './MarkCreate';
 import ScheduleField, { ScheduleTitle } from '../Schedule/ScheduleField';
 
@@ -163,10 +162,10 @@ export const MarkList = (props) => {
         <List
             {...props}
             exporter={exporter}
-            aside={<Aside />}
+            // aside={<Aside />}
             empty={<Empty />}
             sort={{ field: 'id', order: 'DESC' }}
-            bulkActionButtons={<BulkActionButtons />}
+            bulkActionButtons={false}
             actions={<ListActions />}
             filters={<MyFilter context="button" />}
         >

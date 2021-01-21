@@ -3,7 +3,7 @@ import { Edit, SimpleForm, TextInput, required, SelectInput, ReferenceInput } fr
 
 const Title = (props) => {
     const { record } = props ?? { record: { student_id: 'None' } };
-    return <span>Студент {record ? `"${record.student_id}"` : ''}</span>;
+    return <span>Изменение аудитории {record ? `"${record.student_id}"` : ''}</span>;
 };
 
 export const AuditoryEdit = (props) => (
