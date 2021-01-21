@@ -1,47 +1,47 @@
 import { ModelCtor, FindOptions } from 'sequelize';
 import { kafedra, specialty, specialtyAttributes, specialtyCreationAttributes } from '@dbms-proj/models';
 import { UserRole } from '../tools/auth';
-import { Controller, IKafedraJSON, KafedraController } from './';
+import { Controller, IKafedraJSON, IUserJSON, KafedraController } from './';
 
 export type ISpecialtyJSON = specialtyAttributes & { kafedra: IKafedraJSON };
 
 export class SpecialtyController extends Controller {
     public static model = specialty as ModelCtor<specialty>;
 
-    public static async doCreate(data: specialtyCreationAttributes, urole?: UserRole) {
+    public static async doCreate(data: specialtyCreationAttributes, ruser?: IUserJSON) {
         return super.doCreate(data);
     }
 
-    public static async doUpdate(options: FindOptions<specialtyAttributes>, data: any, urole?: UserRole) {
+    public static async doUpdate(options: FindOptions<specialtyAttributes>, data: any, ruser?: IUserJSON) {
         return super.doUpdate<specialty, specialtyAttributes>(options, data);
     }
 
-    public static async doGetOne(options?: FindOptions<specialtyAttributes>, urole?: UserRole) {
+    public static async doGetOne(options?: FindOptions<specialtyAttributes>, ruser?: IUserJSON) {
         return super.doGetOne({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doGetList(options: FindOptions<specialtyAttributes>, urole?: UserRole) {
+    public static async doGetList(options: FindOptions<specialtyAttributes>, ruser?: IUserJSON) {
         return super.doGetList<specialty, specialtyAttributes>({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doDestroy(id: string | number, urole?: UserRole) {
+    public static async doDestroy(id: string | number, ruser?: IUserJSON) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, urole?: UserRole, deep = 0): FindOptions<specialtyAttributes> {
+    public static fullAttr(safe = true, ruser?: IUserJSON, deep = 0): FindOptions<specialtyAttributes> {
         return {
             attributes: ['id', 'name', 'kafedra_id'],
             include: [
                 {
                     // @ts-ignore
                     model: kafedra,
-                    ...KafedraController.fullAttr(safe, urole, ++deep),
+                    ...KafedraController.fullAttr(safe, ruser, ++deep),
                 },
             ],
         };

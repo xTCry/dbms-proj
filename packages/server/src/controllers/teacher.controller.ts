@@ -1,6 +1,5 @@
 import { ModelCtor, FindOptions } from 'sequelize';
 import { user, teacher, teacherAttributes, teacherCreationAttributes } from '@dbms-proj/models';
-import { UserRole } from '../tools/auth';
 import { Controller, IUserJSON, UserController } from './';
 
 export type ITeacherJSON = teacherAttributes & { user: IUserJSON };
@@ -8,40 +7,40 @@ export type ITeacherJSON = teacherAttributes & { user: IUserJSON };
 export class TeacherController extends Controller {
     public static model = teacher as ModelCtor<teacher>;
 
-    public static async doCreate(data: teacherCreationAttributes, urole?: UserRole) {
+    public static async doCreate(data: teacherCreationAttributes, ruser?: IUserJSON) {
         return super.doCreate(data);
     }
 
-    public static async doUpdate(options: FindOptions<teacherAttributes>, data: any, urole?: UserRole) {
+    public static async doUpdate(options: FindOptions<teacherAttributes>, data: any, ruser?: IUserJSON) {
         return super.doUpdate<teacher, teacherAttributes>(options, data);
     }
 
-    public static async doGetOne(options?: FindOptions<teacherAttributes>, urole?: UserRole) {
+    public static async doGetOne(options?: FindOptions<teacherAttributes>, ruser?: IUserJSON) {
         return super.doGetOne({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doGetList(options: FindOptions<teacherAttributes>, urole?: UserRole) {
+    public static async doGetList(options: FindOptions<teacherAttributes>, ruser?: IUserJSON) {
         return super.doGetList<teacher, teacherAttributes>({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doDestroy(id: string | number, urole?: UserRole) {
+    public static async doDestroy(id: string | number, ruser?: IUserJSON) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, urole?: UserRole, deep = 0): FindOptions<teacherAttributes> {
+    public static fullAttr(safe = true, ruser?: IUserJSON, deep = 0): FindOptions<teacherAttributes> {
         return {
             attributes: ['id', 'experience', 'user_id'],
             include: [
                 {
                     // @ts-ignore
                     model: user,
-                    ...UserController.fullAttr(safe, urole, ++deep),
+                    ...UserController.fullAttr(safe, ruser, ++deep),
                 },
             ],
         };

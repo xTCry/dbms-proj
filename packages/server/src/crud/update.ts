@@ -19,7 +19,7 @@ export const update = (ctrl: typeof Controller): RequestHandler => async (req, r
         }
 
         const { user } = req as RequestWith<{ user?: IUserJSON }>;
-        const record = await ctrl.doGetOne({ where }, user?.role_id);
+        const record = await ctrl.doGetOne({ where }, user);
 
         if (!record) {
             return next(Boom.notFound('Record not found'));

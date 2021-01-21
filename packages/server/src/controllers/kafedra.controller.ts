@@ -1,40 +1,40 @@
 import { ModelCtor, FindOptions } from 'sequelize';
 import { kafedra, kafedraAttributes, kafedraCreationAttributes } from '@dbms-proj/models';
-import { UserRole } from '../tools/auth';
 import { Controller } from './controller';
+import { IUserJSON } from '.';
 
 export type IKafedraJSON = kafedraAttributes;
 
 export class KafedraController extends Controller {
     public static model = kafedra as ModelCtor<kafedra>;
 
-    public static async doCreate(data: kafedraCreationAttributes, urole?: UserRole) {
+    public static async doCreate(data: kafedraCreationAttributes, ruser?: IUserJSON) {
         return super.doCreate(data);
     }
 
-    public static async doUpdate(options: FindOptions<kafedraAttributes>, data: any, urole?: UserRole) {
+    public static async doUpdate(options: FindOptions<kafedraAttributes>, data: any, ruser?: IUserJSON) {
         return super.doUpdate<kafedra, kafedraAttributes>(options, data);
     }
 
-    public static async doGetOne(options?: FindOptions<kafedraAttributes>, urole?: UserRole) {
+    public static async doGetOne(options?: FindOptions<kafedraAttributes>, ruser?: IUserJSON) {
         return super.doGetOne({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doGetList(options: FindOptions<kafedraAttributes>, urole?: UserRole) {
+    public static async doGetList(options: FindOptions<kafedraAttributes>, ruser?: IUserJSON) {
         return super.doGetList<kafedra, kafedraAttributes>({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doDestroy(id: string | number, urole?: UserRole) {
+    public static async doDestroy(id: string | number, ruser?: IUserJSON) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, urole?: UserRole, deep = 0): FindOptions<kafedraAttributes> {
+    public static fullAttr(safe = true, ruser?: IUserJSON, deep = 0): FindOptions<kafedraAttributes> {
         return {
             attributes: ['id', 'name'],
         };

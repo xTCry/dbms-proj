@@ -8,8 +8,17 @@ import {
     scheduleAttributes,
     scheduleCreationAttributes,
 } from '@dbms-proj/models';
-import { UserRole } from '../tools/auth';
-import { Controller, IAuditoryJSON, ITeacherJSON, TeacherController, GroupController, IGroupJSON, LessonController, AuditoryController } from './';
+import {
+    Controller,
+    IAuditoryJSON,
+    ITeacherJSON,
+    TeacherController,
+    GroupController,
+    IGroupJSON,
+    LessonController,
+    AuditoryController,
+    IUserJSON,
+} from './';
 
 export type IScheduleJSON = scheduleAttributes & {
     lesson: any;
@@ -21,33 +30,33 @@ export type IScheduleJSON = scheduleAttributes & {
 export class ScheduleController extends Controller {
     public static model = schedule as ModelCtor<schedule>;
 
-    public static async doCreate(data: scheduleCreationAttributes, urole?: UserRole) {
+    public static async doCreate(data: scheduleCreationAttributes, ruser?: IUserJSON) {
         return super.doCreate(data);
     }
 
-    public static async doUpdate(options: FindOptions<scheduleAttributes>, data: any, urole?: UserRole) {
+    public static async doUpdate(options: FindOptions<scheduleAttributes>, data: any, ruser?: IUserJSON) {
         return super.doUpdate<schedule, scheduleAttributes>(options, data);
     }
 
-    public static async doGetOne(options?: FindOptions<scheduleAttributes>, urole?: UserRole) {
+    public static async doGetOne(options?: FindOptions<scheduleAttributes>, ruser?: IUserJSON) {
         return super.doGetOne({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doGetList(options: FindOptions<scheduleAttributes>, urole?: UserRole) {
+    public static async doGetList(options: FindOptions<scheduleAttributes>, ruser?: IUserJSON) {
         return super.doGetList<schedule, scheduleAttributes>({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doDestroy(id: string | number, urole?: UserRole) {
+    public static async doDestroy(id: string | number, ruser?: IUserJSON) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, urole?: UserRole, deep = 0): FindOptions<scheduleAttributes> {
+    public static fullAttr(safe = true, ruser?: IUserJSON, deep = 0): FindOptions<scheduleAttributes> {
         return {
             attributes: [
                 'id',
@@ -64,22 +73,22 @@ export class ScheduleController extends Controller {
                 {
                     // @ts-ignore
                     model: lesson,
-                    ...LessonController.fullAttr(safe, urole, ++deep),
+                    ...LessonController.fullAttr(safe, ruser, ++deep),
                 },
                 {
                     // @ts-ignore
                     model: teacher,
-                    ...TeacherController.fullAttr(safe, urole, ++deep),
+                    ...TeacherController.fullAttr(safe, ruser, ++deep),
                 },
                 {
                     // @ts-ignore
                     model: auditory,
-                    ...AuditoryController.fullAttr(safe, urole, ++deep),
+                    ...AuditoryController.fullAttr(safe, ruser, ++deep),
                 },
                 {
                     // @ts-ignore
                     model: group,
-                    ...GroupController.fullAttr(safe, urole, ++deep),
+                    ...GroupController.fullAttr(safe, ruser, ++deep),
                 },
             ],
         };

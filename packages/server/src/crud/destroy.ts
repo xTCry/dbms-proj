@@ -11,7 +11,7 @@ export const destroy = (ctrl: typeof Controller): RequestHandler => async (req, 
 
         if (req.params.id) {
             const { id } = req.params;
-            await ctrl.doDestroy(id, user?.role_id);
+            await ctrl.doDestroy(id, user);
             res.jsongo({ id });
         } else {
             const query = req.query as any;

@@ -21,13 +21,13 @@ export const getMany = (ctrl: typeof Controller): RequestHandler => async (req, 
                     order /* : [order ?? ['id', 'ASC']] */,
                     where,
                 },
-                user?.role_id
+                user
             ));
         } else {
             if (!ctrl.doGetSearchList) {
                 return next(Boom.badRequest('Search method not implemented'));
             }
-            ({ rows, count } = await ctrl.doGetSearchList(q, limit, user?.role_id));
+            ({ rows, count } = await ctrl.doGetSearchList(q, limit, user));
         }
 
         setGetListHeaders(res, offset, count, rows.length);

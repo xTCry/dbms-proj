@@ -1,52 +1,51 @@
 import { ModelCtor, FindOptions } from 'sequelize';
 import { schedule, student, mark, markAttributes, markCreationAttributes } from '@dbms-proj/models';
-import { UserRole } from '../tools/auth';
-import { Controller, ScheduleController, StudentController } from './';
+import { Controller, IUserJSON, ScheduleController, StudentController } from './';
 
 export type IMarkJSON = markAttributes;
 
 export class MarkController extends Controller {
     public static model = mark as ModelCtor<mark>;
 
-    public static async doCreate(data: markCreationAttributes, urole?: UserRole) {
+    public static async doCreate(data: markCreationAttributes, ruser?: IUserJSON) {
         return super.doCreate(data);
     }
 
-    public static async doUpdate(options: FindOptions<markAttributes>, data: any, urole?: UserRole) {
+    public static async doUpdate(options: FindOptions<markAttributes>, data: any, ruser?: IUserJSON) {
         return super.doUpdate<mark, markAttributes>(options, data);
     }
 
-    public static async doGetOne(options?: FindOptions<markAttributes>, urole?: UserRole) {
+    public static async doGetOne(options?: FindOptions<markAttributes>, ruser?: IUserJSON) {
         return super.doGetOne({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doGetList(options: FindOptions<markAttributes>, urole?: UserRole) {
+    public static async doGetList(options: FindOptions<markAttributes>, ruser?: IUserJSON) {
         return super.doGetList<mark, markAttributes>({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doDestroy(id: string | number, urole?: UserRole) {
+    public static async doDestroy(id: string | number, ruser?: IUserJSON) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, urole?: UserRole, deep = 0): FindOptions<markAttributes> {
+    public static fullAttr(safe = true, ruser?: IUserJSON, deep = 0): FindOptions<markAttributes> {
         return {
             attributes: ['id', 'date', 'value', 'student_id', 'schedule_id'],
             include: [
                 {
                     // @ts-ignore
                     model: schedule,
-                    ...ScheduleController.fullAttr(safe, urole, ++deep),
+                    ...ScheduleController.fullAttr(safe, ruser, ++deep),
                 },
                 {
                     // @ts-ignore
                     model: student,
-                    ...StudentController.fullAttr(safe, urole, ++deep),
+                    ...StudentController.fullAttr(safe, ruser, ++deep),
                 },
             ],
         };

@@ -16,40 +16,42 @@ export type IUserJSON = userAttributes & { role: IRoleJSON };
 export class UserController extends Controller {
     public static model = user as ModelCtor<user>;
 
-    public static async doCreate(data: userCreationAttributes, urole?: UserRole) {
-        return super.doCreate(data);
+    public static async doCreate(data: userCreationAttributes, ruser?: IUserJSON) {
+        return this.register(data);
     }
 
     public static async doUpdate(
         options: FindOptions<userAttributes>,
         { password, ...data }: userAttributes & any,
-        urole?: UserRole
+        ruser?: IUserJSON
     ) {
+        // @ts-ignore
+        this.checkUserAllowedRole(options?.where?.id, ruser);
         if (password) {
             password = this.encryptPassword(undefined, password);
         }
         return super.doUpdate<user, userAttributes>(options, { password, ...data });
     }
 
-    public static async doGetOne(options?: FindOptions<userAttributes>, urole?: UserRole) {
+    public static async doGetOne(options?: FindOptions<userAttributes>, ruser?: IUserJSON) {
         return super.doGetOne({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doGetList(options: FindOptions<userAttributes>, urole?: UserRole) {
+    public static async doGetList(options: FindOptions<userAttributes>, ruser?: IUserJSON) {
         return super.doGetList<user, userAttributes>({
             ...options,
-            ...this.fullAttr(true, urole),
+            ...this.fullAttr(true, ruser),
         });
     }
 
-    public static async doDestroy(id: string | number, urole?: UserRole) {
+    public static async doDestroy(id: string | number, ruser?: IUserJSON) {
         return super.doDestroy(id);
     }
 
-    public static fullAttr(safe = true, urole?: UserRole, deep = 0): FindOptions<userAttributes> {
+    public static fullAttr(safe = true, ruser?: IUserJSON, deep = 0): FindOptions<userAttributes> {
         return {
             attributes: [
                 'id',

@@ -1,19 +1,19 @@
 import { Model, ModelCtor, FindAndCountOptions, FindOptions, Op, WhereOptions } from 'sequelize';
 import { uniqBy, flatten } from 'lodash';
 import Boom from '@hapi/boom';
-import { UserRole } from '../tools/auth';
+import { IUserJSON } from '.';
 
 export abstract class Controller {
     public static model: ModelCtor<any>;
 
-    public static async doCreate<M extends Model>(data: any, _role?: UserRole): Promise<M & any> {
+    public static async doCreate<M extends Model>(data: any, _ruser?: IUserJSON): Promise<M & any> {
         return this.model.create<M>(data);
     }
 
     public static async doUpdate<M extends Model, A>(
         options: FindOptions<A>,
         data: A,
-        _role?: UserRole
+        _ruser?: IUserJSON
     ): Promise<NonNullable<M & any>> {
         const rec = await this.model.findOne<M>(options);
         if (!rec) {
@@ -26,7 +26,7 @@ export abstract class Controller {
     public static async doGetOne<M extends Model, A = {}>(
         // id: string | number,
         options?: FindOptions<A>,
-        _role?: UserRole
+        _ruser?: IUserJSON
     ): Promise<(M & any) | null> {
         // return await this.model.findByPk<M>(id, options);
         return await this.model.findOne<M>(options);
@@ -34,7 +34,7 @@ export abstract class Controller {
 
     public static async doGetList<M extends Model, A = {}>(
         options: FindAndCountOptions<A>,
-        _role?: UserRole
+        _ruser?: IUserJSON
     ): Promise<{
         rows: (M & any)[];
         count: number;
@@ -42,7 +42,7 @@ export abstract class Controller {
         return await this.model.findAndCountAll<M>({ ...options /* , raw: true */ });
     }
 
-    public static async doDestroy<M extends Model>(id: string | number, _role?: UserRole) {
+    public static async doDestroy<M extends Model>(id: string | number, _ruser?: IUserJSON) {
         const rec = await this.model.findByPk<M>(id);
         if (!rec) {
             throw Boom.notFound('Record not found.');
@@ -54,7 +54,7 @@ export abstract class Controller {
     public static async doGetSearchList<M extends Model, _A = {}>(
         _q: string,
         _limit: number,
-        _role?: UserRole
+        _ruser?: IUserJSON
     ): Promise<{
         rows: (M & any)[];
         count: number;
@@ -68,11 +68,7 @@ export abstract class Controller {
         throw Boom.badRequest('Not implemented');
     } */
 
-    public static fullAttr<M extends Model, A = {}>(
-        safe = true,
-        urole: UserRole = UserRole.NONE,
-        deep = 0
-    ): FindOptions<A> {
+    public static fullAttr<M extends Model, A = {}>(_safe = true, _ruser?: IUserJSON, _deep = 0): FindOptions<A> {
         return {};
     }
 
