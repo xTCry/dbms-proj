@@ -3,14 +3,28 @@ import { LessonCreate } from './LessonCreate';
 import { LessonEdit } from './LessonEdit';
 
 import Icon from '@material-ui/icons/BookTwoTone';
-import { UserRole } from '../../types';
+import { getUserRole } from '../../modules/UserModule';
+import Backend from '../../Providers/Backend';
+import { defaultRoles, superRoles, UserRole } from '../../types';
 export const LessonIcon = Icon;
 
-export const lessonResource = (permissions) => ({
-    list: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER].includes(permissions) ? LessonList : null,
-    edit: [UserRole.ADMIN, UserRole.DEKAN].includes(permissions) ? LessonEdit : null,
-    create: [UserRole.ADMIN, UserRole.DEKAN].includes(permissions) ? LessonCreate : null,
+export let allowedRoles = {
+    create: [...superRoles],
+    edit: [...superRoles],
+    list: [...defaultRoles],
+    show: [...defaultRoles],
+    delete: [...defaultRoles],
+};
 
-    icon: LessonIcon,
-    name: 'lesson',
-});
+export const lessonResource = {
+    loadRoles: async () => Backend.getCRUDRoles('lesson', allowedRoles),
+    format: (permissions = getUserRole()) => ({
+        list: allowedRoles.list.includes(permissions) ? LessonList : null,
+        create: allowedRoles.create.includes(permissions) ? LessonCreate : null,
+        edit: allowedRoles.edit.includes(permissions) ? LessonEdit : null,
+        // show: allowedRoles.show.includes(permissions) ? StudentShow : null,
+
+        icon: LessonIcon,
+        name: 'lesson',
+    }),
+};

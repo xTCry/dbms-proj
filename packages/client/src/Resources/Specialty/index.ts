@@ -3,14 +3,28 @@ import { SpecialtyCreate } from './SpecialtyCreate';
 import { SpecialtyEdit } from './SpecialtyEdit';
 
 import Icon from '@material-ui/icons/FolderSpecialRounded';
-import { UserRole } from '../../types';
+import { getUserRole } from '../../modules/UserModule';
+import Backend from '../../Providers/Backend';
+import { defaultRoles, superRoles, UserRole } from '../../types';
 export const SpecialtyIcon = Icon;
 
-export const specialtyResource = (permissions) => ({
-    list: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER].includes(permissions) ? SpecialtyList : null,
-    edit: [UserRole.ADMIN, UserRole.DEKAN].includes(permissions) ? SpecialtyEdit : null,
-    create: [UserRole.ADMIN, UserRole.DEKAN].includes(permissions) ? SpecialtyCreate : null,
+export let allowedRoles = {
+    create: [...superRoles],
+    edit: [...superRoles],
+    list: [...defaultRoles],
+    show: [...defaultRoles],
+    delete: [...defaultRoles],
+};
 
-    icon: SpecialtyIcon,
-    name: 'specialty',
-});
+export const specialtyResource = {
+    loadRoles: async () => Backend.getCRUDRoles('specialty', allowedRoles),
+    format: (permissions = getUserRole()) => ({
+        list: allowedRoles.list.includes(permissions) ? SpecialtyList : null,
+        create: allowedRoles.create.includes(permissions) ? SpecialtyCreate : null,
+        edit: allowedRoles.edit.includes(permissions) ? SpecialtyEdit : null,
+        // show: allowedRoles.show.includes(permissions) ? StudentShow : null,
+
+        icon: SpecialtyIcon,
+        name: 'specialty',
+    }),
+};

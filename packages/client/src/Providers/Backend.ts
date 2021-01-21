@@ -38,7 +38,7 @@ export default class Backend {
                 // fetch(url, requestParams)
                 fetch(request)
                     .then(resolve)
-                    .catch(e => {
+                    .catch((e) => {
                         if (e instanceof TypeError) {
                             e['network'] = true;
                             e['message'] = e.message + ' ' + url;
@@ -55,10 +55,10 @@ export default class Backend {
         return new Promise((resolve, reject) => {
             try {
                 Backend.__call(method, params, httpMethod)
-                    .then(r => {
+                    .then((r) => {
                         let contentType = r.headers.get('Content-Type');
                         if (contentType && contentType.includes('application/json')) {
-                            r.json().then(data => {
+                            r.json().then((data) => {
                                 if (data.response !== undefined) {
                                     if (retFull) {
                                         resolve({ data: data.response, headers: r.headers });
@@ -83,7 +83,7 @@ export default class Backend {
                             }
                         }
                     })
-                    .catch(e => {
+                    .catch((e) => {
                         if (e && e.network && retry > 0) {
                             setTimeout(() => {
                                 Backend.request(method, params, httpMethod, retFull, retry - 1)
@@ -118,10 +118,10 @@ export default class Backend {
                     continue;
                 }
                 if (typeof value.forEach === 'function') {
-                    value.forEach(i => arr.push({ k: (prefix ? prefix + '[' + key + ']' : key) + '[]', v: i }));
+                    value.forEach((i) => arr.push({ k: (prefix ? prefix + '[' + key + ']' : key) + '[]', v: i }));
                 } else if (typeof value === 'object') {
                     let resolve = Backend.stringify(value, true, prefix ? prefix + '[' + key + ']' : key);
-                    Array.isArray(resolve) && resolve.forEach(i => arr.push(i));
+                    Array.isArray(resolve) && resolve.forEach((i) => arr.push(i));
                 } else {
                     arr.push({ k: prefix ? prefix + '[' + key + ']' : key, v: value });
                 }
@@ -131,7 +131,17 @@ export default class Backend {
         if (asRaw) {
             return arr;
         } else {
-            return arr.map(e => e.k + '=' + encodeURIComponent(e.v)).join('&');
+            return arr.map((e) => e.k + '=' + encodeURIComponent(e.v)).join('&');
         }
+    }
+
+    static async getCRUDRoles(resource: string, allowedRoles: any): Promise<any> {
+        const data = await this.request(`${resource}/__get_crud_roles`, {}, 'GET');
+
+        allowedRoles.create = data.CREATE;
+        allowedRoles.edit = data.UPDATE;
+        allowedRoles.delete = data.DELETE;
+        allowedRoles.list = data.GET_LIST;
+        allowedRoles.show = data.GET_ONE;
     }
 }

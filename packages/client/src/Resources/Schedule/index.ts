@@ -3,7 +3,10 @@ import { ScheduleCreate } from './ScheduleCreate';
 import { ScheduleEdit } from './ScheduleEdit';
 
 import Icon from '@material-ui/icons/ScheduleRounded';
-import { UserRole } from '../../types';
+import { getUserRole } from '../../modules/UserModule';
+import Backend from '../../Providers/Backend';
+import { defaultRoles, superRoles, UserRole } from '../../types';
+
 export const ScheduleIcon = Icon;
 
 export const scheduleType = [
@@ -15,11 +18,23 @@ export const scheduleType = [
     { id: 5, name: 'resources.schedule.type.exam', color: 'red' },
 ];
 
-export const scheduleResource = (permissions) => ({
-    list: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER].includes(permissions) ? ScheduleList : null,
-    edit: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER].includes(permissions) ? ScheduleEdit : null,
-    create: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER].includes(permissions) ? ScheduleCreate : null,
+export let allowedRoles = {
+    create: [...superRoles],
+    edit: [...superRoles],
+    list: [...defaultRoles],
+    show: [...defaultRoles],
+    delete: [...defaultRoles],
+};
 
-    icon: ScheduleIcon,
-    name: 'schedule',
-});
+export const scheduleResource = {
+    loadRoles: async () => Backend.getCRUDRoles('schedule', allowedRoles),
+    format: (permissions = getUserRole()) => ({
+        list: allowedRoles.list.includes(permissions) ? ScheduleList : null,
+        create: allowedRoles.create.includes(permissions) ? ScheduleCreate : null,
+        edit: allowedRoles.edit.includes(permissions) ? ScheduleEdit : null,
+        // show: allowedRoles.show.includes(permissions) ? StudentShow : null,
+
+        icon: ScheduleIcon,
+        name: 'schedule',
+    }),
+};

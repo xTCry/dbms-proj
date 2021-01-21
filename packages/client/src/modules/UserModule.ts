@@ -1,7 +1,7 @@
 import decodeJwt from 'jwt-decode';
-import { roleAttributes } from '@dbms-proj/models';
 import store from '../store';
 import { IUserModel } from '../types';
+import { UserRole } from '@dbms-proj/utils/src/UserRole';
 
 // User class
 export class User implements IUserModel {
@@ -123,6 +123,10 @@ export function removeToken() {
 
 export function getUser(): User {
     return store.getState().UserModule;
+}
+
+export function getUserRole(): UserRole {
+    return store.getState().UserModule?.role_id;
 }
 
 /* export const userRoles = Object.values(UserRole)
