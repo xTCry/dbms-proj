@@ -22,6 +22,9 @@ import {
 import { makeStyles, Typography, Box } from '@material-ui/core';
 
 import { styles } from './ScheduleCreate';
+import TimeField from '../../components/TimeField';
+import FullNameField from '../User/FullNameField';
+import ScheduleTypeField from './ScheduleTypeField';
 
 const dataRowClick = (id, basePath, record) => {
     console.log('editRecord', id, basePath, record);
@@ -106,13 +109,16 @@ export const ScheduleList = (props) => {
         >
             <Datagrid rowClick={dataRowClick} expand={<ExpandEdit />}>
                 <DateField source="date" />
-                <DateField source="time_start" />
-
-                <TextField source="lesson_type" />
-                <NumberField source="duration" />
                 
+                <TimeField source="time_start" />
+
+                <ScheduleTypeField />
+
+                <TimeField source="duration" />
+
                 <ReferenceField source="teacher_id" reference="teacher">
-                    <TextField source="user.name" />
+                    {/* <TextField source="user.name" /> */}
+                    <FullNameField source="user" />
                 </ReferenceField>
 
                 <ReferenceField source="lesson_id" reference="lesson">

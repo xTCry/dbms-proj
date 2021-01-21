@@ -42,6 +42,22 @@ const uploadImages = async (
     return await Backend.request(`images`, data, 'POST').then(({ images }) => images);
 };
 
+const fixDataSchedule = (data) => {
+    if (isNaN(data.duration) && Date.parse(data.duration)) {
+        let [h, m] = new Date(data.duration).toLocaleTimeString().split(':').map(Number);
+        data.duration = m + h * 60;
+    }
+
+    console.log('data.time_start 1', data.time_start);
+    
+    if (/* !isNaN(data.time_start) &&  */Date.parse(data.time_start)) {
+        data.time_start = new Date(data.time_start).toLocaleTimeString();
+    }
+    console.log('data.time_start 2', data.time_start);
+
+    // return data;
+};
+
 export const dataProvider = {
     getList: (resource, params) => {
         const { page, perPage } = params.pagination;
@@ -67,6 +83,9 @@ export const dataProvider = {
 
     create: async (resource, params) => {
         const { data } = params;
+        if (resource === 'schedule' && data) {
+            fixDataSchedule(data);
+        }
         if (resource === 'user' && data.new_photo?.rawFile) {
             const { new_photo } = data;
             data.new_photo = undefined;
@@ -79,7 +98,7 @@ export const dataProvider = {
             } catch (e) {
                 // TODO: Show notify with error
             }
-        } else if (resource === 'orders' && data.images) {
+        }/*  else if (resource === 'orders' && data.images) {
             try {
                 const images = await uploadImages(data.images);
                 data.images = [];
@@ -92,7 +111,7 @@ export const dataProvider = {
             } catch (e) {
                 // TODO: Show notify with error
             }
-        }
+        } */
 
         return Backend.request(`${resource}`, data, 'POST').then((data) => ({
             data,
@@ -126,6 +145,9 @@ export const dataProvider = {
         const { data } = params;
         console.log(resource, data);
         
+        if (resource === 'schedule' && data) {
+            fixDataSchedule(data);
+        }
         if (resource === 'user' && data.new_photo?.rawFile) {
             const { new_photo } = data;
             data.new_photo = undefined;
@@ -138,7 +160,7 @@ export const dataProvider = {
             } catch (e) {
                 // TODO: Show notify with error
             }
-        } else if (resource === 'orders' && data.images) {
+        }/*  else if (resource === 'orders' && data.images) {
             try {
                 const updatedImages = data.images.filter((e) => !e.created_at);
                 data.images = data.images.filter((e) => !!e.created_at);
@@ -151,7 +173,7 @@ export const dataProvider = {
             } catch (e) {
                 // TODO: Show notify with error
             }
-        }
+        } */
 
         return Backend.request(
             `${resource}/${params.id}`,

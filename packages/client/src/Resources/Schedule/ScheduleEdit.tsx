@@ -1,8 +1,12 @@
 import React from 'react';
 import { Edit, SimpleForm, TextInput, required, SelectInput, ReferenceInput, DateInput, NumberInput } from 'react-admin';
+import MyTimeInput from '../../components/MyTimeInput';
+import MyDurationInput from '../../components/MyDurationInput';
+import { scheduleType } from '.';
+import { FullName } from '../User/FullNameField';
 
-const Title = ({ record = { title: 'None' } } = {}) => {
-    return <span>Студент {record ? `"${record.title}"` : ''}</span>;
+const Title = ({ record }: any) => {
+    return <span>Расписание {record ? `"${record.date}"` : ''}</span>;
 };
 
 export const ScheduleEdit = ({ permissions, ...props }) => (
@@ -11,18 +15,16 @@ export const ScheduleEdit = ({ permissions, ...props }) => (
             <TextInput source="id" disabled />
 
             <DateInput source="date" />
-            <TextInput
-                type="time"
-                defaultValue="8:30"
-                inputProps={{ step: 300 }}
-                InputLabelProps={{ shrink: true }}
-                source="time_start"
-            />
-            <NumberInput source="duration" step={300} />
-            <TextInput source="lesson_type" />
+            <MyTimeInput source="time_start" defaultValue="8:30" options={{ format: 'HH:mm' }} minutesStep={5} />
+            <MyDurationInput source="duration" defaultValue="1:30" options={{ format: 'HH:mm' }} minutesStep={5} />
+
+            {/* <NumberInput source="duration" step={300} /> */}
+
+            {/* <TextInput source="lesson_type" /> */}
+            <SelectInput source="lesson_type" choices={scheduleType} defaultValue={1} validate={required()} />
 
             <ReferenceInput source="teacher_id" reference="teacher">
-                <SelectInput optionText="name" />
+                <SelectInput optionText={FullName} />
             </ReferenceInput>
 
             <ReferenceInput source="group_id" reference="group">
