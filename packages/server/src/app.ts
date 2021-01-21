@@ -12,7 +12,9 @@ import apiRoutes from './routes/api';
 // Error handler
 const errHandler: ErrorRequestHandler = (err, req, res, next) => {
     appLogging('error')(req, res, () => {});
-    slog.error(err.toString());
+
+    slog.fav(req.path);
+    slog.error(err.stack ? `${err.toString()}\n${err.stack.split('\n')[1]}` : err);
 
     if (err.statusCode) {
         res.status(err.statusCode).json(err);
