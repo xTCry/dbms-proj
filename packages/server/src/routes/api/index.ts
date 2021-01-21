@@ -31,6 +31,9 @@ router.use(urlencoded({ extended: false }));
 // API Routes
 router.use('/auth', authRoute);
 
+let superRoles = [UserRole.ADMIN, UserRole.DEKAN];
+let defaultRoles = [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER];
+let defaultRolesWithStudent = [...defaultRoles, UserRole.STUDENT];
 
 // Set models controllers
 
@@ -42,12 +45,12 @@ router.use(
         // disabledActions: [Action.CREATE, Action.GET_LIST, Action.GET_ONE, Action.UPDATE, Action.DELETE],
         // Установка ролей для доступа к действию
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN, UserRole.DEKAN],
-            [Action.DELETE]: [UserRole.ADMIN, UserRole.DEKAN],
-            [Action.UPDATE]: [UserRole.ADMIN, UserRole.DEKAN],
+            [Action.CREATE]: [...superRoles],
+            [Action.DELETE]: [...superRoles],
+            [Action.UPDATE]: [...superRoles, UserRole.TEACHER, UserRole.STUDENT],
         },
         // Дефолтные роли, которые устанавливаются по умолчанию на каждое действие, которое не было определено в `actions`
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        defaultRoles,
     })
 );
 
@@ -60,7 +63,7 @@ router.use(
             [Action.DELETE]: [UserRole.ADMIN],
             [Action.UPDATE]: [UserRole.ADMIN],
         },
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER, UserRole.USER, UserRole.STUDENT],
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
@@ -69,11 +72,11 @@ router.use(
     authType.required,
     crud(StudentController, {
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN, UserRole.DEKAN],
-            [Action.DELETE]: [UserRole.ADMIN, UserRole.DEKAN],
-            [Action.UPDATE]: [UserRole.ADMIN, UserRole.DEKAN],
+            [Action.CREATE]: [...superRoles],
+            [Action.DELETE]: [...superRoles],
+            [Action.UPDATE]: [...superRoles, UserRole.STUDENT],
         },
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        defaultRoles,
     })
 );
 
@@ -82,11 +85,11 @@ router.use(
     authType.required,
     crud(GroupController, {
         actions: {
-            [Action.CREATE]: [UserRole.ADMIN, UserRole.DEKAN],
-            [Action.DELETE]: [UserRole.ADMIN, UserRole.DEKAN],
-            [Action.UPDATE]: [UserRole.ADMIN, UserRole.DEKAN],
+            [Action.CREATE]: [...superRoles],
+            [Action.DELETE]: [...superRoles],
+            [Action.UPDATE]: [...superRoles],
         },
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        defaultRoles,
     })
 );
 
@@ -94,7 +97,12 @@ router.use(
     '/mark',
     authType.required,
     crud(MarkController, {
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        actions: {
+            [Action.CREATE]: [...defaultRoles],
+            [Action.DELETE]: [...defaultRoles],
+            [Action.UPDATE]: [...defaultRoles],
+        },
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
@@ -102,7 +110,12 @@ router.use(
     '/schedule',
     authType.required,
     crud(ScheduleController, {
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+        actions: {
+            [Action.CREATE]: [...defaultRoles],
+            [Action.DELETE]: [...defaultRoles],
+            [Action.UPDATE]: [...defaultRoles],
+        },
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
@@ -111,10 +124,11 @@ router.use(
     authType.required,
     crud(TeacherController, {
         actions: {
-            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
-            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.CREATE]: [...superRoles],
+            [Action.DELETE]: [...superRoles],
+            [Action.UPDATE]: [...superRoles, UserRole.TEACHER],
         },
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
@@ -123,10 +137,11 @@ router.use(
     authType.required,
     crud(AuditoryController, {
         actions: {
-            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
-            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.CREATE]: [...superRoles],
+            [Action.DELETE]: [...superRoles],
+            [Action.UPDATE]: [...superRoles],
         },
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
@@ -135,10 +150,11 @@ router.use(
     authType.required,
     crud(LessonController, {
         actions: {
-            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
-            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.CREATE]: [...superRoles],
+            [Action.DELETE]: [...superRoles],
+            [Action.UPDATE]: [...superRoles],
         },
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
@@ -147,10 +163,11 @@ router.use(
     authType.required,
     crud(SpecialtyController, {
         actions: {
-            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
-            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.CREATE]: [...superRoles],
+            [Action.DELETE]: [...superRoles],
+            [Action.UPDATE]: [...superRoles],
         },
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
@@ -159,10 +176,11 @@ router.use(
     authType.required,
     crud(KafedraController, {
         actions: {
-            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
-            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.CREATE]: [...superRoles],
+            [Action.DELETE]: [...superRoles],
+            [Action.UPDATE]: [...superRoles],
         },
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
@@ -171,10 +189,11 @@ router.use(
     authType.required,
     crud(Teacher2lessonController, {
         actions: {
-            [Action.GET_LIST]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
-            [Action.GET_ONE]: [UserRole.ADMIN, UserRole.DEKAN, UserRole.TEACHER],
+            [Action.CREATE]: [...superRoles],
+            [Action.DELETE]: [...superRoles],
+            [Action.UPDATE]: [...superRoles],
         },
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
@@ -182,7 +201,12 @@ router.use(
     '/headman2group',
     authType.required,
     crud(Headman2groupController, {
-        defaultRoles: [UserRole.ADMIN, UserRole.DEKAN],
+        actions: {
+            [Action.CREATE]: [...superRoles],
+            [Action.DELETE]: [...superRoles],
+            [Action.UPDATE]: [...superRoles],
+        },
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
