@@ -3,10 +3,14 @@ import { FC, memo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { FieldProps } from 'react-admin';
+import get from 'lodash/get';
 import AvatarField from './AvatarField';
 import { IUserModel } from '../../types';
 
-export const FullName = (record) => ['last_name', 'name', 'second_name'].map((e) => record[e]).join(' ');
+export const FullName = (record) => {
+    record = record.user ?? record;
+    return ['last_name', 'name', 'second_name'].map((e) => record[e]).join(' ');
+};
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,8 +29,12 @@ interface Props extends FieldProps<IUserModel> {
     size?: string;
 }
 
-const FullNameField: FC<Props> = ({ record, size }) => {
+const FullNameField: FC<Props> = ({ record, size, source }) => {
     const classes = useStyles();
+    // const value = get(record, source);
+
+    // @ts-ignore
+    record = record.user ?? record;
     return record ? (
         <div className={classes.root}>
             <AvatarField className={classes.avatar} record={record} size={size} />

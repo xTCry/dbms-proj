@@ -1,5 +1,5 @@
 import React from 'react';
-import { Create, SimpleForm, TextInput, PasswordInput, required, ReferenceInput, SelectInput, DateInput } from 'react-admin';
+import { Create, SimpleForm, TextInput, PasswordInput, required, ReferenceInput, SelectInput, DateInput, ImageInput, ImageField } from 'react-admin';
 // import PhoneInput from 'react-phone-number-input'
 // import 'react-phone-number-input/style.css'
 
@@ -18,6 +18,10 @@ export const UserCreate = (props) => (
             <ReferenceInput source="role_id" reference="role">
                 <SelectInput optionText="name" />
             </ReferenceInput>
+
+            <ImageInput source="new_photo" accept="image/*">
+                <ImageField source="photo_path" label="Avatar" />
+            </ImageInput>
         </SimpleForm>
     </Create>
 );

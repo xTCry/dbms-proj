@@ -15,6 +15,7 @@ import {
 } from 'react-admin';
 import CheckRole from '../../components/CheckRole';
 import { IUserModel, UserRole } from '../../types';
+import AvatarField from './AvatarField';
 import FullNameField from './FullNameField';
 
 const allowedRoles = [UserRole.ADMIN, UserRole.DEKAN];
@@ -41,8 +42,9 @@ export const UserEdit: FC<EditProps> = (props) => (
                 </ReferenceInput>
             </CheckRole>
 
+            <AvatarField size={'128'} />
             <ImageInput source="new_photo" accept="image/*">
-                <ImageField source="photo_path" label="Avatar" />
+                <ImageField source="photo_path" />
             </ImageInput>
         </SimpleForm>
     </Edit>
