@@ -1,11 +1,25 @@
 import { ModelCtor, FindOptions } from 'sequelize';
 import { user, teacher, teacherAttributes, teacherCreationAttributes } from '@dbms-proj/models';
 import { Controller, IUserJSON, UserController } from './';
+import Boom from '@hapi/boom';
+import { UserRole } from '../tools/auth';
 
 export type ITeacherJSON = teacherAttributes & { user: IUserJSON };
 
 export class TeacherController extends Controller {
     public static model = teacher as ModelCtor<teacher>;
+
+    public static async isTeacherCompareGood(teacher_id: number, ruser?: IUserJSON, toThrow = true) {
+        const recordTeacherByTeacher = await this.model.findByPk(teacher_id);
+        const isOk = recordTeacherByTeacher?.user_id === ruser?.id;
+        if (isOk) {
+            return recordTeacherByTeacher;
+        }
+        if (toThrow) {
+            throw Boom.forbidden('bo.role_forbidden');
+        }
+        return false;
+    }
 
     public static async doCreate(data: teacherCreationAttributes, ruser?: IUserJSON) {
         return super.doCreate(data);
@@ -16,6 +30,12 @@ export class TeacherController extends Controller {
     }
 
     public static async doGetOne(options?: FindOptions<teacherAttributes>, ruser?: IUserJSON) {
+        if (!this.checkSuperRole(ruser)) {
+            // @ts-ignore
+            const teacher_id = Number(options?.where?.id);
+            await this.isTeacherCompareGood(teacher_id, ruser);
+        }
+
         return super.doGetOne({
             ...options,
             ...this.fullAttr(true, ruser),
@@ -23,6 +43,17 @@ export class TeacherController extends Controller {
     }
 
     public static async doGetList(options: FindOptions<teacherAttributes>, ruser?: IUserJSON) {
+        /* if (!this.checkSuperRole(ruser, [UserRole.TEACHER])) {
+            if (ruser?.role_id === UserRole.STUDENT) {
+                const recordTeacherByUser = await this.model.findOne({ where: { user_id: ruser?.id } });
+                if (!recordTeacherByUser) {
+                    throw Boom.forbidden('bo.role_forbidden');
+                }
+
+                // @ts-ignore
+                options.where.id = recordTeacherByUser.id;
+            }
+        } */
         return super.doGetList<teacher, teacherAttributes>({
             ...options,
             ...this.fullAttr(true, ruser),
@@ -52,11 +83,4 @@ export class TeacherController extends Controller {
     }
 
     // Service methods
-
-    public static async create(attr: teacherCreationAttributes) {
-        let newRec = await this.model.create({
-            ...attr,
-        });
-        return newRec;
-    }
 }

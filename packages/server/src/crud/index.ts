@@ -30,6 +30,10 @@ export const crud = (ctrl: typeof Controller, options?: Partial<IOptions>) => {
     const router = Router();
     router.use(json());
 
+    router.route('/__get_crud_roles').get((req, res) => {
+        res.jsongo(actionsWR);
+    });
+
     for (const act in actionsWR) {
         const action: Action = act as Action;
         switch (action as Action) {

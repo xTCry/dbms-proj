@@ -1,12 +1,25 @@
 import { ModelCtor, FindOptions } from 'sequelize';
 import { group, user, student, studentAttributes, studentCreationAttributes } from '@dbms-proj/models';
 import { Controller, IUserJSON, UserController, GroupController } from './';
+import Boom from '@hapi/boom';
 import { UserRole } from '../tools/auth';
 
 export type IStudentJSON = studentAttributes & { user: IUserJSON };
 
 export class StudentController extends Controller {
     public static model = student as ModelCtor<student>;
+
+    public static async isStudentCompareGood(student_id: number, ruser?: IUserJSON, toThrow = true) {
+        const recordStudentByStudent = await this.model.findByPk(student_id);
+        const isOk = recordStudentByStudent?.user_id === ruser?.id;
+        if (isOk) {
+            return recordStudentByStudent;
+        }
+        if (toThrow) {
+            throw Boom.forbidden('bo.role_forbidden');
+        }
+        return false;
+    }
 
     public static async doCreate(data: studentCreationAttributes, ruser?: IUserJSON) {
         return super.doCreate(data);
@@ -17,6 +30,12 @@ export class StudentController extends Controller {
     }
 
     public static async doGetOne(options?: FindOptions<studentAttributes>, ruser?: IUserJSON) {
+        if (!this.checkSuperRole(ruser, [UserRole.TEACHER])) {
+            // @ts-ignore
+            const student_id = Number(options?.where?.id);
+            await this.isStudentCompareGood(student_id, ruser);
+        }
+
         return super.doGetOne({
             ...options,
             ...this.fullAttr(true, ruser),
@@ -24,6 +43,17 @@ export class StudentController extends Controller {
     }
 
     public static async doGetList(options: FindOptions<studentAttributes>, ruser?: IUserJSON) {
+        if (!this.checkSuperRole(ruser, [UserRole.TEACHER])) {
+            if (ruser?.role_id === UserRole.STUDENT) {
+                const recordStudentByUser = await this.model.findOne({ where: { user_id: ruser?.id } });
+                if (!recordStudentByUser) {
+                    throw Boom.forbidden('bo.role_forbidden');
+                }
+
+                // @ts-ignore
+                options.where.id = recordStudentByUser.id;
+            }
+        }
         return super.doGetList<student, studentAttributes>({
             ...options,
             ...this.fullAttr(true, ruser),
@@ -58,11 +88,4 @@ export class StudentController extends Controller {
     }
 
     // Service methods
-
-    public static async create(attr: studentCreationAttributes) {
-        let newRec = await this.model.create({
-            ...attr,
-        });
-        return newRec;
-    }
 }

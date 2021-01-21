@@ -2,6 +2,7 @@ import { Model, ModelCtor, FindAndCountOptions, FindOptions, Op, WhereOptions } 
 import { uniqBy, flatten } from 'lodash';
 import Boom from '@hapi/boom';
 import { IUserJSON } from '.';
+import { UserRole } from '../tools/auth';
 
 export abstract class Controller {
     public static model: ModelCtor<any>;
@@ -140,5 +141,9 @@ export abstract class Controller {
                 },
             ];
         };
+    }
+    
+    public static checkSuperRole(ruser?: IUserJSON, addition: UserRole[]=[]) {
+        return ruser?.role_id && [UserRole.ADMIN, UserRole.DEKAN, ...addition].includes(ruser.role_id);
     }
 }

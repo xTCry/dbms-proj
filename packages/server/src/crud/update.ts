@@ -25,7 +25,7 @@ export const update = (ctrl: typeof Controller): RequestHandler => async (req, r
             return next(Boom.notFound('Record not found'));
         }
 
-        const result = await ctrl.doUpdate({ where }, data);
+        const result = await ctrl.doUpdate({ where }, data, user);
 
         res.jsongo(result);
     } catch (error) {

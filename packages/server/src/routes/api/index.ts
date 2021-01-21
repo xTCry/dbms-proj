@@ -50,13 +50,13 @@ router.use(
             [Action.UPDATE]: [...superRoles, UserRole.TEACHER, UserRole.STUDENT],
         },
         // Дефолтные роли, которые устанавливаются по умолчанию на каждое действие, которое не было определено в `actions`
-        defaultRoles,
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
 router.use(
     '/role',
-    authType.optional,
+    authType.required,
     crud(RoleController, {
         actions: {
             [Action.CREATE]: [UserRole.ADMIN],
@@ -74,9 +74,9 @@ router.use(
         actions: {
             [Action.CREATE]: [...superRoles],
             [Action.DELETE]: [...superRoles],
-            [Action.UPDATE]: [...superRoles, UserRole.STUDENT],
+            [Action.UPDATE]: [...superRoles/* , UserRole.STUDENT */],
         },
-        defaultRoles,
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 
@@ -89,7 +89,7 @@ router.use(
             [Action.DELETE]: [...superRoles],
             [Action.UPDATE]: [...superRoles],
         },
-        defaultRoles,
+        defaultRoles: defaultRolesWithStudent,
     })
 );
 

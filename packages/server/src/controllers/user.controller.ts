@@ -5,6 +5,8 @@ import { role, user, userCreationAttributes, userAttributes } from '@dbms-proj/m
 import { Controller, IRoleJSON } from './';
 import { UserRole } from '../tools/auth';
 import { config } from '../config';
+import Boom from '@hapi/boom';
+import { slog } from '@dbms-proj/utils';
 
 const jwtSecret = config.get('jwtSecret');
 const expiresIn = 60 * 60 * 24 * 2;
@@ -16,6 +18,16 @@ export type IUserJSON = userAttributes & { role: IRoleJSON };
 export class UserController extends Controller {
     public static model = user as ModelCtor<user>;
 
+    public static checkUserAllowedRole(user_id: number, ruser?: IUserJSON, toThrow = true) {
+        if (user_id == ruser?.id || this.checkSuperRole(ruser)) {
+            return true;
+        }
+        if (toThrow) {
+            throw Boom.forbidden('bo.role_forbidden');
+        }
+        return false;
+    }
+
     public static async doCreate(data: userCreationAttributes, ruser?: IUserJSON) {
         return this.register(data);
     }
@@ -26,7 +38,7 @@ export class UserController extends Controller {
         ruser?: IUserJSON
     ) {
         // @ts-ignore
-        this.checkUserAllowedRole(options?.where?.id, ruser);
+        this.checkUserAllowedRole(Number(options?.where?.id), ruser);
         if (password) {
             password = this.encryptPassword(undefined, password);
         }
@@ -34,6 +46,8 @@ export class UserController extends Controller {
     }
 
     public static async doGetOne(options?: FindOptions<userAttributes>, ruser?: IUserJSON) {
+        // @ts-ignore
+        this.checkUserAllowedRole(Number(options?.where?.id), ruser);
         return super.doGetOne({
             ...options,
             ...this.fullAttr(true, ruser),
@@ -41,6 +55,15 @@ export class UserController extends Controller {
     }
 
     public static async doGetList(options: FindOptions<userAttributes>, ruser?: IUserJSON) {
+        if (!this.checkSuperRole(ruser, [UserRole.TEACHER])) {
+            if (!ruser?.role_id || ![UserRole.TEACHER, UserRole.STUDENT].includes(ruser.role_id)) {
+                throw Boom.forbidden('bo.role_forbidden');
+            }
+            // @ts-ignore
+            // this.checkUserAllowedRole(Number(options?.where?.id), ruser, false);
+            options.where.id = ruser.id;
+        }
+
         return super.doGetList<user, userAttributes>({
             ...options,
             ...this.fullAttr(true, ruser),
