@@ -1,6 +1,6 @@
 import store from '../store';
 import Backend from './Backend';
-import { setToken, removeToken, resetUser, initUser, User, getUser } from '../modules/UserModule';
+import { setToken, removeToken, resetUser, initUser, User, getUser, getUserRole } from '../modules/UserModule';
 
 export const authProvider = {
     login: async ({ username, password }) => {
@@ -25,7 +25,7 @@ export const authProvider = {
         return Promise.resolve();
     },
     checkAuth: () => {
-        return getUser().soGood ? Promise.resolve() : Promise.reject();
+        return getUser().soGood ? Promise.resolve() : Promise.reject({ message: 'login.required' });
     },
     logout: () => {
         removeToken();
@@ -39,8 +39,9 @@ export const authProvider = {
             return Promise.reject(error);
         }
     },
-    getPermissions: ({ route }) => {
-        const { role_id } = getUser();
+    getPermissions: (props) => {
+        console.log('getPermissions', props);
+        const role_id = getUserRole();
         return role_id ? Promise.resolve(role_id) : Promise.reject();
     },
 };

@@ -22,17 +22,15 @@ export class User implements IUserModel {
     public token: string;
     public expiresIn: number;
 
-    constructor(data: IUserModel) {
+    constructor(data: IUserModel & { exp?: number; iat?: number }) {
         let token = data.token || getToken();
 
         this.token = token;
-        this.expiresIn = Date.now() + (data.expiresIn||6e9) * 1e3;
         try {
             data = decodeJwt(token || '');
-            // TODO: calculate from (iat & exp)
-            // data.expiresIn = 6e9;
             console.log('decoded Token data', data);
         } catch (e) {}
+        this.expiresIn = data.exp * 1e3;
 
         this.id = data.id;
         this.photo_path = data.photo_path;
@@ -55,7 +53,7 @@ export class User implements IUserModel {
     }
 
     public get avatar() {
-        return this.photo_path ?? 'qeq';
+        return this.photo_path;
     }
 
     public get soGood() {
@@ -68,6 +66,7 @@ export class User implements IUserModel {
 
     public static empty() {
         return new User({
+            token: '',
             id: 9,
             login: 'login',
             last_name: 'LastName',
@@ -77,7 +76,7 @@ export class User implements IUserModel {
             personal_telephone: '',
             photo_path: null,
             registeration_date: '2020-12-22',
-            role_id: 1,
+            role_id: 0,
         });
     }
 }

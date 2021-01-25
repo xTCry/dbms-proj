@@ -1,5 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Resource, AdminContext, AdminUI, ListGuesser, useDataProvider } from 'react-admin';
+import React, { useEffect, useState } from 'react';
+import { Resource, AdminContext, AdminUI, LoadingPage } from 'react-admin';
+import { useSelector } from 'react-redux';
+import { Route } from 'react-router-dom';
 
 import { Routes } from '../routes';
 import { history } from '../store';
@@ -9,40 +11,58 @@ import { Dashboard } from '../components/Dashboard';
 import { NotFound } from '../components/NotFound/NotFound';
 import { Layout } from '../components/Layout';
 import { LoginWithTheme } from '../components/Login';
+import { getUserRole } from '../modules/UserModule';
 
 const ResourcesComponent = () => {
-    const [resourcesState, setResources] = useState({
-        resources: [Resources.roleResource],
-    });
-
-    const fetchResourcesRoles = useCallback(async () => {
-        let resAr = Object.values(Resources);
-        for (let res of resAr) {
-            await res?.loadRoles();
-        }
-        setResources({ resources: resAr });
-    }, []);
+    const [resources, setResources] = useState([Resources.roleResource.format()]);
+    const [loading, setLoading] = useState(true);
+    // @ts-ignore
+    const { token, soGood } = useSelector((state) => state.UserModule);
 
     useEffect(() => {
-        fetchResourcesRoles();
-    }, []);
+        const fetchResourcesRoles = async () => {
+            setLoading(true);
+            const permissions = getUserRole();
+            let resAr = Object.values(Resources);
+            for (let res of resAr) {
+                await res?.loadRoles();
+            }
+            setResources(resAr.map((r) => r.format(permissions)));
+            setLoading(false);
+        };
 
-    const { resources } = resourcesState;
-    return (
-        <>
-            <AdminUI
-                layout={Layout}
-                customRoutes={Routes}
-                dashboard={Dashboard}
-                catchAll={NotFound}
-                title="YControl Panel"
-                loginPage={LoginWithTheme}
-                disableTelemetry
-            >
-                {resources.map((res, i) => (
-                    <Resource {...res.format()} key={i} />
-                ))}
-            </AdminUI>
+        fetchResourcesRoles();
+    }, [Resources, token]);
+
+    return loading && soGood ? (
+        <Route
+            path="/"
+            key="loading"
+            // @ts-ignore
+            render={() => <LoadingPage />}
+        />
+    ) : (
+        <AdminUI
+            layout={Layout}
+            customRoutes={Routes}
+            dashboard={Dashboard}
+            catchAll={NotFound}
+            title="YControl Panel"
+            loginPage={LoginWithTheme}
+            disableTelemetry
+        >
+            {resources.map((res, i) => {
+                console.log('[exec resource] props', getUserRole(), res.name);
+                return <Resource {...res} key={i} />;
+            })}
+        </AdminUI>
+    );
+};
+
+const App = () => (
+    <>
+        <AdminContext history={history} {...Providers}>
+            <ResourcesComponent />
             <div
                 style={{
                     position: 'fixed',
@@ -55,16 +75,8 @@ const ResourcesComponent = () => {
                     textAlign: 'center',
                 }}
             >
-                <strong>v1.0.0</strong>
+                <strong>v1.0.0-beta.19</strong>
             </div>
-        </>
-    );
-};
-
-const App = () => (
-    <>
-        <AdminContext history={history} {...Providers}>
-            <ResourcesComponent />
         </AdminContext>
     </>
 );
