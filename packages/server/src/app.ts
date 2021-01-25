@@ -68,14 +68,14 @@ export async function createApp() {
         .use(appLogging())
         .use(cors())
 
-        // .get('/', (req, res) => {
-        //     res.sendFile(Path.join(buildClientPath, 'index.html'));
-        // })
         .use(express.static(buildClientPath))
 
         .use('/api', apiRoutes)
         .use('/uploads', express.static('./uploads'))
 
+        .get('/*', (req, res) => {
+            res.sendFile(Path.join(buildClientPath, 'index.html'));
+        })
         // Default 404
         .use((req, res, next) => {
             next(Boom.notFound());
