@@ -42,6 +42,10 @@ export class UserController extends Controller {
         if (password) {
             password = this.encryptPassword(undefined, password);
         }
+        if (!this.checkSuperRole(ruser)) {
+            // allow only password & photo_path
+            data = { photo_path: data.photo_path };
+        }
         return super.doUpdate<user, userAttributes>(options, { password, ...data });
     }
 
