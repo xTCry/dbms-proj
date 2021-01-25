@@ -58,6 +58,35 @@ const fixDataSchedule = (data) => {
     // return data;
 };
 
+const imagesCatcher = async (resource, data) => {
+    if (resource === 'user' && data.new_photo?.rawFile) {
+        const { new_photo } = data;
+        data.new_photo = undefined;
+        try {
+            const isNewPhoto = new_photo.rawFile instanceof File;
+            if (isNewPhoto) {
+                const [img] = await uploadImages([new_photo]);
+                data.photo_path = `${Backend.serverURL}/${img.path}`;
+            }
+        } catch (e) {
+            // TODO: Show notify with error
+        }
+    } /* else if (resource === 'orders' && data.images) {
+        try {
+            const images = await uploadImages(data.images);
+            data.images = [];
+            for (const img of images) {
+                data.images.push({
+                    url: `${Backend.serverURL}/${img.path}`,
+                    name: img.originalname,
+                });
+            }
+        } catch (e) {
+            // TODO: Show notify with error
+        }
+    } */
+};
+
 export const dataProvider = {
     getList: (resource, params) => {
         const { page, perPage } = params.pagination;
@@ -86,32 +115,7 @@ export const dataProvider = {
         if (resource === 'schedule' && data) {
             fixDataSchedule(data);
         }
-        if (resource === 'user' && data.new_photo?.rawFile) {
-            const { new_photo } = data;
-            data.new_photo = undefined;
-            try {
-                const isNewPhoto = new_photo.rawFile instanceof File;
-                if (isNewPhoto) {
-                    const [img] = await uploadImages([new_photo]);
-                    data.photo_path = `${Backend.serverURL}/${img.path}`;
-                }
-            } catch (e) {
-                // TODO: Show notify with error
-            }
-        }/*  else if (resource === 'orders' && data.images) {
-            try {
-                const images = await uploadImages(data.images);
-                data.images = [];
-                for (const img of images) {
-                    data.images.push({
-                        url: `${Backend.serverURL}/api/images/temp${img.path}`,
-                        name: img.originalname,
-                    });
-                }
-            } catch (e) {
-                // TODO: Show notify with error
-            }
-        } */
+        await imagesCatcher(resource, data);
 
         return Backend.request(`${resource}`, data, 'POST').then((data) => ({
             data,
@@ -148,32 +152,7 @@ export const dataProvider = {
         if (resource === 'schedule' && data) {
             fixDataSchedule(data);
         }
-        if (resource === 'user' && data.new_photo?.rawFile) {
-            const { new_photo } = data;
-            data.new_photo = undefined;
-            try {
-                const isNewPhoto = new_photo.rawFile instanceof File;
-                if (isNewPhoto) {
-                    const [img] = await uploadImages([new_photo]);
-                    data.photo_path = `${Backend.serverURL}/${img.path}`;
-                }
-            } catch (e) {
-                // TODO: Show notify with error
-            }
-        }/*  else if (resource === 'orders' && data.images) {
-            try {
-                const updatedImages = data.images.filter((e) => !e.created_at);
-                data.images = data.images.filter((e) => !!e.created_at);
-                if (updatedImages.length) {
-                    const newImages = await uploadImages(updatedImages);
-                    for (const img of newImages) {
-                        data.images.push({ url: `${Backend.serverURL}/${img.path}`, name: img.originalname });
-                    }
-                }
-            } catch (e) {
-                // TODO: Show notify with error
-            }
-        } */
+        await imagesCatcher(resource, data);
 
         return Backend.request(
             `${resource}/${params.id}`,

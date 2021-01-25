@@ -1,5 +1,4 @@
-import React, { memo } from 'react';
-import { FC } from 'react';
+import React, { memo, FC } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { FieldProps } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,7 +23,7 @@ const AvatarField: FC<Props> = ({ record, size = '25', className }) => {
 
     return record ? (
         <Avatar
-            src={`${record.photo_path}?size=${size}x${size}`}
+            {...(record.photo_path ? { src: `${record.photo_path}?size=${size}x${size}` } : {})}
             style={{ width: parseInt(size, 10), height: parseInt(size, 10) }}
             className={className ?? classes.avatar}
         />

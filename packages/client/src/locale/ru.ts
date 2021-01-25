@@ -2,6 +2,7 @@ import russianMessages from 'ra-language-russian';
 
 const customMessages = {
     ...russianMessages,
+    login: { required: 'Необходима авторизация' },
     bo: {
         configuration: 'Конфигурация',
         profile: {
