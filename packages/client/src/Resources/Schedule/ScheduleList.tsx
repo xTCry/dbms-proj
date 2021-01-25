@@ -25,8 +25,9 @@ import ScheduleTypeField from './ScheduleTypeField';
 import CheckRole from '../../components/CheckRole';
 import MyTimeInput from '../../components/MyTimeInput';
 import MyDurationInput from '../../components/MyDurationInput';
+import { getUserRole } from '../../modules/UserModule';
 
-const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
+const Empty = (props) => {
     const translate = useTranslate();
 
     return (
@@ -35,10 +36,10 @@ const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
                 {translate('resources.schedule.page.empty')}
             </Typography>
             <Typography variant="body1">{translate('resources.schedule.page.invite')}</Typography>
-            {/* <CheckRole permissions={permissions} allowed={allowedRoles.create}> */}
-                <CreateButton basePath={basePath} />
-            {/* </CheckRole> */}
-            {/* <Button onClick={...}>Import</Button> */}
+            <CheckRole permissions={getUserRole()} allowed={allowedRoles.create}>
+                <CreateButton basePath={props.basePath} />
+                <ImportButton {...props} />
+            </CheckRole>
         </Box>
     );
 };
@@ -83,15 +84,15 @@ const MyFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
 );
 
 const ListActions = (props) => {
-    const { className, basePath, total, resource, currentSort /* , exporter */ } = props;
+    const { className, basePath, total, resource, currentSort } = props;
     return (
         <TopToolbar className={className}>
             <MyFilter context="button" />
-            {/* <CheckRole permissions={props.permissions} allowed={allowedRoles.create}> */}
+            <CheckRole permissions={getUserRole()} allowed={allowedRoles.create}>
                 <CreateButton basePath={basePath} />
-            {/* </CheckRole> */}
+                <ImportButton {...props} />
+            </CheckRole>
             <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
-            <ImportButton {...props} />
         </TopToolbar>
     );
 };

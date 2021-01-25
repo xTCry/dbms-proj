@@ -20,6 +20,7 @@ import AvatarField from './AvatarField';
 import { createExporter } from '../../components/ExporterComponent';
 import { allowedRoles } from '.';
 import CheckRole from '../../components/CheckRole';
+import { getUserRole } from '../../modules/UserModule';
 
 const exporter = createExporter('users', [
     'id',
@@ -48,9 +49,12 @@ const ListActions = (props) => {
     return (
         <TopToolbar className={className}>
             <MyFilter context="button" />
-            <CreateButton basePath={basePath} />
+
+            <CheckRole permissions={getUserRole()} allowed={allowedRoles.create}>
+                <CreateButton basePath={basePath} />
+                <ImportButton {...props} />
+            </CheckRole>
             <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
-            <ImportButton {...props} />
         </TopToolbar>
     );
 };

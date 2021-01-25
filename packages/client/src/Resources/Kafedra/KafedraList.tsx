@@ -18,8 +18,9 @@ import { createExporter } from '../../components/ExporterComponent';
 import CheckRole from '../../components/CheckRole';
 
 import { allowedRoles } from '.';
+import { getUserRole } from '../../modules/UserModule';
 
-const Empty = ({ basePath = '', resource = {} }) => {
+const Empty = (props) => {
     const translate = useTranslate();
 
     return (
@@ -28,13 +29,15 @@ const Empty = ({ basePath = '', resource = {} }) => {
                 {translate('resources.kafedra.page.empty')}
             </Typography>
             <Typography variant="body1">{translate('resources.kafedra.page.invite')}</Typography>
-            <CreateButton basePath={basePath} />
-            {/* <Button onClick={...}>Import</Button> */}
+            <CheckRole permissions={getUserRole()} allowed={allowedRoles.create}>
+                <CreateButton basePath={props.basePath} />
+                <ImportButton {...props} />
+            </CheckRole>
         </Box>
     );
 };
 
-const ExpandEdit = ({ permissions, ...props }: any) => {
+const ExpandEdit = (props) => {
     return (
         <Edit {...props} title=" ">
             <SimpleForm undoable={false}>
@@ -57,16 +60,16 @@ const ListActions = (props) => {
     return (
         <TopToolbar className={className}>
             <MyFilter context="button" />
-            {/* <CheckRole permissions={props.permissions} allowed={allowedRoles.create}> */}
+            <CheckRole permissions={getUserRole()} allowed={allowedRoles.create}>
                 <CreateButton basePath={basePath} />
-            {/* </CheckRole> */}
+                <ImportButton {...props} />
+            </CheckRole>
             <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
-            <ImportButton {...props} />
         </TopToolbar>
     );
 };
 
-export const KafedraList = ({ permissions, ...props }) => {
+export const KafedraList = (props) => {
     return (
         <List
             empty={<Empty />}
@@ -77,7 +80,7 @@ export const KafedraList = ({ permissions, ...props }) => {
             bulkActionButtons={false}
             {...props}
         >
-            <Datagrid expand={<ExpandEdit />}>
+            <Datagrid expand={allowedRoles.edit.includes(props.permissions) ? <ExpandEdit /> : null}>
                 <TextField source="name" />
 
                 <CheckRole permissions={props.permissions} allowed={allowedRoles.edit}>

@@ -16,10 +16,10 @@ import { FilterProps, Filter, TopToolbar, ExportButton } from 'react-admin';
 import { ImportButton } from 'react-admin-import-csv';
 import { createExporter } from '../../components/ExporterComponent';
 import CheckRole from '../../components/CheckRole';
-import { UserRole } from '../../types';
 import { allowedRoles } from '.';
+import { getUserRole } from '../../modules/UserModule';
 
-const Empty = ({ basePath = '', resource = {} }) => {
+const Empty = (props) => {
     const translate = useTranslate();
 
     return (
@@ -28,13 +28,15 @@ const Empty = ({ basePath = '', resource = {} }) => {
                 {translate('resources.lesson.page.empty')}
             </Typography>
             <Typography variant="body1">{translate('resources.lesson.page.invite')}</Typography>
-            <CreateButton basePath={basePath} />
-            {/* <Button onClick={...}>Import</Button> */}
+            <CheckRole permissions={getUserRole()} allowed={allowedRoles.create}>
+                <CreateButton basePath={props.basePath} />
+                <ImportButton {...props} />
+            </CheckRole>
         </Box>
     );
 };
 
-const ExpandEdit = ({ permissions, ...props }: any) => {
+const ExpandEdit = (props) => {
     return (
         <Edit {...props} title=" ">
             <SimpleForm undoable={false}>
@@ -53,19 +55,19 @@ const MyFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
 );
 
 const ListActions = (props) => {
-    const { className, basePath, total, resource, currentSort /* , exporter */ } = props;
+    const { className, basePath, total, resource, currentSort } = props;
     return (
         <TopToolbar className={className}>
             <MyFilter context="button" />
-            {/* <CheckRole permissions={props.permissions} allowed={allowedRoles.create}> */}
+            <CheckRole permissions={getUserRole()} allowed={allowedRoles.create}>
                 <CreateButton basePath={basePath} />
-            {/* </CheckRole> */}
+                <ImportButton {...props} />
+            </CheckRole>
             <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
-            <ImportButton {...props} />
         </TopToolbar>
     );
 };
-export const LessonList = ({ permissions, ...props }) => {
+export const LessonList = (props) => {
     return (
         <List
             empty={<Empty />}
@@ -76,7 +78,7 @@ export const LessonList = ({ permissions, ...props }) => {
             bulkActionButtons={false}
             {...props}
         >
-            <Datagrid expand={<ExpandEdit />}>
+            <Datagrid expand={allowedRoles.edit.includes(props.permissions) ? <ExpandEdit /> : null}>
                 <TextField source="name" />
 
                 <CheckRole permissions={props.permissions} allowed={allowedRoles.edit}>

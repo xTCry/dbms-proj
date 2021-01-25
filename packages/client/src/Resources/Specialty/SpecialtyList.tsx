@@ -3,7 +3,7 @@ import { List, Datagrid, TextField, EditButton, ReferenceField } from 'react-adm
 import { allowedRoles } from '.';
 import CheckRole from '../../components/CheckRole';
 
-export const SpecialtyList = ({ permissions, ...props }) => {
+export const SpecialtyList = (props) => {
     return (
         <List exporter={false} {...props} sort={{ field: 'id', order: 'DESC' }} bulkActionButtons={false}>
             <Datagrid>

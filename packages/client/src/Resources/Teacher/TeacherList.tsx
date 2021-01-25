@@ -11,13 +11,15 @@ import {
     ShowButton,
 } from 'react-admin';
 import { Typography, Box } from '@material-ui/core';
+import { ImportButton } from 'react-admin-import-csv';
 
 import FullNameField from '../User/FullNameField';
 import CheckRole from '../../components/CheckRole';
 import TextFieldEmpty from '../../components/TextFieldEmpty';
 import { allowedRoles } from '.';
+import { getUserRole } from '../../modules/UserModule';
 
-const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
+const Empty = (props) => {
     const translate = useTranslate();
 
     return (
@@ -27,10 +29,10 @@ const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
             </Typography>
             <Typography variant="body1">{translate('resources.teacher.page.invite')}</Typography>
 
-            {/* <CheckRole permissions={permissions} allowed={allowedRoles.create}> */}
-                <CreateButton basePath={basePath} />
-            {/* </CheckRole> */}
-            {/* <Button onClick={...}>Import</Button> */}
+            <CheckRole permissions={getUserRole()} allowed={allowedRoles.create}>
+                <CreateButton basePath={props.basePath} />
+                <ImportButton {...props} />
+            </CheckRole>
         </Box>
     );
 };

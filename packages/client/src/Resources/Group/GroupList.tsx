@@ -24,6 +24,7 @@ import CheckRole from '../../components/CheckRole';
 
 import { styles } from './GroupCreate';
 import { allowedRoles } from '.';
+import { getUserRole } from '../../modules/UserModule';
 
 const useStyles = makeStyles({
     ...styles,
@@ -48,20 +49,21 @@ const MyFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
 );
 
 const ListActions = (props) => {
-    const { className, basePath, total, resource, currentSort /* , exporter */ } = props;
+    const { className, basePath, total, resource, currentSort } = props;
     return (
         <TopToolbar className={className}>
             <MyFilter context="button" />
-            {/* <CheckRole permissions={props.permissions} allowed={allowedRoles.create}> */}
-                <CreateButton basePath={basePath} />
-            {/* </CheckRole> */}
+            
+            <CheckRole permissions={getUserRole()} allowed={allowedRoles.create}>
+                <CreateButton basePath={props.basePath} />
+                <ImportButton {...props} />
+            </CheckRole>
             <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
-            <ImportButton {...props} />
         </TopToolbar>
     );
 };
 
-const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
+const Empty = (props) => {
     const translate = useTranslate();
 
     return (
@@ -70,15 +72,15 @@ const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
                 {translate('resources.group.page.empty')}
             </Typography>
             <Typography variant="body1">{translate('resources.group.page.invite')}</Typography>
-            {/* <CheckRole permissions={permissions} allowed={allowedRoles.create}> */}
-                <CreateButton basePath={basePath} />
-            {/* </CheckRole> */}
-            {/* <Button onClick={...}>Import</Button> */}
+            <CheckRole permissions={getUserRole()} allowed={allowedRoles.create}>
+                <CreateButton basePath={props.basePath} />
+                <ImportButton {...props} />
+            </CheckRole>
         </Box>
     );
 };
 
-const ExpandGroupEdit = (props) => {
+const ExpandEdit = (props) => {
     const classes = useStyles();
     return (
         <Edit {...props} title=" ">
@@ -107,7 +109,7 @@ export const GroupList = (props) => {
             filters={<MyFilter context="button" />}
             {...props}
         >
-            <Datagrid expand={<ExpandGroupEdit />}>
+            <Datagrid expand={allowedRoles.edit.includes(props.permissions) ? <ExpandEdit /> : null}>
                 <TextField source="name" />
                 <DateField source="date_formation" />
                 <ReferenceField source="specialty_id" reference="specialty">

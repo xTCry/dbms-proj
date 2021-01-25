@@ -20,6 +20,7 @@ import CheckRole from '../../components/CheckRole';
 
 import FullNameField from '../User/FullNameField';
 import { allowedRoles } from '.';
+import { getUserRole } from '../../modules/UserModule';
 
 const exporter = createExporter('headmab2group', ['id', 'student_id', 'group_id']);
 
@@ -34,15 +35,16 @@ const MyFilter: FC<Omit<FilterProps, 'children'>> = (props) => (
 );
 
 const ListActions = (props) => {
-    const { className, basePath, total, resource, currentSort /* , exporter */ } = props;
+    const { className, total, resource, currentSort } = props;
     return (
         <TopToolbar className={className}>
             <MyFilter context="button" />
-            {/* <CheckRole permissions={props.permissions} allowed={allowedRoles.create}> */}
-                <CreateButton basePath={basePath} />
-            {/* </CheckRole> */}
+            <CheckRole permissions={getUserRole()} allowed={allowedRoles.create}>
+                <CreateButton basePath={props.basePath} />
+                <ImportButton {...props} />
+            </CheckRole>
+
             <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
-            <ImportButton {...props} />
         </TopToolbar>
     );
 };
@@ -77,8 +79,8 @@ export const Headman2groupList = (props) => {
             {...props}
         >
             <Datagrid
-            // rowClick={(id, basePath, record) => (allowedRoles.includes(props.permissions) ? 'edit' : 'show')}
-            // expand={allowedRoles.includes(props.permissions) ? <ExpandEdit /> : null}
+                // rowClick={(id, basePath, record) => (allowedRoles.includes(props.permissions) ? 'edit' : 'show')}
+                expand={allowedRoles.edit.includes(props.permissions) ? <ExpandEdit /> : null}
             >
                 <ReferenceField source="student_id" reference="student">
                     <FullNameField />

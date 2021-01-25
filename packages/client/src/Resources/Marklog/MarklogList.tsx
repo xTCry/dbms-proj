@@ -3,7 +3,6 @@ import {
     List,
     Datagrid,
     TextField,
-    CreateButton,
     useTranslate,
     DateField,
     ReferenceField,
@@ -11,12 +10,9 @@ import {
     ExportButton,
 } from 'react-admin';
 import { Typography, Box } from '@material-ui/core';
-import { ImportButton } from 'react-admin-import-csv';
 import { createExporter } from '../../components/ExporterComponent';
-import CheckRole from '../../components/CheckRole';
-import { allowedRoles } from '.';
 
-const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
+const Empty = (props) => {
     const translate = useTranslate();
     return (
         <Box textAlign="center" m={1}>
@@ -24,21 +20,15 @@ const Empty = ({ basePath = '', resource = {}, permissions }: any) => {
                 {translate('resources.mark_log.page.empty')}
             </Typography>
             <Typography variant="body1">{translate('resources.mark_log.page.invite')}</Typography>
-            <CheckRole permissions={permissions} allowed={allowedRoles.create}>
-                <CreateButton basePath={basePath} />
-            </CheckRole>
-            {/* <Button onClick={...}>Import</Button> */}
         </Box>
     );
 };
 
 const ListActions = (props) => {
-    const { className, basePath, total, resource, currentSort /* , exporter */ } = props;
+    const { className, total, resource, currentSort } = props;
     return (
         <TopToolbar className={className}>
-            <CreateButton basePath={basePath} />
             <ExportButton disabled={total === 0} resource={resource} sort={currentSort} exporter={exporter} />
-            <ImportButton {...props} />
         </TopToolbar>
     );
 };
