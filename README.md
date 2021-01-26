@@ -1,13 +1,19 @@
-# dbms-proj
+<h1 align="center">dbms-proj</h1>
+<p align="center">
+    <img alt="GitHub" src="https://img.shields.io/github/repo-size/xTCry/dbms-proj"> 
+    <img alt="GitHub repo size" src="https://img.shields.io/github/license/xTCry/dbms-proj">
+    <img alt="GitHub issues" src="https://img.shields.io/github/issues/xTCry/dbms-proj">
+</p>
+<h4 align="center">Курсовой проект по <b>СУБД</b></h4>
 
-Курсовой проект по **СУБД**
+---
+Версия `Node JS >= v14`
 
 Для установки зависемостей достаточно запустить команду
 ```bash
 yarn
 ```
 
-Версия `Node JS >= v14`
 
 После первого запуска сервера в каталоге `server` создается шаблон для конфигурации - `config.json`. Его необходимо настроить под себя.
 
@@ -40,6 +46,12 @@ yarn server:dev
 ```bash
 npm i -g nodemon
 ```
+
+<p align="center">
+    <a href="https://asciinema.org/a/cgLzEYAgKOR2j4EoXvCAAVsZF" target="_blank">
+        <img src="https://asciinema.org/a/cgLzEYAgKOR2j4EoXvCAAVsZF.svg" />
+    </a>
+</p>
 
 Для запуска клиента на сервере в продакшн запускаем по этим командам (по итогу одна консоль)
 ```bash
