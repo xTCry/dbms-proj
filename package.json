@@ -7,6 +7,7 @@
         "utils:build": "yarn workspace @dbms-proj/utils build",
         "models:build": "yarn workspace @dbms-proj/models build",
         "client:start": "yarn workspace @dbms-proj/client start",
+        "client:build": "yarn workspace @dbms-proj/client build",
         "server:start": "yarn workspace @dbms-proj/server start",
         "server:dev": "yarn workspace @dbms-proj/server dev",
         "update:version": "lerna version --no-push"
